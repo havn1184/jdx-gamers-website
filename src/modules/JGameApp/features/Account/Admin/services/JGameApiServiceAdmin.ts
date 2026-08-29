@@ -6,12 +6,13 @@
  */
 import { apiCall, buildJGameUrl, JGAME_USE_MOCK, mockApiCall, mockApiError, type ApiResponse } from '../../../../shared/services/api'
 import {
-  cardProducts, suppliers, orders, referralPartners, promotions, buildRevenueReport,
+  cardProducts, suppliers, orders, referralPartners, promotions, accessories, buildRevenueReport,
 } from './jgame.mockdata'
 import type {
   CardProductAdmin, CardProductFormPayload, SupplierAdmin, SupplierFormPayload,
   OrderAdminItem, ReferralPartnerAdmin, ReferralPartnerFormPayload,
   PromotionAdmin, PromotionFormPayload, RevenueReportRow, JGameAdminListParams,
+  AccessoryAdmin, AccessoryFormPayload, AccessoryAdminListParams,
 } from '../types/jgame.types'
 
 function filterByKeywordStatus<T extends { status: string }>(
@@ -216,6 +217,57 @@ export class JGameApiServiceAdmin {
   static async getRevenueReport(): Promise<ApiResponse<RevenueReportRow[]>> {
     if (JGAME_USE_MOCK) return mockApiCall(() => buildRevenueReport())
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/reports/revenue`), { method: 'GET' })
+    return response.json()
+  }
+
+  // ===== Phụ kiện Gamer (hãng sản xuất/nhóm sản phẩm/chi tiết sản phẩm) =====
+  static async getAccessories(params?: AccessoryAdminListParams): Promise<ApiResponse<AccessoryAdmin[]>> {
+    if (JGAME_USE_MOCK) {
+      return mockApiCall(() => {
+        const filtered = filterByKeywordStatus(accessories, params, p => [p.name, p.brand])
+        return !params?.category || params.category === 'all' ? filtered : filtered.filter(p => p.category === params.category)
+      })
+    }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'GET' })
+    return response.json()
+  }
+
+  /** Danh sách hãng sản xuất đã khai báo — dùng để gợi ý khi thêm/sửa sản phẩm. */
+  static async getAccessoryBrands(): Promise<ApiResponse<string[]>> {
+    if (JGAME_USE_MOCK) return mockApiCall(() => Array.from(new Set(accessories.map(p => p.brand))).sort())
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/brands`), { method: 'GET' })
+    return response.json()
+  }
+
+  static async createAccessory(data: AccessoryFormPayload): Promise<ApiResponse<AccessoryAdmin>> {
+    if (JGAME_USE_MOCK) {
+      const created: AccessoryAdmin = { id: `acc-${Date.now()}`, ...data }
+      accessories.unshift(created)
+      return mockApiCall(() => created)
+    }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'POST', body: JSON.stringify(data) })
+    return response.json()
+  }
+
+  static async updateAccessory(data: AccessoryFormPayload): Promise<ApiResponse<AccessoryAdmin>> {
+    if (JGAME_USE_MOCK) {
+      const found = accessories.find(p => p.id === data.id)
+      if (!found) return mockApiError('Không tìm thấy sản phẩm')
+      Object.assign(found, data)
+      return mockApiCall(() => found)
+    }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'PUT', body: JSON.stringify(data) })
+    return response.json()
+  }
+
+  static async deleteAccessory(id: string): Promise<ApiResponse<boolean>> {
+    if (JGAME_USE_MOCK) {
+      const idx = accessories.findIndex(p => p.id === id)
+      if (idx === -1) return mockApiError('Không tìm thấy sản phẩm')
+      accessories.splice(idx, 1)
+      return mockApiCall(() => true)
+    }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/${id}`), { method: 'DELETE' })
     return response.json()
   }
 }

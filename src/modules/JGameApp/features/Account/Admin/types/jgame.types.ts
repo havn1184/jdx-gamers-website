@@ -120,3 +120,36 @@ export interface JGameAdminListParams {
   keyword?: string
   status?: EntityStatus | 'all'
 }
+
+// ===== Phụ kiện Gamer (khai báo hãng sản xuất/nhóm sản phẩm/chi tiết sản phẩm) =====
+
+export type AccessoryCategoryAdmin = 'mouse' | 'keyboard' | 'headset' | 'gpu' | 'pc' | 'monitor' | 'chair'
+
+export interface AccessoryAdmin {
+  id: string
+  name: string
+  category: AccessoryCategoryAdmin
+  /** Hãng sản xuất — nhập tự do, gợi ý từ các hãng đã khai báo trước đó (VD: Logitech, Razer, ASUS ROG...) */
+  brand: string
+  specs: string
+  price: number
+  stockQuantity: number
+  status: EntityStatus
+  imageUrl: string
+}
+
+export interface AccessoryFormPayload {
+  id?: string
+  name: string
+  category: AccessoryCategoryAdmin
+  brand: string
+  specs: string
+  price: number
+  stockQuantity: number
+  status: EntityStatus
+  imageUrl: string
+}
+
+export interface AccessoryAdminListParams extends JGameAdminListParams {
+  category?: AccessoryCategoryAdmin | 'all'
+}

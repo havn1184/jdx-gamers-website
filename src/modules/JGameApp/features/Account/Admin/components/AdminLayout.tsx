@@ -4,12 +4,13 @@
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Gamepad2, Building2, ShoppingCart, Users, Ticket, BarChart2, ShieldCheck } from 'lucide-react'
+import { LayoutDashboard, Gamepad2, Headphones, Building2, ShoppingCart, Users, Ticket, BarChart2, ShieldCheck } from 'lucide-react'
 import { cn } from '../../../../shared/components/ui/utils'
 
 const MENU = [
   { to: '/jgame/quan-tri', label: 'Tổng quan', icon: LayoutDashboard },
   { to: '/jgame/quan-tri/danh-muc-the', label: 'Danh mục thẻ', icon: Gamepad2 },
+  { to: '/jgame/quan-tri/phu-kien', label: 'Phụ kiện', icon: Headphones },
   { to: '/jgame/quan-tri/nha-cung-cap', label: 'Nhà cung cấp', icon: Building2 },
   { to: '/jgame/quan-tri/giao-dich', label: 'Giao dịch', icon: ShoppingCart },
   { to: '/jgame/quan-tri/doi-tac-referral', label: 'Đối tác Referral', icon: Users },
