@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
-  Loader2, AlertCircle, Coins, Users, Clock3, CheckCircle2, PartyPopper, RefreshCw, ListChecks,
+  Loader2, AlertCircle, Coins, Users, Clock3, CheckCircle2, PartyPopper, RefreshCw, ListChecks, CalendarDays,
 } from 'lucide-react'
 import { Button } from '../../../../shared/components/ui/button'
 import { Badge } from '../../../../shared/components/ui/badge'
@@ -13,7 +13,7 @@ import { formatNumber, formatDate, formatDateTime } from '../../../../shared/uti
 import { cn } from '../../../../shared/components/ui/utils'
 import { useAuth } from '../../../../contexts/AuthContext'
 import { useTaskDetailFetchData } from '../hooks/useTaskDetail.page.fetchData'
-import { formatRequirementSummary, formatProgressSummary, getProgressPercent } from '../utils/formatRequirement'
+import { formatRequirementSummary, formatProgressSummary, getProgressPercent, getEarnedSoFar } from '../utils/formatRequirement'
 
 export const PAGE_ID = 'jgame-task-detail'
 export const PAGE_FEATURES = [{ label: 'Đăng ký nhiệm vụ', code: 'btn-dang-ky-nhiem-vu' }]
@@ -105,15 +105,40 @@ export function TaskDetailPage() {
                 <span className='text-sm font-semibold text-white'>Tiến độ của bạn</span>
                 <Badge className={cn('border-none', STATUS_META[progress.status].className)}>{STATUS_META[progress.status].label}</Badge>
               </div>
-              <div className='mt-3 h-2 overflow-hidden rounded-full bg-white/10'>
+              <p className='mt-2 flex items-center gap-1 text-xs text-white/50'><CalendarDays className='h-3.5 w-3.5' /> Bắt đầu: {formatDateTime(progress.registeredAt)}</p>
+
+              <div className='mt-3 flex items-center justify-between text-sm'>
+                <span className='text-white/70'>Đã tích lũy</span>
+                <span className='font-semibold text-amber-300'>{formatNumber(getEarnedSoFar(task, progress))} / {formatNumber(task.jcoinReward)} JCoin</span>
+              </div>
+              <div className='mt-1.5 h-2 overflow-hidden rounded-full bg-white/10'>
                 <div className='jgame-gradient-brand h-full transition-all' style={{ width: `${getProgressPercent(task, progress)}%` }} />
               </div>
+              <p className='mt-1.5 text-right text-xs text-white/50'>{getProgressPercent(task, progress)}% tiến độ</p>
+
               <p className='mt-2 text-sm text-white/70'>{formatProgressSummary(task, progress)}</p>
               <p className='mt-2 flex items-center gap-1 text-xs text-white/40'><RefreshCw className='h-3 w-3' /> Đồng bộ lần cuối: {formatDateTime(progress.lastSyncedAt)}</p>
 
               {progress.status === 'rewarded' && (
                 <div className='mt-3 flex items-center gap-2 rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300'>
                   <PartyPopper className='h-4 w-4 flex-shrink-0' /> Chúc mừng! Bạn đã nhận {formatNumber(task.jcoinReward)} JCoin vào ví lúc {progress.rewardedAt && formatDateTime(progress.rewardedAt)}.
+                </div>
+              )}
+
+              {progress.milestoneLog && progress.milestoneLog.length > 0 && (
+                <div className='mt-4 border-t border-white/10 pt-3'>
+                  <p className='mb-2 text-sm font-semibold text-white'>Các đầu việc đã hoàn thành</p>
+                  <div className='space-y-1.5'>
+                    {[...progress.milestoneLog].reverse().map((m, idx) => (
+                      <div key={idx} className='flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-sm'>
+                        <span className='flex items-center gap-1.5 text-white/80'><CheckCircle2 className='h-3.5 w-3.5 flex-shrink-0 text-emerald-400' /> {m.label}</span>
+                        <div className='flex flex-shrink-0 items-center gap-2 text-right'>
+                          <span className='font-semibold text-amber-300'>+{formatNumber(m.reward)}</span>
+                          <span className='text-xs text-white/40'>{formatDateTime(m.completedAt)}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

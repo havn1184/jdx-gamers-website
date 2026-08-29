@@ -30,6 +30,12 @@ function seedDemoPlaytimeOrders(): void {
     { ticketId: 'tk-alpha-std-2h', quantity: 1, status: 'USED', daysAgoCreated: 8 },
     { ticketId: 'tk-nova-vip-2h', quantity: 2, status: 'CONFIRMED', daysAgoCreated: 3 },
     { ticketId: 'tk-phoenix-std-2h', quantity: 1, status: 'CONFIRMED', daysAgoCreated: 1 },
+    // Bổ sung đơn gần đây cho Alpha Cyber Center — để Tổng quan gian hàng (doanh thu hôm nay/7 ngày,
+    // đơn mới, vé bán chạy) có dữ liệu minh hoạ thay vì toàn 0đ (đơn USED cách đây 8 ngày ở trên
+    // đã ngoài khung "7 ngày" nên không đủ).
+    { ticketId: 'tk-alpha-vip-3h', quantity: 1, status: 'CONFIRMED', daysAgoCreated: 0 },
+    { ticketId: 'tk-alpha-std-2h', quantity: 2, status: 'CONFIRMED', daysAgoCreated: 3 },
+    { ticketId: 'tk-alpha-high-5h', quantity: 1, status: 'USED', daysAgoCreated: 5 },
   ]
 
   for (const s of seeds) {

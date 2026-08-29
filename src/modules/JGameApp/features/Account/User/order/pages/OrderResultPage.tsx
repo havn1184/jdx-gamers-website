@@ -48,6 +48,7 @@ export function OrderResultPage() {
           <CheckCircle2 className='mx-auto mb-4 h-14 w-14 text-emerald-400' />
           <h1 className='text-xl font-bold text-white'>Thanh toán thành công!</h1>
           <p className='mt-1 text-sm text-white/60'>{order.productName} — {formatCurrency(order.totalAmount)}</p>
+          <p className='mt-1 text-xs text-white/40'>Mã đơn {order.id} · Mua lúc {formatDateTime(order.createdAt)}</p>
 
           {cardCode && (
             <div className='mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 text-left'>
@@ -75,7 +76,12 @@ export function OrderResultPage() {
         <>
           <XCircle className='mx-auto mb-4 h-14 w-14 text-red-400' />
           <h1 className='text-xl font-bold text-white'>Không thể cấp mã thẻ</h1>
-          <p className='mt-1 text-sm text-white/60'>Nhà cung cấp tạm thời gián đoạn — hệ thống đang tự động hoàn tiền cho bạn.</p>
+          <p className='mt-1 text-sm text-white/60'>
+            {refund?.status === 'DONE'
+              ? 'Nhà cung cấp đã tạm hết mã thẻ — hệ thống đã tự động hoàn tiền cho bạn.'
+              : 'Nhà cung cấp tạm thời gián đoạn — hệ thống đang tự động hoàn tiền cho bạn.'}
+          </p>
+          <p className='mt-1 text-xs text-white/40'>Mã đơn {order.id} · Mua lúc {formatDateTime(order.createdAt)}</p>
 
           {refund && (
             <div className='mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 text-left'>

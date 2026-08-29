@@ -60,6 +60,10 @@ export interface UserTaskProgress {
   lastSyncedAt: string
   registeredAt: string
   rewardedAt?: string
+  /** Nhật ký các mốc (đầu việc) đã hoàn thành trong nhiệm vụ — mỗi mốc ứng với 1 đơn vị tiến độ
+   * tự nhiên của từng dạng yêu cầu (level: 1/3 mục tiêu; playtime: 1 ngày; collection: 1 vật phẩm).
+   * Chỉ dùng để hiển thị tiến độ tích lũy — JCoin thật vẫn chỉ cộng 1 lần lúc `rewarded`. */
+  milestoneLog?: { label: string; reward: number; completedAt: string }[]
 }
 
 export interface TaskListParams {

@@ -6,6 +6,7 @@ import { useParams, Link } from 'react-router-dom'
 import { CheckCircle2, XCircle, Loader2, Copy, Clock3 } from 'lucide-react'
 import { Button } from '../../../../../shared/components/ui/button'
 import { formatCurrency, formatDateTime } from '../../../../../shared/utils/FormatUtils'
+import { cn } from '../../../../../shared/components/ui/utils'
 import { usePlaytimeOrderResult } from '../hooks/usePlaytimeOrderResult.page'
 
 export const PAGE_ID = 'jgame-playtime-result'
@@ -34,13 +35,14 @@ export function PlaytimeOrderResultPage() {
       {isSuccess ? (
         <>
           <CheckCircle2 className='mx-auto mb-4 h-14 w-14 text-emerald-400' />
-          <h1 className='text-xl font-bold text-white'>Đặt vé thành công!</h1>
+          <h1 className='text-xl font-bold text-white'>{order.status === 'USED' ? 'Vé đã được sử dụng' : 'Đặt vé thành công!'}</h1>
           <p className='mt-1 text-sm text-white/60'>{order.shopName} — {order.zoneName} · {order.hours}h chơi — {order.totalAmount === 0 ? 'Miễn phí' : formatCurrency(order.totalAmount)}</p>
+          <p className='mt-1 text-xs text-white/40'>Mã đơn {order.id} · Đặt lúc {formatDateTime(order.createdAt)}</p>
 
           {order.redeemCode && (
             <div className='mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 text-left'>
-              <p className='text-sm text-white/60'>Mã đổi vé — xuất trình tại quầy để nhận chỗ</p>
-              <p className='mt-2 text-center font-mono text-2xl font-bold tracking-widest text-white'>{order.redeemCode}</p>
+              <p className='text-sm text-white/60'>{order.status === 'USED' ? 'Mã đổi vé (đã dùng)' : 'Mã đổi vé — xuất trình tại quầy để nhận chỗ'}</p>
+              <p className={cn('mt-2 text-center font-mono text-2xl font-bold tracking-widest', order.status === 'USED' ? 'text-white/40 line-through' : 'text-white')}>{order.redeemCode}</p>
               <Button variant='ghost' size='sm' className='mt-3 w-full text-white/70 hover:bg-white/10 hover:text-white' onClick={handleCopy} data-qa='btn_copy_ma_ve'>
                 <Copy className='h-4 w-4 mr-1.5' /> {copied ? 'Đã sao chép!' : 'Sao chép mã đổi vé'}
               </Button>

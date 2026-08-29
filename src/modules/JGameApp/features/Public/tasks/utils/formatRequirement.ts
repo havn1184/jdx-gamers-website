@@ -25,3 +25,12 @@ export function getProgressPercent(task: GameTask, progress: UserTaskProgress | 
   if (r.type === 'playtime') return Math.min(100, Math.round(((progress.daysCompleted ?? 0) / (r.totalDays ?? 1)) * 100))
   return Math.min(100, Math.round(((progress.itemsCollected?.length ?? 0) / (r.itemNames?.length ?? 1)) * 100))
 }
+
+/** Số JCoin đã tích lũy được tính đến hiện tại — tổng các mốc đã đạt (`milestoneLog`), hoặc trọn
+ * gói phần thưởng nếu nhiệm vụ đã hoàn thành. Chỉ mang tính hiển thị (tạm tính) — JCoin thật chỉ
+ * cộng vào ví 1 lần lúc `rewarded` (xem `mocks/gameTasks.store.ts`). */
+export function getEarnedSoFar(task: GameTask, progress: UserTaskProgress | null): number {
+  if (!progress) return 0
+  if (progress.status === 'rewarded') return task.jcoinReward
+  return (progress.milestoneLog ?? []).reduce((sum, m) => sum + m.reward, 0)
+}

@@ -116,14 +116,26 @@ const userProgress: UserTaskProgress[] = [
   {
     id: genId('UTP'), userId: DEMO_ACCOUNTS.customer.id, taskId: 'task-level-1', status: 'rewarded',
     currentLevel: 30, registeredAt: daysFromNow(-10), lastSyncedAt: daysFromNow(-2), rewardedAt: daysFromNow(-2),
+    milestoneLog: [
+      { label: 'Đạt cấp độ 10 (mốc 1/3)', reward: 16667, completedAt: daysFromNow(-8) },
+      { label: 'Đạt cấp độ 20 (mốc 2/3)', reward: 16667, completedAt: daysFromNow(-5) },
+      { label: 'Đạt cấp độ 30 (mốc 3/3)', reward: 16666, completedAt: daysFromNow(-2) },
+    ],
   },
   {
     id: genId('UTP'), userId: DEMO_ACCOUNTS.customer.id, taskId: 'task-playtime-2', status: 'in_progress',
     daysCompleted: 2, todayHours: 0.4, registeredAt: daysFromNow(-4), lastSyncedAt: daysFromNow(0),
+    milestoneLog: [
+      { label: 'Hoàn thành ngày 1/5', reward: 4000, completedAt: daysFromNow(-3) },
+      { label: 'Hoàn thành ngày 2/5', reward: 4000, completedAt: daysFromNow(-1) },
+    ],
   },
   {
     id: genId('UTP'), userId: DEMO_ACCOUNTS.customer.id, taskId: 'task-collection-1', status: 'registered',
     itemsCollected: ['Chìa khoá vàng'], registeredAt: daysFromNow(-1), lastSyncedAt: daysFromNow(-1),
+    milestoneLog: [
+      { label: 'Thu thập "Chìa khoá vàng"', reward: 12000, completedAt: daysFromNow(-1) },
+    ],
   },
 ]
 
@@ -137,6 +149,18 @@ function isTaskComplete(task: GameTask, progress: UserTaskProgress): boolean {
   if (task.requirement.type === 'level') return (progress.currentLevel ?? 0) >= (task.requirement.targetLevel ?? Infinity)
   if (task.requirement.type === 'playtime') return (progress.daysCompleted ?? 0) >= (task.requirement.totalDays ?? Infinity)
   return (progress.itemsCollected?.length ?? 0) >= (task.requirement.itemNames?.length ?? Infinity)
+}
+
+/** Tổng số mốc (đầu việc) của 1 nhiệm vụ theo dạng yêu cầu — dùng chia đều phần thưởng cho `milestoneLog`. */
+function totalMilestones(task: GameTask): number {
+  if (task.requirement.type === 'level') return 3
+  if (task.requirement.type === 'playtime') return task.requirement.totalDays ?? 1
+  return task.requirement.itemNames?.length ?? 1
+}
+
+function pushMilestone(task: GameTask, p: UserTaskProgress, label: string): void {
+  const reward = Math.round(task.jcoinReward / totalMilestones(task))
+  p.milestoneLog = [...(p.milestoneLog ?? []), { label, reward, completedAt: new Date().toISOString() }]
 }
 
 /** Mô phỏng game tự đồng bộ tiến độ + cấp quỹ NPH + số người tham gia mới. */
@@ -161,16 +185,27 @@ if (typeof window !== 'undefined') {
       if (!task) return
 
       if (task.requirement.type === 'level' && Math.random() < 0.5) {
-        p.currentLevel = Math.min(task.requirement.targetLevel ?? 0, (p.currentLevel ?? 1) + Math.ceil(Math.random() * 2))
+        const targetLevel = task.requirement.targetLevel ?? 0
+        const oldLevel = p.currentLevel ?? 1
+        const newLevel = Math.min(targetLevel, oldLevel + Math.ceil(Math.random() * 2))
+        p.currentLevel = newLevel
+        const checkpoints = [Math.round(targetLevel / 3), Math.round((targetLevel * 2) / 3), targetLevel]
+        checkpoints.forEach((cp, idx) => {
+          if (oldLevel < cp && newLevel >= cp) pushMilestone(task, p, `Đạt cấp độ ${cp} (mốc ${idx + 1}/3)`)
+        })
       } else if (task.requirement.type === 'playtime') {
         p.todayHours = Math.min(task.requirement.hoursPerDay ?? 0, (p.todayHours ?? 0) + Math.random() * 0.4)
         if ((p.todayHours ?? 0) >= (task.requirement.hoursPerDay ?? 0) && (p.daysCompleted ?? 0) < (task.requirement.totalDays ?? 0)) {
           p.daysCompleted = (p.daysCompleted ?? 0) + 1
           p.todayHours = 0
+          pushMilestone(task, p, `Hoàn thành ngày ${p.daysCompleted}/${task.requirement.totalDays}`)
         }
       } else if (task.requirement.type === 'collection' && Math.random() < 0.35) {
         const remaining = (task.requirement.itemNames ?? []).filter(n => !(p.itemsCollected ?? []).includes(n))
-        if (remaining.length > 0) p.itemsCollected = [...(p.itemsCollected ?? []), remaining[0]]
+        if (remaining.length > 0) {
+          p.itemsCollected = [...(p.itemsCollected ?? []), remaining[0]]
+          pushMilestone(task, p, `Thu thập "${remaining[0]}"`)
+        }
       }
 
       p.lastSyncedAt = new Date().toISOString()
