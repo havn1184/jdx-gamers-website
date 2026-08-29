@@ -78,8 +78,12 @@ export function createUser(email: string, phone: string, password: string): Stor
 }
 
 /** 4 tài khoản demo cố định (khách hàng/chủ gian hàng/đối tác/admin) — hiển thị ở màn Đăng nhập.
- * Chạy 1 lần khi module load, bỏ qua nếu đã seed trước đó (persist qua reload cùng localStorage users). */
-export const DEMO_ACCOUNT_PASSWORD = 'Demo@123'
+ * Chạy 1 lần khi module load, bỏ qua nếu đã seed trước đó (persist qua reload cùng localStorage users).
+ *
+ * Mật khẩu KHÔNG hardcode trong source (tránh lỗi "hardcoded password" khi quét bảo mật) — đọc từ
+ * `VITE_JGAME_DEMO_PASSWORD`, khai báo ở `.env.development.local` (gitignored, không commit). Xem
+ * `.env.development` để biết cách set cho máy dev mới.*/
+export const DEMO_ACCOUNT_PASSWORD = (import.meta.env?.VITE_JGAME_DEMO_PASSWORD as string | undefined) ?? ''
 export const DEMO_ACCOUNTS = {
   customer: { id: 'demo-customer-1', email: 'khachhang@jgame.vn', phone: '0900000001', name: 'Khách hàng Demo' },
   /** Trùng id với ownerId 'demo-shop-owner-1' đã gán sẵn cho gian hàng Alpha Cyber Center (mocks/playtimeShops.store.ts) */
