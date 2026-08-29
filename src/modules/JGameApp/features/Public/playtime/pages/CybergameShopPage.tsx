@@ -58,7 +58,7 @@ function TicketRow({ ticket }: { ticket: PlaytimeTicketView }) {
 export function CybergameShopPage() {
   const { shopId } = useParams<{ shopId: string }>()
   const navigate = useNavigate()
-  const { detail, loading, notFound, zoneType, setZoneType } = useShopDetailFetchData(shopId)
+  const { detail, loading, filtering, notFound, zoneType, setZoneType } = useShopDetailFetchData(shopId)
   const [activeImage, setActiveImage] = useState(0)
 
   if (loading) return <div className='flex items-center justify-center gap-2 py-24 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải gian hàng...</div>
@@ -110,7 +110,7 @@ export function CybergameShopPage() {
           </div>
         )}
 
-        <div className='mb-5 flex flex-wrap gap-2' data-qa='btn_loc_zone'>
+        <div className='mb-5 flex flex-wrap items-center gap-2' data-qa='btn_loc_zone'>
           {ZONE_TABS.map(tab => (
             <button
               key={tab.key}
@@ -124,12 +124,13 @@ export function CybergameShopPage() {
               {tab.label}
             </button>
           ))}
+          {filtering && <Loader2 className='h-4 w-4 animate-spin text-white/40' />}
         </div>
 
         {tickets.length === 0 ? (
           <p className='py-10 text-center text-sm text-white/50'>Gian hàng chưa mở bán vé cho khu vực này</p>
         ) : (
-          <div className='space-y-3'>
+          <div className={cn('space-y-3 transition-opacity duration-150', filtering && 'pointer-events-none opacity-50')}>
             {tickets.map(t => <TicketRow key={t.id} ticket={t} />)}
           </div>
         )}

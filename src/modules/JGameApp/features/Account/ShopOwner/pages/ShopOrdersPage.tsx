@@ -56,14 +56,16 @@ export function ShopOrdersPage() {
         ))}
       </div>
 
-      {loading && <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div>}
+      {loading && items.length === 0 && (
+        <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div>
+      )}
 
-      {!loading && items.length === 0 && (
+      {!(loading && items.length === 0) && items.length === 0 && (
         <div className='flex flex-col items-center gap-2 py-16 text-white/60'><Inbox className='h-8 w-8' /> Chưa có đơn hàng nào</div>
       )}
 
-      {!loading && items.length > 0 && (
-        <div className='space-y-3'>
+      {items.length > 0 && (
+        <div className={cn('space-y-3 transition-opacity duration-150', loading && 'pointer-events-none opacity-50')}>
           {items.map(order => {
             const meta = STATUS_META[order.status]
             return (

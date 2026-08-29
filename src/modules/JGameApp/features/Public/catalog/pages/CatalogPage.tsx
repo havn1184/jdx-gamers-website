@@ -7,6 +7,7 @@ import { Input } from '../../../../shared/components/ui/input'
 import { Badge } from '../../../../shared/components/ui/badge'
 import { CardArt } from '../../../../shared/components/CardArt'
 import { formatCurrency } from '../../../../shared/utils/FormatUtils'
+import { cn } from '../../../../shared/components/ui/utils'
 import { useCatalogFetchData } from '../hooks/useCatalog.page.fetchData'
 
 export const PAGE_ID = 'jgame-catalog'
@@ -53,7 +54,7 @@ export function CatalogPage() {
         <h2 className='mb-6 text-lg font-bold text-white'>Chọn nhà cung cấp</h2>
 
         {/* States */}
-        {loading && (
+        {loading && items.length === 0 && (
           <div className='flex items-center justify-center gap-2 py-16 text-white/60'>
             <Loader2 className='h-5 w-5 animate-spin' /> Đang tải danh mục...
           </div>
@@ -66,15 +67,15 @@ export function CatalogPage() {
           </div>
         )}
 
-        {!loading && !errorMessage && items.length === 0 && (
+        {!(loading && items.length === 0) && !errorMessage && items.length === 0 && (
           <div className='flex flex-col items-center gap-2 py-16 text-white/60'>
             <PackageOpen className='h-8 w-8' />
             Không tìm thấy loại thẻ phù hợp
           </div>
         )}
 
-        {!loading && !errorMessage && items.length > 0 && (
-          <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4'>
+        {!errorMessage && items.length > 0 && (
+          <div className={cn('grid grid-cols-2 gap-4 transition-opacity duration-150 sm:grid-cols-3 lg:grid-cols-4', loading && 'pointer-events-none opacity-50')}>
             {items.map(product => {
               const cheapest = [...product.denominations].sort((a, b) => a.sellPrice - b.sellPrice)[0]
               return (

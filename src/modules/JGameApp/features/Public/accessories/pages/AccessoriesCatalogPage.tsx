@@ -66,14 +66,16 @@ export function AccessoriesCatalogPage() {
         </select>
       </div>
 
-      {loading && <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div>}
+      {loading && items.length === 0 && (
+        <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div>
+      )}
 
-      {!loading && items.length === 0 && (
+      {!(loading && items.length === 0) && items.length === 0 && (
         <div className='flex flex-col items-center gap-2 py-16 text-white/60'><PackageOpen className='h-8 w-8' /> Không tìm thấy sản phẩm phù hợp</div>
       )}
 
-      {!loading && items.length > 0 && (
-        <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4'>
+      {items.length > 0 && (
+        <div className={cn('grid grid-cols-2 gap-4 transition-opacity duration-150 sm:grid-cols-3 lg:grid-cols-4', loading && 'pointer-events-none opacity-50')}>
           {items.map(product => (
             <Link
               key={product.id}

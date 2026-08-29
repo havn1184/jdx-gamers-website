@@ -45,12 +45,12 @@ export function AdminOrdersPage() {
 
       <Input placeholder='Tìm theo mã đơn, tên thẻ...' value={keyword} onChange={e => setKeyword(e.target.value)} className='mb-4 max-w-sm' data-qa='i_tim_kiem' />
 
-      {loading ? (
+      {loading && items.length === 0 ? (
         <div className='py-12 text-center text-white/50'>Đang tải...</div>
       ) : items.length === 0 ? (
         <div className='py-12 text-center text-white/50'>Không có dữ liệu</div>
       ) : (
-        <div className='overflow-x-auto rounded-xl border border-white/10'>
+        <div className={cn('overflow-x-auto rounded-xl border border-white/10 transition-opacity duration-150', loading && 'pointer-events-none opacity-50')}>
           <table className='w-full text-sm'>
             <thead className='bg-white/5 text-white/60'>
               <tr>

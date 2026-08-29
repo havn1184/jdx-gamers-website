@@ -77,14 +77,16 @@ export function TasksMarketplacePage() {
           ))}
         </div>
 
-        {loading && <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải nhiệm vụ...</div>}
+        {loading && items.length === 0 && (
+          <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải nhiệm vụ...</div>
+        )}
 
-        {!loading && items.length === 0 && (
+        {!(loading && items.length === 0) && items.length === 0 && (
           <div className='flex flex-col items-center gap-2 py-16 text-white/60'><PackageOpen className='h-8 w-8' /> Không có nhiệm vụ phù hợp</div>
         )}
 
-        {!loading && items.length > 0 && (
-          <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+        {items.length > 0 && (
+          <div className={cn('grid grid-cols-1 gap-5 transition-opacity duration-150 sm:grid-cols-2 lg:grid-cols-3', loading && 'pointer-events-none opacity-50')}>
             {items.map(task => {
               const remaining = task.slotLimit - task.slotUsed
               const percentFull = Math.round((task.slotUsed / task.slotLimit) * 100)
