@@ -9,6 +9,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, type ReactN
 import { TokenManager } from '../shared/services/api'
 import { useAuthSession } from '../features/Public/auth/hooks/useAuthSession'
 import { logActivity } from '../mocks/loginHistory.store'
+import { clearPendingSelection } from '../shared/utils/pendingSelection'
 import type { AuthUser } from '../features/Public/auth/types/auth.types'
 
 interface AuthContextType {
@@ -35,8 +36,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const userId = TokenManager.getUserId()
     if (userId) logActivity(userId, 'LOGOUT')
     TokenManager.clearTokens()
-    void refreshUser()
-    window.location.hash = '#/jgame/dang-nhap'
+    // Xoá returnTo/lựa chọn dở dang còn sót lại — tránh lần đăng nhập kế tiếp (có thể là
+    // tài khoản khác) bị "hijack" điều hướng sang trang của phiên trước thay vì đúng
+    // trang tổng quan theo vai trò (Kênh Người Bán/Đối tác/Quản trị/Tài khoản).
+    clearPendingSelection()
+    // Đợi refreshUser() cập nhật xong state (user=null) rồi mới điều hướng — nếu không đợi,
+    // lệnh refreshUser() này có thể "chạy đua" với refreshUser() của lượt đăng nhập kế tiếp
+    // (nếu người dùng đăng nhập lại rất nhanh, VD tài khoản demo khác) và ghi đè lên kết quả
+    // đăng nhập mới, khiến trang đích bị điều hướng sai.
+    // Đồng thời clear lại LẦN NỮA sau khi refreshUser() xong: nếu trang hiện tại đang được
+    // RequireAuth bảo vệ, việc isAuthenticated chuyển false (do refreshUser) khiến RequireAuth
+    // tự lưu 1 returnTo mới trỏ về đúng trang vừa đăng xuất — nếu không xoá, returnTo này sẽ
+    // "hijack" lượt đăng nhập kế tiếp (có thể là tài khoản khác) quay lại trang cũ.
+    void refreshUser().then(() => {
+      clearPendingSelection()
+      window.location.hash = '#/jgame/dang-nhap'
+    })
   }, [refreshUser])
 
   const value = useMemo<AuthContextType>(

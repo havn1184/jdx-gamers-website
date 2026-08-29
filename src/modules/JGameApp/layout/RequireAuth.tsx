@@ -16,7 +16,10 @@ export function RequireAuth({ children }: { children: ReactNode }) {
   if (loading) return <PageLoader />
 
   if (!isAuthenticated) {
-    sessionStorage.setItem('jgame_return_to', `/jgame${location.pathname}${location.search}`)
+    // location.pathname đã là đường dẫn đầy đủ (khớp Route cha `/jgame/*` ở App.tsx) —
+    // KHÔNG được nối thêm '/jgame' nữa, nếu không returnTo sẽ bị lặp tiền tố
+    // (VD: '/jgame/jgame/tai-khoan') → không khớp route nào → rơi về Trang chủ.
+    sessionStorage.setItem('jgame_return_to', `${location.pathname}${location.search}`)
     return <Navigate to='/jgame/dang-nhap' replace />
   }
 
