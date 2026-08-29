@@ -1,0 +1,1714 @@
+{
+  "version": "2.0.0",
+  "exportDate": "2026-06-04T14:42:20.0000000+07:00",
+  "exportedBy": "system",
+  "appType": 1,
+  "appTypeName": "Invoice",
+  "totalMenus": 30,
+  "menus": [
+    {
+      "menuCode": "INV_DASHBOARD",
+      "menuName": "Dashboard",
+      "menuNameEn": "Dashboard",
+      "description": "Trang tổng quan hóa đơn điện tử",
+      "icon": "LayoutDashboard",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "dashboard",
+      "url": "/business/dashboard/overview",
+      "displayOrder": 1,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "INV_DASHBOARD_TONG_QUAN",
+          "menuName": "Tổng quan",
+          "menuNameEn": "Overview",
+          "description": "Quản lý tổng quan",
+          "icon": "Activity",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_DASHBOARD",
+          "navMenuId": "dashboard-overview",
+          "url": "/business/dashboard/overview",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DashboardTong.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "time-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "DashboardTong.BtnTimeFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "custom-date",
+              "featureName": "Tùy chỉnh ngày",
+              "description": "Cho phép: tùy chỉnh ngày",
+              "featureType": 1,
+              "permissionCode": "DashboardTong.BtnCustomDate",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "INV_HOA_DON",
+      "menuName": "Hóa đơn",
+      "menuNameEn": "Invoices",
+      "description": "Quản lý vòng đời hóa đơn điện tử",
+      "icon": "FileText",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "invoice",
+      "url": "/business/invoices/management",
+      "displayOrder": 2,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "INV_HOA_DON_DANH_SACH_HOA_DON",
+          "menuName": "Danh sách hóa đơn",
+          "menuNameEn": "Invoice Management",
+          "description": "Quản lý danh sách hóa đơn",
+          "icon": "FileText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_HOA_DON",
+          "navMenuId": "invoice-management",
+          "url": "/business/invoices/management",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "import-file",
+              "featureName": "Nhập từ file",
+              "description": "Cho phép: nhập từ file",
+              "featureType": 6,
+              "permissionCode": "HoaDon.BtnImportFile",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "HoaDon.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo hóa đơn mới",
+              "description": "Cho phép: tạo hóa đơn mới",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnCreate",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowView",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "copy",
+              "featureName": "Sao chép (dòng)",
+              "description": "Cho phép: sao chép (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowCopy",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa (dòng)",
+              "description": "Cho phép: sửa (dòng)",
+              "featureType": 3,
+              "permissionCode": "HoaDon.RowEdit",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "adjust-signed",
+              "featureName": "Điều chỉnh hóa đơn (dòng)",
+              "description": "Cho phép: điều chỉnh hóa đơn (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowAdjustSigned",
+              "isActive": true,
+              "sortOrder": 8
+            },
+            {
+              "featureCode": "replace",
+              "featureName": "Thay thế hóa đơn (dòng)",
+              "description": "Cho phép: thay thế hóa đơn (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowReplace",
+              "isActive": true,
+              "sortOrder": 9
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy hóa đơn (dòng)",
+              "description": "Cho phép: hủy hóa đơn (dòng)",
+              "featureType": 4,
+              "permissionCode": "HoaDon.RowCancel",
+              "isActive": true,
+              "sortOrder": 10
+            },
+            {
+              "featureCode": "sign",
+              "featureName": "Gửi ký (dòng)",
+              "description": "Cho phép: gửi ký (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowSign",
+              "isActive": true,
+              "sortOrder": 11
+            },
+            {
+              "featureCode": "resign",
+              "featureName": "Gửi ký lại (dòng)",
+              "description": "Cho phép: gửi ký lại (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowResign",
+              "isActive": true,
+              "sortOrder": 12
+            },
+            {
+              "featureCode": "send-email",
+              "featureName": "Gửi email thông báo (dòng)",
+              "description": "Cho phép: gửi email thông báo (dòng)",
+              "featureType": 10,
+              "permissionCode": "HoaDon.RowSendEmail",
+              "isActive": true,
+              "sortOrder": 13
+            },
+            {
+              "featureCode": "view-xml",
+              "featureName": "Xem XML phát hành (dòng)",
+              "description": "Cho phép: xem xml phát hành (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowViewXml",
+              "isActive": true,
+              "sortOrder": 14
+            },
+            {
+              "featureCode": "view-xml-signed",
+              "featureName": "Xem XML đã ký (dòng)",
+              "description": "Cho phép: xem xml đã ký (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowViewXmlSigned",
+              "isActive": true,
+              "sortOrder": 15
+            },
+            {
+              "featureCode": "copy-lookup",
+              "featureName": "Sao chép link tra cứu (dòng)",
+              "description": "Cho phép: sao chép link tra cứu (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowCopyLookup",
+              "isActive": true,
+              "sortOrder": 16
+            },
+            {
+              "featureCode": "tax-msg-his",
+              "featureName": "Xem lịch sử TCT (dòng)",
+              "description": "Cho phép: xem lịch sử tct (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowTaxMsgHis",
+              "isActive": true,
+              "sortOrder": 17
+            },
+            {
+              "featureCode": "tct-error",
+              "featureName": "Xem lỗi TCT (dòng)",
+              "description": "Cho phép: xem lỗi tct (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowTctError",
+              "isActive": true,
+              "sortOrder": 18
+            },
+            {
+              "featureCode": "check-status",
+              "featureName": "Kiểm tra trạng thái phát hành (dòng)",
+              "description": "Cho phép: kiểm tra trạng thái phát hành (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowCheckStatus",
+              "isActive": true,
+              "sortOrder": 19
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa (dòng)",
+              "description": "Cho phép: xóa (dòng)",
+              "featureType": 4,
+              "permissionCode": "HoaDon.RowDelete",
+              "isActive": true,
+              "sortOrder": 20
+            },
+            {
+              "featureCode": "sign",
+              "featureName": "Ký theo lô (đã chọn)",
+              "description": "Cho phép: ký theo lô (đã chọn)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BatchSign",
+              "isActive": true,
+              "sortOrder": 21
+            },
+            {
+              "featureCode": "check-issue",
+              "featureName": "Kiểm tra phát hành (đã chọn)",
+              "description": "Cho phép: kiểm tra phát hành (đã chọn)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BatchCheckIssue",
+              "isActive": true,
+              "sortOrder": 22
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa tất cả (đã chọn)",
+              "description": "Cho phép: xóa tất cả (đã chọn)",
+              "featureType": 4,
+              "permissionCode": "HoaDon.BatchDelete",
+              "isActive": true,
+              "sortOrder": 23
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_HOA_DON_HOA_DON_PHAT_HANH",
+          "menuName": "Hóa đơn phát hành",
+          "menuNameEn": "Invoice Issuance",
+          "description": "Quản lý hóa đơn phát hành",
+          "icon": "FileSpreadsheet",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_HOA_DON",
+          "navMenuId": "invoice-issuance",
+          "url": "/business/invoices/issuance",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "view-list",
+              "featureName": "Xem danh sách",
+              "description": "Cho phép: xem danh sách",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnViewList",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo đợt phát hành",
+              "description": "Cho phép: tạo đợt phát hành",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa đợt phát hành",
+              "description": "Cho phép: sửa đợt phát hành",
+              "featureType": 3,
+              "permissionCode": "HoaDon.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "filter",
+              "featureName": "Lọc và tìm kiếm",
+              "description": "Cho phép: lọc và tìm kiếm",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnFilter",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_HOA_DON_QUAN_LY_PHE_DUYET",
+          "menuName": "Quản lý phê duyệt",
+          "menuNameEn": "Invoice Approval",
+          "description": "Quản lý quản lý phê duyệt",
+          "icon": "CheckSquare",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_HOA_DON",
+          "navMenuId": "invoice-approval",
+          "url": "/business/invoices/approve",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "approve",
+              "featureName": "Phê duyệt (dòng)",
+              "description": "Cho phép: phê duyệt (dòng)",
+              "featureType": 7,
+              "permissionCode": "HoaDon.RowApprove",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "reject",
+              "featureName": "Từ chối (dòng)",
+              "description": "Cho phép: từ chối (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowReject",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "batch-approve",
+              "featureName": "Phê duyệt hàng loạt",
+              "description": "Cho phép: phê duyệt hàng loạt",
+              "featureType": 7,
+              "permissionCode": "HoaDon.BtnBatchApprove",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "HoaDon.BtnExport",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_HOA_DON_TO_KHAI_SU_DUNG_HOA_DON",
+          "menuName": "Tờ khai sử dụng hóa đơn",
+          "menuNameEn": "Invoice Declaration",
+          "description": "Quản lý tờ khai sử dụng hóa đơn",
+          "icon": "ScrollText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_HOA_DON",
+          "navMenuId": "quan-ly-to-khai",
+          "url": "/business/invoices/quan-ly-to-khai",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo tờ khai mới",
+              "description": "Cho phép: tạo tờ khai mới",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "stop",
+              "featureName": "Ngừng sử dụng (dòng)",
+              "description": "Cho phép: ngừng sử dụng (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowStop",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy tờ khai (dòng)",
+              "description": "Cho phép: hủy tờ khai (dòng)",
+              "featureType": 4,
+              "permissionCode": "HoaDon.RowCancel",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "send-tct",
+              "featureName": "Gửi CQT (dòng)",
+              "description": "Cho phép: gửi cqt (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowSendTct",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "sign",
+              "featureName": "Ký tờ khai (dòng)",
+              "description": "Cho phép: ký tờ khai (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowSign",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "send-email",
+              "featureName": "Gửi email (dòng)",
+              "description": "Cho phép: gửi email (dòng)",
+              "featureType": 10,
+              "permissionCode": "HoaDon.RowSendEmail",
+              "isActive": true,
+              "sortOrder": 8
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_HOA_DON_DONG_BO_CQT",
+          "menuName": "Đồng bộ CQT",
+          "menuNameEn": "Tax Sync",
+          "description": "Quản lý đồng bộ cqt",
+          "icon": "RefreshCw",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_HOA_DON",
+          "navMenuId": "dong-bo-cqt",
+          "url": "/business/invoices/dong-bo-cqt",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "sync",
+              "featureName": "Đồng bộ thủ công",
+              "description": "Cho phép: đồng bộ thủ công",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnSync",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "check",
+              "featureName": "Kiểm tra trạng thái",
+              "description": "Cho phép: kiểm tra trạng thái",
+              "featureType": 1,
+              "permissionCode": "HoaDon.RowCheck",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "filter",
+              "featureName": "Lọc và tìm kiếm",
+              "description": "Cho phép: lọc và tìm kiếm",
+              "featureType": 1,
+              "permissionCode": "HoaDon.BtnFilter",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "tab-thong-ke",
+              "featureName": "Thống kê đồng bộ",
+              "description": "Cho phép: thống kê đồng bộ",
+              "featureType": 1,
+              "permissionCode": "HoaDon.TabThongKe",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "tab-hd-mua-vao",
+              "featureName": "Hóa đơn mua vào",
+              "description": "Cho phép: hóa đơn mua vào",
+              "featureType": 1,
+              "permissionCode": "HoaDon.TabHdMuaVao",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "tab-hd-ban-ra",
+              "featureName": "Hóa đơn bán ra",
+              "description": "Cho phép: hóa đơn bán ra",
+              "featureType": 1,
+              "permissionCode": "HoaDon.TabHdBanRa",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "tab-lich-su",
+              "featureName": "Lịch sử đồng bộ",
+              "description": "Cho phép: lịch sử đồng bộ",
+              "featureType": 1,
+              "permissionCode": "HoaDon.TabLichSu",
+              "isActive": true,
+              "sortOrder": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "INV_CHUNG_TU",
+      "menuName": "Chứng từ",
+      "menuNameEn": "Documents",
+      "description": "Quản lý chứng từ liên quan",
+      "icon": "ClipboardCheck",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "chungtu",
+      "url": "/business/document",
+      "displayOrder": 3,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "INV_CHUNG_TU_CHUNG_TU_KHAU_TRU_TNCN",
+          "menuName": "Chứng từ khấu trừ TNCN",
+          "menuNameEn": "PIT Deduction Certificate",
+          "description": "Quản lý chứng từ khấu trừ tncn",
+          "icon": "FileText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_CHUNG_TU",
+          "navMenuId": "chung-tu-tncn",
+          "url": "/business/document",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "view",
+              "featureName": "Xem danh sách",
+              "description": "Cho phép: xem danh sách",
+              "featureType": 1,
+              "permissionCode": "ChungTu.BtnView",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo chứng từ",
+              "description": "Cho phép: tạo chứng từ",
+              "featureType": 1,
+              "permissionCode": "ChungTu.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "ChungTu.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa chứng từ",
+              "description": "Cho phép: sửa chứng từ",
+              "featureType": 3,
+              "permissionCode": "ChungTu.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "send-email",
+              "featureName": "Gửi email",
+              "description": "Cho phép: gửi email",
+              "featureType": 10,
+              "permissionCode": "ChungTu.RowSendEmail",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "ChungTu.BtnExport",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_CHUNG_TU_DANG_KY_TO_KHAI",
+          "menuName": "Đăng ký tờ khai",
+          "menuNameEn": "Document Declaration Registration",
+          "description": "Quản lý đăng ký tờ khai",
+          "icon": "FileEdit",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_CHUNG_TU",
+          "navMenuId": "dang-ky-to-khai-chungtu",
+          "url": "/business/processing/dang-ky-to-khai-chungtu",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "ChungTu.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo tờ khai mới",
+              "description": "Cho phép: tạo tờ khai mới",
+              "featureType": 1,
+              "permissionCode": "ChungTu.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "ChungTu.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa (dòng)",
+              "description": "Cho phép: sửa (dòng)",
+              "featureType": 3,
+              "permissionCode": "ChungTu.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản (dòng)",
+              "description": "Cho phép: nhân bản (dòng)",
+              "featureType": 1,
+              "permissionCode": "ChungTu.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "sign",
+              "featureName": "Ký tờ khai (dòng)",
+              "description": "Cho phép: ký tờ khai (dòng)",
+              "featureType": 1,
+              "permissionCode": "ChungTu.RowSign",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "send-email",
+              "featureName": "Gửi email (dòng)",
+              "description": "Cho phép: gửi email (dòng)",
+              "featureType": 10,
+              "permissionCode": "ChungTu.RowSendEmail",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa (dòng)",
+              "description": "Cho phép: xóa (dòng)",
+              "featureType": 4,
+              "permissionCode": "ChungTu.RowDelete",
+              "isActive": true,
+              "sortOrder": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "INV_BAO_CAO",
+      "menuName": "Báo cáo",
+      "menuNameEn": "Reports",
+      "description": "Báo cáo tình hình sử dụng hóa đơn và chứng từ",
+      "icon": "BarChart3",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "report",
+      "url": "/business/reports/daily",
+      "displayOrder": 4,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "INV_BAO_CAO_BAO_CAO_HOA_DON_THEO_NGAY",
+          "menuName": "Báo cáo hóa đơn theo ngày",
+          "menuNameEn": "Daily Invoice Report",
+          "description": "Quản lý báo cáo hóa đơn theo ngày",
+          "icon": "Calendar",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_BAO_CAO",
+          "navMenuId": "daily-rpt",
+          "url": "/business/reports/daily",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "export-pdf",
+              "featureName": "Xuất PDF",
+              "description": "Cho phép: xuất pdf",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportPdf",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "period-select",
+              "featureName": "Chọn kỳ báo cáo",
+              "description": "Cho phép: chọn kỳ báo cáo",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnPeriodSelect",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_BAO_CAO_BAO_CAO_HOA_DON_THEO_THANG",
+          "menuName": "Báo cáo hóa đơn theo tháng",
+          "menuNameEn": "Monthly Invoice Report",
+          "description": "Quản lý báo cáo hóa đơn theo tháng",
+          "icon": "BarChart3",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_BAO_CAO",
+          "navMenuId": "month-rpt",
+          "url": "/business/reports/monthly",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "export-pdf",
+              "featureName": "Xuất PDF",
+              "description": "Cho phép: xuất pdf",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportPdf",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "source-select",
+              "featureName": "Chọn nguồn DL",
+              "description": "Cho phép: chọn nguồn dl",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnSourceSelect",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_BAO_CAO_TINH_TRANG_SU_DUNG_HOA_DON",
+          "menuName": "Tình trạng sử dụng hóa đơn",
+          "menuNameEn": "Invoice Usage Status",
+          "description": "Quản lý tình trạng sử dụng hóa đơn",
+          "icon": "ClipboardList",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_BAO_CAO",
+          "navMenuId": "invoice-status-rpt",
+          "url": "/business/reports/status",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "status-filter",
+              "featureName": "Lọc trạng thái",
+              "description": "Cho phép: lọc trạng thái",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnStatusFilter",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_BAO_CAO_BAO_CAO_SU_DUNG_CHUNG_TU",
+          "menuName": "Báo cáo sử dụng chứng từ",
+          "menuNameEn": "Document Usage Report",
+          "description": "Quản lý báo cáo sử dụng chứng từ",
+          "icon": "ClipboardList",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_BAO_CAO",
+          "navMenuId": "chungtu-status-rpt",
+          "url": "/business/reports/chungtu-status",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "type-filter",
+              "featureName": "Lọc loại chứng từ",
+              "description": "Cho phép: lọc loại chứng từ",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnTypeFilter",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "INV_DANH_MUC",
+      "menuName": "Danh mục",
+      "menuNameEn": "Categories",
+      "description": "Danh mục khách hàng và hàng hóa",
+      "icon": "FolderOpen",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "category",
+      "url": "/business/categories/customers",
+      "displayOrder": 5,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "INV_DANH_MUC_DANH_MUC_KHACH_HANG",
+          "menuName": "Danh mục khách hàng",
+          "menuNameEn": "Customer Category",
+          "description": "Quản lý danh mục khách hàng",
+          "icon": "Users",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_DANH_MUC",
+          "navMenuId": "customer-category",
+          "url": "/business/categories/customers",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo khách hàng",
+              "description": "Cho phép: tạo khách hàng",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa (dòng)",
+              "description": "Cho phép: sửa (dòng)",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa (dòng)",
+              "description": "Cho phép: xóa (dòng)",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "import",
+              "featureName": "Nhập Excel",
+              "description": "Cho phép: nhập excel",
+              "featureType": 6,
+              "permissionCode": "DanhMuc.BtnImport",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "DanhMuc.BtnExport",
+              "isActive": true,
+              "sortOrder": 7
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_DANH_MUC_DANH_MUC_HANG_HOA",
+          "menuName": "Danh mục hàng hóa",
+          "menuNameEn": "Item Category",
+          "description": "Quản lý danh mục hàng hóa",
+          "icon": "Package",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_DANH_MUC",
+          "navMenuId": "item-category",
+          "url": "/business/categories/items",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Tạo hàng hóa",
+              "description": "Cho phép: tạo hàng hóa",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết (dòng)",
+              "description": "Cho phép: xem chi tiết (dòng)",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa (dòng)",
+              "description": "Cho phép: sửa (dòng)",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa (dòng)",
+              "description": "Cho phép: xóa (dòng)",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "import",
+              "featureName": "Nhập Excel",
+              "description": "Cho phép: nhập excel",
+              "featureType": 6,
+              "permissionCode": "DanhMuc.BtnImport",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "DanhMuc.BtnExport",
+              "isActive": true,
+              "sortOrder": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "INV_QUAN_LY",
+      "menuName": "Quản lý",
+      "menuNameEn": "Management",
+      "description": "Cấu hình và quản trị vận hành hóa đơn",
+      "icon": "Wrench",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "setting",
+      "url": "/business/settings/business-info",
+      "displayOrder": 6,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "INV_QUAN_LY_THONG_TIN_DOANH_NGHIEP",
+          "menuName": "Thông tin doanh nghiệp",
+          "menuNameEn": "Business Information",
+          "description": "Quản lý thông tin doanh nghiệp",
+          "icon": "Info",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "business-info",
+          "url": "/business/settings/business-info",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "save",
+              "featureName": "Lưu thông tin",
+              "description": "Cho phép: lưu thông tin",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnSave",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "upload-logo",
+              "featureName": "Tải logo",
+              "description": "Cho phép: tải logo",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnUploadLogo",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_CAI_DAT_CHUNG",
+          "menuName": "Cài đặt chung",
+          "menuNameEn": "General Settings",
+          "description": "Quản lý cài đặt chung",
+          "icon": "Settings",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "general-setting",
+          "url": "/business/settings/general",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "save",
+              "featureName": "Lưu cấu hình",
+              "description": "Cho phép: lưu cấu hình",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnSave",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "reset",
+              "featureName": "Khôi phục mặc định",
+              "description": "Cho phép: khôi phục mặc định",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnReset",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_MAU_HOA_DON",
+          "menuName": "Mẫu hóa đơn",
+          "menuNameEn": "Invoice Template",
+          "description": "Quản lý mẫu hóa đơn",
+          "icon": "FileInput",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "business-invoice-temp",
+          "url": "/business/settings/invoice-templates",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "create",
+              "featureName": "Tạo mẫu",
+              "description": "Cho phép: tạo mẫu",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnCreate",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem mẫu",
+              "description": "Cho phép: xem mẫu",
+              "featureType": 1,
+              "permissionCode": "QuanLy.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa mẫu",
+              "description": "Cho phép: sửa mẫu",
+              "featureType": 3,
+              "permissionCode": "QuanLy.RowEdit",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa mẫu",
+              "description": "Cho phép: xóa mẫu",
+              "featureType": 4,
+              "permissionCode": "QuanLy.RowDelete",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_DICH_VU_HOA_DON",
+          "menuName": "Dịch vụ hóa đơn",
+          "menuNameEn": "Invoice Service",
+          "description": "Quản lý dịch vụ hóa đơn",
+          "icon": "CreditCard",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "service-manage",
+          "url": "/business/settings/service-manage",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "view",
+              "featureName": "Xem gói DV",
+              "description": "Cho phép: xem gói dv",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnView",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "buy",
+              "featureName": "Mua gói DV",
+              "description": "Cho phép: mua gói dv",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnBuy",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "history",
+              "featureName": "Lịch sử mua",
+              "description": "Cho phép: lịch sử mua",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnHistory",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_TICH_HOP_API",
+          "menuName": "Tích hợp API",
+          "menuNameEn": "API Integration",
+          "description": "Quản lý tích hợp api",
+          "icon": "Code",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "api-sub-owner-users",
+          "url": "/business/settings/api-sub-users",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "create",
+              "featureName": "Tạo TK API",
+              "description": "Cho phép: tạo tk api",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnCreate",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa TK API",
+              "description": "Cho phép: sửa tk api",
+              "featureType": 3,
+              "permissionCode": "QuanLy.RowEdit",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa TK API",
+              "description": "Cho phép: xóa tk api",
+              "featureType": 4,
+              "permissionCode": "QuanLy.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "toggle",
+              "featureName": "Khóa/Mở TK",
+              "description": "Cho phép: khóa/mở tk",
+              "featureType": 1,
+              "permissionCode": "QuanLy.RowToggle",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_QUAN_LY_CHU_KY_SO",
+          "menuName": "Quản lý chữ ký số",
+          "menuNameEn": "Digital Certificates",
+          "description": "Quản lý quản lý chữ ký số",
+          "icon": "FileKey",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "digital-certificates",
+          "url": "/business/settings/digital-certificates",
+          "displayOrder": 6,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "create",
+              "featureName": "Thêm chứng thư",
+              "description": "Cho phép: thêm chứng thư",
+              "featureType": 2,
+              "permissionCode": "QuanLy.BtnCreate",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chứng thư",
+              "description": "Cho phép: xem chứng thư",
+              "featureType": 1,
+              "permissionCode": "QuanLy.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa chứng thư",
+              "description": "Cho phép: xóa chứng thư",
+              "featureType": 4,
+              "permissionCode": "QuanLy.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_QUAN_LY_APP_CLIENT",
+          "menuName": "Quản lý App Client",
+          "menuNameEn": "Client Apps",
+          "description": "Quản lý quản lý app client",
+          "icon": "Monitor",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "client-apps",
+          "url": "/business/settings/client-apps",
+          "displayOrder": 7,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "create",
+              "featureName": "Tạo App Client",
+              "description": "Cho phép: tạo app client",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnCreate",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem App Client",
+              "description": "Cho phép: xem app client",
+              "featureType": 1,
+              "permissionCode": "QuanLy.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa App Client",
+              "description": "Cho phép: sửa app client",
+              "featureType": 3,
+              "permissionCode": "QuanLy.RowEdit",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa App Client",
+              "description": "Cho phép: xóa app client",
+              "featureType": 4,
+              "permissionCode": "QuanLy.RowDelete",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_LOG_TAC_DONG_NGUOI_DUNG",
+          "menuName": "Log tác động người dùng",
+          "menuNameEn": "User Activity Logs",
+          "description": "Quản lý log tác động người dùng",
+          "icon": "Activity",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "audit-user-logs",
+          "url": "/business/settings/audit-user-logs",
+          "displayOrder": 8,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "view",
+              "featureName": "Xem log",
+              "description": "Cho phép: xem log",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnView",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "QuanLy.BtnExport",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_LOG_NGHIEP_VU",
+          "menuName": "Log nghiệp vụ",
+          "menuNameEn": "Business Logs",
+          "description": "Quản lý log nghiệp vụ",
+          "icon": "ScrollText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "audit-invoice-logs",
+          "url": "/business/settings/audit-invoice-logs",
+          "displayOrder": 9,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "view",
+              "featureName": "Xem log",
+              "description": "Cho phép: xem log",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnView",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "QuanLy.BtnExport",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "INV_QUAN_LY_LICH_SU_GUI_MAIL",
+          "menuName": "Lịch sử gửi mail",
+          "menuNameEn": "Email History",
+          "description": "Quản lý lịch sử gửi mail",
+          "icon": "Send",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "INV_QUAN_LY",
+          "navMenuId": "email-history",
+          "url": "/business/settings/email-history",
+          "displayOrder": 10,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "view",
+              "featureName": "Xem lịch sử",
+              "description": "Cho phép: xem lịch sử",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnView",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "QuanLy.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "resend",
+              "featureName": "Gửi lại email",
+              "description": "Cho phép: gửi lại email",
+              "featureType": 10,
+              "permissionCode": "QuanLy.RowResend",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

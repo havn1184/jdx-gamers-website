@@ -1,0 +1,8 @@
+{
+  "ketoan": { "username": "0985908750", "password": "Hoadon@2022!#", "name": "KetoanApp" },
+  "invoice": { "username": "0985908002", "password": "Admin@123", "name": "InvoiceApp" },
+  "kiemthu": { "username": "0985908001", "password": "Admin@123", "name": "KiemThuApp" },
+  "crm": { "username": "0985908750", "password": "Hoadon@2022!#", "name": "CrmApp" },
+  "admin": { "username": "0966188166", "password": "admin@123", "name": "AdminApp" },
+  "partner": { "username": "0987839490", "password": "Admin@123", "name": "PartnerApp" }
+}

@@ -1,0 +1,106 @@
+/**
+ * jgame-theme.css — Theme storefront JGame (scoped qua class `.jgame-app`)
+ *
+ * Phong cách thương mại điện tử gaming: tím-hồng-xanh neon trên nền sáng,
+ * bo góc lớn, card có shadow + hover nâng nhẹ — khác phong cách "văn phòng"
+ * của các portal kế toán/hóa đơn.
+ */
+
+.jgame-app {
+  --primary: #7C3AED;
+  --primary-hover: #6D28D9;
+  --primary-tint: #F3EBFF;
+  --accent: #EC4899;
+  --accent-2: #22D3EE;
+  font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.dark .jgame-app {
+  --primary: #A78BFA;
+  --primary-hover: #C4B5FD;
+  --primary-tint: #2E1065;
+}
+
+/* ── Gradient tái sử dụng ─────────────────────────────────────────────── */
+.jgame-gradient-brand {
+  background-image: linear-gradient(135deg, var(--primary), var(--accent));
+}
+.jgame-gradient-text {
+  background-image: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.jgame-hero-bg {
+  background-image: radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.25), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.2), transparent 40%),
+    linear-gradient(180deg, #0f0620 0%, #1e0b3d 100%);
+}
+
+/* ── Card sản phẩm — hover nâng nhẹ ──────────────────────────────────── */
+.jgame-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.jgame-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(124, 58, 237, 0.35);
+}
+
+/* ── Badge "Sắp ra mắt" ───────────────────────────────────────────────── */
+.jgame-badge-soon {
+  background-image: linear-gradient(135deg, var(--accent-2), var(--primary));
+  color: white;
+}
+
+/* ── Override button utility trong phạm vi JGameApp ──────────────────── */
+.jgame-app .btn-primary,
+.jgame-app button[data-slot='button'].jgame-btn-primary {
+  background-image: linear-gradient(135deg, var(--primary), var(--accent));
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px -4px rgba(124, 58, 237, 0.5);
+}
+.jgame-app .btn-primary:hover,
+.jgame-app button[data-slot='button'].jgame-btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.jgame-app input[type='checkbox'] {
+  accent-color: var(--primary, #7C3AED);
+}
+
+/* ── Icon màu cho nút thao tác trong bảng (Sửa/Xóa/...) ───────────────── */
+/* Thiếu các class này khiến icon nút Sửa/Xóa (bg-white) render trắng trên
+ * nền trắng — vô hình hoàn toàn. Bổ sung theo đúng quy ước tao-ui-giao-dien
+ * (icon-primary/icon-success/icon-warning/icon-danger), màu chọn theo bảng
+ * màu JGame (amber = sửa, red = xóa, giữ tương phản tốt trên nền trắng). */
+.jgame-app .icon-primary {
+  color: var(--primary, #7C3AED);
+}
+.jgame-app .icon-success {
+  color: #059669;
+}
+.jgame-app .icon-warning {
+  color: #D97706;
+}
+.jgame-app .icon-danger {
+  color: #DC2626;
+}
+
+/* ── Chip mệnh giá (chọn giống chọn size) ─────────────────────────────── */
+.jgame-chip {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+}
+.jgame-chip[data-selected='true'] {
+  border-color: var(--primary);
+  background-color: var(--primary-tint);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+.jgame-chip[data-disabled='true'] {
+  opacity: 0.45;
+  pointer-events: none;
+}

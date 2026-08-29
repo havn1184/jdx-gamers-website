@@ -1,0 +1,1262 @@
+{
+  "version": "2.0.0",
+  "exportDate": "2026-08-17T16:47:51.0000000+07:00",
+  "exportedBy": "system",
+  "appType": 7,
+  "appTypeName": "TaiSan",
+  "totalMenus": 26,
+  "menus": [
+    {
+      "menuCode": "TAS_TONG_QUAN",
+      "menuName": "Tổng Quan",
+      "menuNameEn": "Overview",
+      "description": "Trang tổng quan hệ thống",
+      "icon": "LayoutDashboard",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "dashboard",
+      "url": "/taisan/dashboard",
+      "displayOrder": 1,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_TONG_QUAN_TONG_QUAN",
+          "menuName": "Tổng quan",
+          "menuNameEn": "Overview",
+          "description": "Quản lý tổng quan",
+          "icon": "LayoutDashboard",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_TONG_QUAN",
+          "navMenuId": "dashboard",
+          "url": "/taisan/dashboard",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TongQuan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_TAI_SAN",
+      "menuName": "Tài Sản",
+      "menuNameEn": "Assets",
+      "description": "Quản lý tài sản doanh nghiệp",
+      "icon": "Package",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "tai-san",
+      "url": "/taisan/danh-sach-tai-san",
+      "displayOrder": 2,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_TAI_SAN_DANH_SACH_TAI_SAN",
+          "menuName": "Danh sách tài sản",
+          "menuNameEn": "Danh sách tài sản",
+          "description": "Quản lý danh sách tài sản",
+          "icon": "Package",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_TAI_SAN",
+          "navMenuId": "danh-sach-tai-san",
+          "url": "/taisan/danh-sach-tai-san",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TaiSan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "TaiSan.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "TaiSan.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "TaiSan.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "qr",
+              "featureName": "QR Code",
+              "description": "Cho phép: qr code",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowQr",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "import",
+              "featureName": "Import",
+              "description": "Cho phép: import",
+              "featureType": 6,
+              "permissionCode": "TaiSan.BtnImport",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Export",
+              "description": "Cho phép: export",
+              "featureType": 5,
+              "permissionCode": "TaiSan.BtnExport",
+              "isActive": true,
+              "sortOrder": 8
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_TAI_SAN_DIEU_CHUYEN",
+          "menuName": "Điều chuyển",
+          "menuNameEn": "Điều chuyển",
+          "description": "Quản lý điều chuyển",
+          "icon": "ArrowLeftRight",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_TAI_SAN",
+          "navMenuId": "dieu-chuyen",
+          "url": "/taisan/dieu-chuyen",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TaiSan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "TaiSan.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "TaiSan.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "submit",
+              "featureName": "Nộp phê duyệt",
+              "description": "Cho phép: nộp phê duyệt",
+              "featureType": 7,
+              "permissionCode": "TaiSan.RowSubmit",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "receive",
+              "featureName": "Xác nhận nhận",
+              "description": "Cho phép: xác nhận nhận",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowReceive",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy",
+              "description": "Cho phép: hủy",
+              "featureType": 4,
+              "permissionCode": "TaiSan.RowCancel",
+              "isActive": true,
+              "sortOrder": 7
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_TAI_SAN_CHO_MUON",
+          "menuName": "Cho mượn",
+          "menuNameEn": "Cho mượn",
+          "description": "Quản lý cho mượn",
+          "icon": "HandHeart",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_TAI_SAN",
+          "navMenuId": "cho-muon",
+          "url": "/taisan/cho-muon",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TaiSan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "TaiSan.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "TaiSan.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "submit",
+              "featureName": "Nộp duyệt",
+              "description": "Cho phép: nộp duyệt",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowSubmit",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "return",
+              "featureName": "Trả tài sản",
+              "description": "Cho phép: trả tài sản",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowReturn",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "extend",
+              "featureName": "Gia hạn",
+              "description": "Cho phép: gia hạn",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowExtend",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy",
+              "description": "Cho phép: hủy",
+              "featureType": 4,
+              "permissionCode": "TaiSan.RowCancel",
+              "isActive": true,
+              "sortOrder": 8
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_TAI_SAN_THANH_LY",
+          "menuName": "Thanh lý",
+          "menuNameEn": "Thanh lý",
+          "description": "Quản lý thanh lý",
+          "icon": "Trash2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_TAI_SAN",
+          "navMenuId": "thanh-ly",
+          "url": "/taisan/thanh-ly",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TaiSan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "TaiSan.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "TaiSan.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "submit",
+              "featureName": "Nộp duyệt",
+              "description": "Cho phép: nộp duyệt",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowSubmit",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "result",
+              "featureName": "Ghi kết quả",
+              "description": "Cho phép: ghi kết quả",
+              "featureType": 1,
+              "permissionCode": "TaiSan.RowResult",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy",
+              "description": "Cho phép: hủy",
+              "featureType": 4,
+              "permissionCode": "TaiSan.RowCancel",
+              "isActive": true,
+              "sortOrder": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_MUA_SAM",
+      "menuName": "Mua Sắm",
+      "menuNameEn": "Procurement",
+      "description": "Quản lý mua sắm và đấu thầu",
+      "icon": "ShoppingCart",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "mua-sam",
+      "url": "/taisan/ke-hoach-mua-sam",
+      "displayOrder": 3,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_MUA_SAM_KE_HOACH_MUA_SAM",
+          "menuName": "Kế hoạch mua sắm",
+          "menuNameEn": "Kế hoạch mua sắm",
+          "description": "Quản lý kế hoạch mua sắm",
+          "icon": "ClipboardList",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_MUA_SAM",
+          "navMenuId": "ke-hoach-mua-sam",
+          "url": "/taisan/ke-hoach-mua-sam",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MuaSam.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MuaSam.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MuaSam.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "MuaSam.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "receive",
+              "featureName": "Nhập kho",
+              "description": "Cho phép: nhập kho",
+              "featureType": 6,
+              "permissionCode": "MuaSam.RowReceive",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MuaSam.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_MUA_SAM_THANH_TOAN",
+          "menuName": "Thanh toán",
+          "menuNameEn": "Payments",
+          "description": "Quản lý thanh toán",
+          "icon": "CreditCard",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_MUA_SAM",
+          "navMenuId": "thanh-toan",
+          "url": "/taisan/thanh-toan",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MuaSam.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MuaSam.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MuaSam.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "submit",
+              "featureName": "Nộp duyệt",
+              "description": "Cho phép: nộp duyệt",
+              "featureType": 1,
+              "permissionCode": "MuaSam.RowSubmit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy",
+              "description": "Cho phép: hủy",
+              "featureType": 4,
+              "permissionCode": "MuaSam.RowCancel",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "mark-paid",
+              "featureName": "Đánh dấu đã thanh toán",
+              "description": "Cho phép: đánh dấu đã thanh toán",
+              "featureType": 1,
+              "permissionCode": "MuaSam.RowMarkPaid",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_MUA_SAM_BAO_HIEM",
+          "menuName": "Bảo hiểm",
+          "menuNameEn": "Bảo hiểm",
+          "description": "Quản lý bảo hiểm",
+          "icon": "ShieldCheck",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_MUA_SAM",
+          "navMenuId": "bao-hiem",
+          "url": "/taisan/bao-hiem",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MuaSam.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MuaSam.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MuaSam.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "MuaSam.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MuaSam.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_VAN_HANH",
+      "menuName": "Vận Hành",
+      "menuNameEn": "Operations",
+      "description": "Quản lý vận hành tài sản",
+      "icon": "Wrench",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "van-hanh",
+      "url": "/taisan/sua-chua",
+      "displayOrder": 4,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_VAN_HANH_SUA_CHUA",
+          "menuName": "Sửa chữa",
+          "menuNameEn": "Sửa chữa",
+          "description": "Quản lý sửa chữa",
+          "icon": "Wrench",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_VAN_HANH",
+          "navMenuId": "sua-chua",
+          "url": "/taisan/sua-chua",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "VanHanh.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "VanHanh.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "VanHanh.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "VanHanh.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_VAN_HANH_BAO_TRI_DINH_KY",
+          "menuName": "Bảo trì định kỳ",
+          "menuNameEn": "Bảo trì định kỳ",
+          "description": "Quản lý bảo trì định kỳ",
+          "icon": "CalendarClock",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_VAN_HANH",
+          "navMenuId": "bao-tri",
+          "url": "/taisan/bao-tri",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "VanHanh.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "VanHanh.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "VanHanh.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "VanHanh.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "complete",
+              "featureName": "Hoàn thành",
+              "description": "Cho phép: hoàn thành",
+              "featureType": 1,
+              "permissionCode": "VanHanh.RowComplete",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "VanHanh.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_VAN_HANH_KIEM_KE",
+          "menuName": "Kiểm kê",
+          "menuNameEn": "Kiểm kê",
+          "description": "Quản lý kiểm kê",
+          "icon": "ClipboardCheck",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_VAN_HANH",
+          "navMenuId": "kiem-ke",
+          "url": "/taisan/kiem-ke",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "VanHanh.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "VanHanh.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "VanHanh.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "execute",
+              "featureName": "Thực hiện KK",
+              "description": "Cho phép: thực hiện kk",
+              "featureType": 1,
+              "permissionCode": "VanHanh.RowExecute",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_PHE_DUYET",
+      "menuName": "Phê Duyệt",
+      "menuNameEn": "Approvals",
+      "description": "Quản lý phê duyệt các yêu cầu",
+      "icon": "CheckSquare",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "phe-duyet",
+      "url": "/taisan/phe-duyet",
+      "displayOrder": 5,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_PHE_DUYET_PHE_DUYET_YEU_CAU",
+          "menuName": "Phê duyệt yêu cầu",
+          "menuNameEn": "Phê duyệt yêu cầu",
+          "description": "Quản lý phê duyệt yêu cầu",
+          "icon": "CheckSquare",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_PHE_DUYET",
+          "navMenuId": "phe-duyet",
+          "url": "/taisan/phe-duyet",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "PheDuyet.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "PheDuyet.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "approve",
+              "featureName": "Phê duyệt",
+              "description": "Cho phép: phê duyệt",
+              "featureType": 7,
+              "permissionCode": "PheDuyet.RowApprove",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "reject",
+              "featureName": "Từ chối",
+              "description": "Cho phép: từ chối",
+              "featureType": 1,
+              "permissionCode": "PheDuyet.RowReject",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_BAO_CAO",
+      "menuName": "Báo Cáo",
+      "menuNameEn": "Reports",
+      "description": "Báo cáo và thống kê",
+      "icon": "BarChart3",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "bao-cao",
+      "url": "/taisan/bao-cao",
+      "displayOrder": 6,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_BAO_CAO_BAO_CAO_TONG_HOP",
+          "menuName": "Báo cáo tổng hợp",
+          "menuNameEn": "Báo cáo tổng hợp",
+          "description": "Quản lý báo cáo tổng hợp",
+          "icon": "BarChart3",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_BAO_CAO",
+          "navMenuId": "bao-cao",
+          "url": "/taisan/bao-cao",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExport",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "back",
+              "featureName": "Quay lại",
+              "description": "Cho phép: quay lại",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnBack",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_BAO_CAO_KPI_HIEU_SUAT",
+          "menuName": "KPI & Hiệu suất",
+          "menuNameEn": "KPI & Hiệu suất",
+          "description": "Quản lý kpi & hiệu suất",
+          "icon": "TrendingUp",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_BAO_CAO",
+          "navMenuId": "kpi",
+          "url": "/taisan/kpi",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_DANH_MUC",
+      "menuName": "Danh Mục",
+      "menuNameEn": "Categories",
+      "description": "Danh mục dữ liệu nền",
+      "icon": "FolderOpen",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "danh-muc",
+      "url": "/taisan/vi-tri",
+      "displayOrder": 7,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_DANH_MUC_VI_TRI_NOI_BO",
+          "menuName": "Vị trí nội bộ",
+          "menuNameEn": "Vị trí nội bộ",
+          "description": "Quản lý vị trí nội bộ",
+          "icon": "MapPin",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_DANH_MUC",
+          "navMenuId": "vi-tri",
+          "url": "/taisan/vi-tri",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "tree-view",
+              "featureName": "Xem dạng cây",
+              "description": "Cho phép: xem dạng cây",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnTreeView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_DANH_MUC_DOI_TAC_MO_RONG",
+          "menuName": "Đối tác mở rộng",
+          "menuNameEn": "Đối tác mở rộng",
+          "description": "Quản lý đối tác mở rộng",
+          "icon": "Building2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_DANH_MUC",
+          "navMenuId": "doi-tac-mo-rong",
+          "url": "/taisan/doi-tac-mo-rong",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "TAS_HE_THONG",
+      "menuName": "Hệ Thống",
+      "menuNameEn": "System",
+      "description": "Cấu hình hệ thống",
+      "icon": "Settings",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "he-thong",
+      "url": "/taisan/cau-hinh-workflow",
+      "displayOrder": 8,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "TAS_HE_THONG_CAU_HINH_WORKFLOW",
+          "menuName": "Cấu hình Workflow",
+          "menuNameEn": "Cấu hình Workflow",
+          "description": "Quản lý cấu hình workflow",
+          "icon": "GitBranch",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_HE_THONG",
+          "navMenuId": "cau-hinh-workflow",
+          "url": "/taisan/cau-hinh-workflow",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "HeThong.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "HeThong.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "HeThong.RowEdit",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "HeThong.RowDelete",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "set-default",
+              "featureName": "Đặt mặc định",
+              "description": "Cho phép: đặt mặc định",
+              "featureType": 1,
+              "permissionCode": "HeThong.RowSetDefault",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "TAS_HE_THONG_CAI_DAT_DON_VI",
+          "menuName": "Cài đặt Đơn vị",
+          "menuNameEn": "Cài đặt Đơn vị",
+          "description": "Quản lý cài đặt đơn vị",
+          "icon": "Settings2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "TAS_HE_THONG",
+          "navMenuId": "cau-hinh-tenant",
+          "url": "/taisan/cau-hinh-tenant",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "HeThong.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Chỉnh sửa",
+              "description": "Cho phép: chỉnh sửa",
+              "featureType": 3,
+              "permissionCode": "HeThong.BtnEdit",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "save",
+              "featureName": "Lưu",
+              "description": "Cho phép: lưu",
+              "featureType": 1,
+              "permissionCode": "HeThong.BtnSave",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy",
+              "description": "Cho phép: hủy",
+              "featureType": 4,
+              "permissionCode": "HeThong.BtnCancel",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

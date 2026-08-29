@@ -1,0 +1,1006 @@
+{
+  "version": "2.0.0",
+  "exportDate": "2026-06-04T14:45:53.0000000+07:00",
+  "exportedBy": "system",
+  "appType": 14,
+  "appTypeName": "Partner",
+  "totalMenus": 33,
+  "menus": [
+    {
+      "menuCode": "PTN_DASHBOARD",
+      "menuName": "Dashboard",
+      "menuNameEn": "Dashboard",
+      "description": "Trang tổng quan hóa đơn điện tử",
+      "icon": "LayoutDashboard",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "dashboard",
+      "url": "/partner/dashboard/dashboard-overview",
+      "displayOrder": 1,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_DASHBOARD_TONG_QUAN",
+          "menuName": "Tổng quan",
+          "menuNameEn": "Overview",
+          "description": "Quản lý tổng quan",
+          "icon": "LayoutDashboard",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_DASHBOARD",
+          "navMenuId": "dashboard-overview",
+          "url": "/partner/dashboard/dashboard-overview",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DashboardTong.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "DashboardTong.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_KHACH_HANG",
+      "menuName": "Khách hàng",
+      "menuNameEn": "Customers",
+      "description": "Quản lý khách hàng tiềm năng",
+      "icon": "Users",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "customer",
+      "url": "/partner/customer/danh-sach-khach-hang",
+      "displayOrder": 2,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_KHACH_HANG_DANH_SACH_KHACH_HANG",
+          "menuName": "Danh sách khách hàng",
+          "menuNameEn": "Danh sách khách hàng",
+          "description": "Quản lý danh sách khách hàng",
+          "icon": "Users",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_KHACH_HANG",
+          "navMenuId": "danh-sach-khach-hang",
+          "url": "/partner/customer/danh-sach-khach-hang",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "create",
+              "featureName": "Tạo mới KH",
+              "description": "Cho phép: tạo mới kh",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "KhachHang.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "lock",
+              "featureName": "Khóa tài khoản",
+              "description": "Cho phép: khóa tài khoản",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowLock",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "unlock",
+              "featureName": "Mở khóa tài khoản",
+              "description": "Cho phép: mở khóa tài khoản",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowUnlock",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "reset-password",
+              "featureName": "Reset mật khẩu",
+              "description": "Cho phép: reset mật khẩu",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowResetPassword",
+              "isActive": true,
+              "sortOrder": 7
+            },
+            {
+              "featureCode": "view-service",
+              "featureName": "Xem gói dịch vụ",
+              "description": "Cho phép: xem gói dịch vụ",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowViewService",
+              "isActive": true,
+              "sortOrder": 8
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_KHACH_HANG_LICH_SU_THANH_TOAN_DICH_VU",
+          "menuName": "Lịch sử thanh toán dịch vụ",
+          "menuNameEn": "Lịch sử thanh toán dịch vụ",
+          "description": "Quản lý lịch sử thanh toán dịch vụ",
+          "icon": "Package",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_KHACH_HANG",
+          "navMenuId": "lich-su-thanh-toan-dich-vu",
+          "url": "/partner/customer/lich-su-thanh-toan-dich-vu",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "link",
+              "featureName": "Liên kết giao dịch",
+              "description": "Cho phép: liên kết giao dịch",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowLink",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_KHACH_HANG_XEM_GOI_DICH_VU",
+          "menuName": "Xem gói dịch vụ",
+          "menuNameEn": "Xem gói dịch vụ",
+          "description": "Quản lý xem gói dịch vụ",
+          "icon": "Package",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_KHACH_HANG",
+          "navMenuId": "xem-goi-dich-vu",
+          "url": "/partner/customer/xem-goi-dich-vu",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "type-filter",
+              "featureName": "Lọc loại",
+              "description": "Cho phép: lọc loại",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnTypeFilter",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_BAO_CAO",
+      "menuName": "Báo cáo",
+      "menuNameEn": "Reports",
+      "description": "Báo cáo tình hình sử dụng hóa đơn và chứng từ",
+      "icon": "BarChart3",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "report",
+      "url": "/partner/report/bao-cao-doanh-thu",
+      "displayOrder": 3,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_BAO_CAO_BAO_CAO_DOANH_THU",
+          "menuName": "Báo cáo doanh thu",
+          "menuNameEn": "Báo cáo doanh thu",
+          "description": "Quản lý báo cáo doanh thu",
+          "icon": "TrendingUp",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_BAO_CAO",
+          "navMenuId": "bao-cao-doanh-thu",
+          "url": "/partner/report/bao-cao-doanh-thu",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_BAO_CAO_BAO_CAO_TIEU_THU_HD",
+          "menuName": "Báo cáo tiêu thụ HĐ",
+          "menuNameEn": "Báo cáo tiêu thụ HĐ",
+          "description": "Quản lý báo cáo tiêu thụ hđ",
+          "icon": "Receipt",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_BAO_CAO",
+          "navMenuId": "bao-cao-tieu-thu-hoa-don",
+          "url": "/partner/report/bao-cao-tieu-thu-hoa-don",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "view-by-customer",
+              "featureName": "Xem theo khách hàng",
+              "description": "Cho phép: xem theo khách hàng",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnViewByCustomer",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "view-summary",
+              "featureName": "Xem tổng hợp",
+              "description": "Cho phép: xem tổng hợp",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnViewSummary",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_BAO_CAO_BAO_CAO_TIEU_THU_CT",
+          "menuName": "Báo cáo tiêu thụ CT",
+          "menuNameEn": "Báo cáo tiêu thụ CT",
+          "description": "Quản lý báo cáo tiêu thụ ct",
+          "icon": "Receipt",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_BAO_CAO",
+          "navMenuId": "bao-cao-tieu-thu-chung-tu",
+          "url": "/partner/report/bao-cao-tieu-thu-chung-tu",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "BaoCao.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_BAO_CAO_BAO_CAO_GOI_DICH_VU",
+          "menuName": "Báo cáo gói dịch vụ",
+          "menuNameEn": "Báo cáo gói dịch vụ",
+          "description": "Quản lý báo cáo gói dịch vụ",
+          "icon": "Package",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_BAO_CAO",
+          "navMenuId": "bao-cao-goi-dich-vu",
+          "url": "/partner/report/bao-cao-goi-dich-vu",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_BAO_CAO_BAO_CAO_HOA_HONG",
+          "menuName": "Báo cáo hoa hồng",
+          "menuNameEn": "Báo cáo hoa hồng",
+          "description": "Quản lý báo cáo hoa hồng",
+          "icon": "DollarSign",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_BAO_CAO",
+          "navMenuId": "bao-cao-hoa-hong",
+          "url": "/partner/report/bao-cao-hoa-hong",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_DOI_SOAT",
+      "menuName": "Đối soát",
+      "menuNameEn": "Reconciliation",
+      "description": "Quản lý đối soát",
+      "icon": "GitCompare",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "reconciliation",
+      "url": "/partner/reconciliation/lich-su-cong-no",
+      "displayOrder": 4,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_DOI_SOAT_CONG_NO",
+          "menuName": "Công nợ",
+          "menuNameEn": "Công nợ",
+          "description": "Quản lý công nợ",
+          "icon": "History",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_DOI_SOAT",
+          "navMenuId": "lich-su-cong-no",
+          "url": "/partner/reconciliation/lich-su-cong-no",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DoiSoat.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "month-filter",
+              "featureName": "Lọc tháng/năm",
+              "description": "Cho phép: lọc tháng/năm",
+              "featureType": 1,
+              "permissionCode": "DoiSoat.BtnMonthFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view-transactions",
+              "featureName": "Xem giao dịch",
+              "description": "Cho phép: xem giao dịch",
+              "featureType": 1,
+              "permissionCode": "DoiSoat.RowViewTransactions",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_DOI_SOAT_DANH_SACH_DOI_SOAT",
+          "menuName": "Danh sách đối soát",
+          "menuNameEn": "Danh sách đối soát",
+          "description": "Quản lý danh sách đối soát",
+          "icon": "FileSpreadsheet",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_DOI_SOAT",
+          "navMenuId": "danh-sach-doi-soat",
+          "url": "/partner/reconciliation/danh-sach-doi-soat",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_DOI_SOAT_DOI_SOAT_SU_DUNG_DV",
+          "menuName": "Đối soát sử dụng DV",
+          "menuNameEn": "Đối soát sử dụng DV",
+          "description": "Quản lý đối soát sử dụng dv",
+          "icon": "GitCompare",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_DOI_SOAT",
+          "navMenuId": "doi-soat-su-dung-dich-vu",
+          "url": "/partner/reconciliation/doi-soat-su-dung-dich-vu",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_THANH_TOAN",
+      "menuName": "Thanh toán",
+      "menuNameEn": "Payments",
+      "description": "Quản lý thanh toán",
+      "icon": "Wallet",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "payment",
+      "url": "/partner/payment/lich-su-hoa-hong",
+      "displayOrder": 5,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_THANH_TOAN_LICH_SU_HOA_HONG",
+          "menuName": "Lịch sử hoa hồng",
+          "menuNameEn": "Lịch sử hoa hồng",
+          "description": "Quản lý lịch sử hoa hồng",
+          "icon": "Wallet",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_THANH_TOAN",
+          "navMenuId": "lich-su-hoa-hong",
+          "url": "/partner/payment/lich-su-hoa-hong",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_THANH_TOAN_TRANG_THAI_THANH_TOAN",
+          "menuName": "Trạng thái thanh toán",
+          "menuNameEn": "Trạng thái thanh toán",
+          "description": "Quản lý trạng thái thanh toán",
+          "icon": "Clock",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_THANH_TOAN",
+          "navMenuId": "trang-thai-thanh-toan",
+          "url": "/partner/payment/trang-thai-thanh-toan",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_THANH_TOAN_HOA_DON_THANH_TOAN",
+          "menuName": "Hóa đơn thanh toán",
+          "menuNameEn": "Hóa đơn thanh toán",
+          "description": "Quản lý hóa đơn thanh toán",
+          "icon": "FileCheck",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_THANH_TOAN",
+          "navMenuId": "hoa-don-thanh-toan",
+          "url": "/partner/payment/hoa-don-thanh-toan",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_GIAM_SAT",
+      "menuName": "Giám sát",
+      "menuNameEn": "Monitoring",
+      "description": "Quản lý giám sát",
+      "icon": "Activity",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "monitoring",
+      "url": "/partner/monitoring/giam-sat-ky-hoa-don",
+      "displayOrder": 6,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_GIAM_SAT_GIAM_SAT_KY_HOA_DON",
+          "menuName": "Giám sát ký hóa đơn",
+          "menuNameEn": "Giám sát ký hóa đơn",
+          "description": "Quản lý giám sát ký hóa đơn",
+          "icon": "Activity",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_GIAM_SAT",
+          "navMenuId": "giam-sat-ky-hoa-don",
+          "url": "/partner/monitoring/giam-sat-ky-hoa-don",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "GiamSat.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "GiamSat.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "filter",
+              "featureName": "Lọc hóa đơn",
+              "description": "Cho phép: lọc hóa đơn",
+              "featureType": 1,
+              "permissionCode": "GiamSat.BtnFilter",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_GIAM_SAT_TRANG_THAI_HOA_DON",
+          "menuName": "Trạng thái hóa đơn",
+          "menuNameEn": "Trạng thái hóa đơn",
+          "description": "Quản lý trạng thái hóa đơn",
+          "icon": "ClipboardList",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_GIAM_SAT",
+          "navMenuId": "theo-doi-trang-thai-hoa-don",
+          "url": "/partner/monitoring/theo-doi-trang-thai-hoa-don",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "GiamSat.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "customer-filter",
+              "featureName": "Lọc khách hàng",
+              "description": "Cho phép: lọc khách hàng",
+              "featureType": 1,
+              "permissionCode": "GiamSat.BtnCustomerFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "GiamSat.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_GIAM_SAT_GIAM_SAT_TO_KHAI_01",
+          "menuName": "Giám sát tờ khai 01",
+          "menuNameEn": "Giám sát tờ khai 01",
+          "description": "Quản lý giám sát tờ khai 01",
+          "icon": "FileText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_GIAM_SAT",
+          "navMenuId": "giam-sat-to-khai",
+          "url": "/partner/monitoring/giam-sat-to-khai",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_GIAM_SAT_GIAM_SAT_USB_TOKEN",
+          "menuName": "Giám sát USB Token",
+          "menuNameEn": "Giám sát USB Token",
+          "description": "Quản lý giám sát usb token",
+          "icon": "Usb",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_GIAM_SAT",
+          "navMenuId": "giam-sat-usb-token",
+          "url": "/partner/monitoring/giam-sat-usb-token",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_GIAM_SAT_LICH_SU_HOAT_DONG",
+          "menuName": "Lịch sử hoạt động",
+          "menuNameEn": "Lịch sử hoạt động",
+          "description": "Quản lý lịch sử hoạt động",
+          "icon": "ScrollText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_GIAM_SAT",
+          "navMenuId": "lich-su-hoat-dong",
+          "url": "/partner/monitoring/lich-su-hoat-dong",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_TAI_KHOAN",
+      "menuName": "Tài khoản",
+      "menuNameEn": "Accounts",
+      "description": "Quản lý tài khoản",
+      "icon": "UserCog",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "account",
+      "url": "/partner/account/quan-ly-log-user",
+      "displayOrder": 7,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_TAI_KHOAN_QUAN_LY_LOG_NGUOI_DUNG",
+          "menuName": "Quản lý log người dùng",
+          "menuNameEn": "Quản lý log người dùng",
+          "description": "Quản lý quản lý log người dùng",
+          "icon": "ClipboardList",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_TAI_KHOAN",
+          "navMenuId": "quan-ly-log-user",
+          "url": "/partner/account/quan-ly-log-user",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TaiKhoan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "TaiKhoan.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "TaiKhoan.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "TaiKhoan.RowView",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "PTN_TAI_KHOAN_QUAN_LY_LOG_NGHIEP_VU",
+          "menuName": "Quản lý log nghiệp vụ",
+          "menuNameEn": "Quản lý log nghiệp vụ",
+          "description": "Quản lý quản lý log nghiệp vụ",
+          "icon": "FileSearch",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_TAI_KHOAN",
+          "navMenuId": "quan-ly-log-nghiep-vu",
+          "url": "/partner/account/quan-ly-log-nghiep-vu",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "TaiKhoan.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "export-excel",
+              "featureName": "Xuất Excel",
+              "description": "Cho phép: xuất excel",
+              "featureType": 5,
+              "permissionCode": "TaiKhoan.BtnExportExcel",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "TaiKhoan.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "TaiKhoan.RowView",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "PTN_CAI_DAT",
+      "menuName": "Cài đặt",
+      "menuNameEn": "Settings",
+      "description": "Quản lý cài đặt",
+      "icon": "Settings",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "settings",
+      "url": "/partner/settings/thong-tin-doi-tac",
+      "displayOrder": 8,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "PTN_CAI_DAT_THONG_TIN_DOI_TAC",
+          "menuName": "Thông tin đối tác",
+          "menuNameEn": "Thông tin đối tác",
+          "description": "Quản lý thông tin đối tác",
+          "icon": "Building2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_CAI_DAT",
+          "navMenuId": "thong-tin-doi-tac",
+          "url": "/partner/settings/thong-tin-doi-tac",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_CAI_DAT_CAI_DAT_THONG_BAO",
+          "menuName": "Cài đặt thông báo",
+          "menuNameEn": "Cài đặt thông báo",
+          "description": "Quản lý cài đặt thông báo",
+          "icon": "Bell",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_CAI_DAT",
+          "navMenuId": "cai-dat-thong-bao",
+          "url": "/partner/settings/cai-dat-thong-bao",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": []
+        },
+        {
+          "menuCode": "PTN_CAI_DAT_TICH_HOP_API",
+          "menuName": "Tích hợp API",
+          "menuNameEn": "API Integration",
+          "description": "Quản lý tích hợp api",
+          "icon": "Code2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "PTN_CAI_DAT",
+          "navMenuId": "tich-hop-api",
+          "url": "/partner/settings/tich-hop-api",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "create",
+              "featureName": "Tạo TK API",
+              "description": "Cho phép: tạo tk api",
+              "featureType": 1,
+              "permissionCode": "CaiDat.BtnCreate",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa TK API",
+              "description": "Cho phép: sửa tk api",
+              "featureType": 3,
+              "permissionCode": "CaiDat.RowEdit",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa TK API",
+              "description": "Cho phép: xóa tk api",
+              "featureType": 4,
+              "permissionCode": "CaiDat.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "ip-settings",
+              "featureName": "Cài đặt IP",
+              "description": "Cho phép: cài đặt ip",
+              "featureType": 1,
+              "permissionCode": "CaiDat.RowIpSettings",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "CaiDat.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

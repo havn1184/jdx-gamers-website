@@ -1,0 +1,2514 @@
+{
+  "version": "2.0.0",
+  "exportDate": "2026-06-04T15:12:02.0000000+07:00",
+  "exportedBy": "system",
+  "appType": 16,
+  "appTypeName": "CRM",
+  "totalMenus": 47,
+  "menus": [
+    {
+      "menuCode": "CRM_BAN_LAM_VIEC",
+      "menuName": "Bàn làm việc",
+      "menuNameEn": "Workspace",
+      "description": "Trang bàn làm việc CRM",
+      "icon": "LayoutDashboard",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "ban-lam-viec",
+      "url": "/crm/dashboard",
+      "displayOrder": 1,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_BAN_LAM_VIEC_TONG_QUAN",
+          "menuName": "Tổng quan",
+          "menuNameEn": "Overview",
+          "description": "Quản lý tổng quan",
+          "icon": "LayoutDashboard",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_LAM_VIEC",
+          "navMenuId": "dashboard",
+          "url": "/crm/dashboard",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanLam.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "CRM_KHACH_HANG",
+      "menuName": "Khách hàng",
+      "menuNameEn": "Customers",
+      "description": "Quản lý khách hàng tiềm năng",
+      "icon": "Users",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "khach-hang",
+      "url": "/crm/tiem-nang",
+      "displayOrder": 2,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_KHACH_HANG_TIEM_NANG",
+          "menuName": "Tiềm năng",
+          "menuNameEn": "Tiềm năng",
+          "description": "Quản lý tiềm năng",
+          "icon": "Flame",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_KHACH_HANG",
+          "navMenuId": "tiem-nang",
+          "url": "/crm/tiem-nang",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "KhachHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "KhachHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "convert",
+              "featureName": "Chuyển đổi",
+              "description": "Cho phép: chuyển đổi",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowConvert",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "KhachHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 7
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_KHACH_HANG_AO_CO_HOI",
+          "menuName": "Ao cơ hội",
+          "menuNameEn": "Ao cơ hội",
+          "description": "Quản lý ao cơ hội",
+          "icon": "Droplets",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_KHACH_HANG",
+          "navMenuId": "ao-co-hoi",
+          "url": "/crm/ao-co-hoi",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "convert",
+              "featureName": "Chuyển đổi",
+              "description": "Cho phép: chuyển đổi",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowConvert",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowClone",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "KhachHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_KHACH_HANG_LIEN_HE",
+          "menuName": "Liên hệ",
+          "menuNameEn": "Liên hệ",
+          "description": "Quản lý liên hệ",
+          "icon": "Contact",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_KHACH_HANG",
+          "navMenuId": "lien-he",
+          "url": "/crm/lien-he",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "KhachHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "KhachHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "KhachHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_KHACH_HANG_KHACH_HANG",
+          "menuName": "Khách hàng",
+          "menuNameEn": "Customers",
+          "description": "Quản lý khách hàng",
+          "icon": "Building2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_KHACH_HANG",
+          "navMenuId": "khach-hang",
+          "url": "/crm/khach-hang",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "KhachHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "KhachHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "KhachHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "KhachHang.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "KhachHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "CRM_BAN_HANG",
+      "menuName": "Bán hàng",
+      "menuNameEn": "Sales",
+      "description": "Quản lý cơ hội và quy trình bán hàng",
+      "icon": "ShoppingCart",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "ban-hang",
+      "url": "/crm/co-hoi",
+      "displayOrder": 3,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_BAN_HANG_CO_HOI",
+          "menuName": "Cơ hội",
+          "menuNameEn": "Cơ hội",
+          "description": "Quản lý cơ hội",
+          "icon": "TrendingUp",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "co-hoi",
+          "url": "/crm/co-hoi",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "BanHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "BanHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "win",
+              "featureName": "Thắng",
+              "description": "Cho phép: thắng",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowWin",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "lose",
+              "featureName": "Thua",
+              "description": "Cho phép: thua",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowLose",
+              "isActive": true,
+              "sortOrder": 6
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 7
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_BAO_GIA",
+          "menuName": "Báo giá",
+          "menuNameEn": "Báo giá",
+          "description": "Quản lý báo giá",
+          "icon": "FileText",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "bao-gia",
+          "url": "/crm/bao-gia",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view-pdf",
+              "featureName": "Xem PDF",
+              "description": "Cho phép: xem pdf",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowViewPdf",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "send-email",
+              "featureName": "Gửi email",
+              "description": "Cho phép: gửi email",
+              "featureType": 10,
+              "permissionCode": "BanHang.RowSendEmail",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_DON_HANG",
+          "menuName": "Đơn hàng",
+          "menuNameEn": "Đơn hàng",
+          "description": "Quản lý đơn hàng",
+          "icon": "ShoppingBag",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "don-hang",
+          "url": "/crm/don-hang",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowView",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "confirm",
+              "featureName": "Xác nhận ĐH",
+              "description": "Cho phép: xác nhận đh",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowConfirm",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "cancel",
+              "featureName": "Hủy ĐH",
+              "description": "Cho phép: hủy đh",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowCancel",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_HOA_DON",
+          "menuName": "Hóa đơn",
+          "menuNameEn": "Invoices",
+          "description": "Quản lý hóa đơn",
+          "icon": "Receipt",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "hoa-don",
+          "url": "/crm/hoa-don",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "date-filter",
+              "featureName": "Lọc thời gian",
+              "description": "Cho phép: lọc thời gian",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnDateFilter",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view-external",
+              "featureName": "Xem hóa đơn",
+              "description": "Cho phép: xem hóa đơn",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowViewExternal",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_TRA_LAI_HANG",
+          "menuName": "Trả lại hàng",
+          "menuNameEn": "Trả lại hàng",
+          "description": "Quản lý trả lại hàng",
+          "icon": "RotateCcw",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "tra-lai-hang-ban",
+          "url": "/crm/tra-lai-hang-ban",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "BanHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "BanHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_DON_HANG_NPP",
+          "menuName": "Đơn hàng NPP",
+          "menuNameEn": "Đơn hàng NPP",
+          "description": "Quản lý đơn hàng npp",
+          "icon": "Truck",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "don-hang-npp",
+          "url": "/crm/don-hang-npp",
+          "displayOrder": 6,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "BanHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "BanHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_TRA_HANG_NPP",
+          "menuName": "Trả hàng NPP",
+          "menuNameEn": "Trả hàng NPP",
+          "description": "Quản lý trả hàng npp",
+          "icon": "PackageX",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "tra-hang-npp",
+          "url": "/crm/tra-hang-npp",
+          "displayOrder": 7,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "BanHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "BanHang.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "BanHang.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "BanHang.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_BAN_HANG_DON_HANG_B2B",
+          "menuName": "Đơn hàng B2B",
+          "menuNameEn": "Đơn hàng B2B",
+          "description": "Quản lý đơn hàng b2b",
+          "icon": "Globe",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAN_HANG",
+          "navMenuId": "don-hang-b2b",
+          "url": "/crm/don-hang-b2b",
+          "displayOrder": 8,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BanHang.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "BanHang.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "CRM_CHAM_SOC",
+      "menuName": "Chăm sóc",
+      "menuNameEn": "Customer Care",
+      "description": "Quản lý hoạt động chăm sóc khách hàng",
+      "icon": "HeartHandshake",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "cham-soc",
+      "url": "/crm/hoat-dong",
+      "displayOrder": 4,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_CHAM_SOC_HOAT_DONG",
+          "menuName": "Hoạt động",
+          "menuNameEn": "Hoạt động",
+          "description": "Quản lý hoạt động",
+          "icon": "Activity",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_CHAM_SOC",
+          "navMenuId": "hoat-dong",
+          "url": "/crm/hoat-dong",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "ChamSoc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "ChamSoc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "ChamSoc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_CHAM_SOC_THE_CHAM_SOC",
+          "menuName": "Thẻ chăm sóc",
+          "menuNameEn": "Thẻ chăm sóc",
+          "description": "Quản lý thẻ chăm sóc",
+          "icon": "HeartPulse",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_CHAM_SOC",
+          "navMenuId": "the-cham-soc",
+          "url": "/crm/the-cham-soc",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "ChamSoc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "ChamSoc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "ChamSoc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_CHAM_SOC_THE_TU_VAN",
+          "menuName": "Thẻ tư vấn",
+          "menuNameEn": "Thẻ tư vấn",
+          "description": "Quản lý thẻ tư vấn",
+          "icon": "MessageCircle",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_CHAM_SOC",
+          "navMenuId": "the-tu-van",
+          "url": "/crm/the-tu-van",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "ChamSoc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "ChamSoc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "ChamSoc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_CHAM_SOC_PHIEU_BAO_HANH",
+          "menuName": "Phiếu bảo hành",
+          "menuNameEn": "Phiếu bảo hành",
+          "description": "Quản lý phiếu bảo hành",
+          "icon": "ShieldCheck",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_CHAM_SOC",
+          "navMenuId": "phieu-bao-hanh",
+          "url": "/crm/phieu-bao-hanh",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "ChamSoc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "ChamSoc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "ChamSoc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "ChamSoc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "CRM_MARKETING",
+      "menuName": "Marketing",
+      "menuNameEn": "Marketing",
+      "description": "Quản lý chiến dịch marketing",
+      "icon": "Megaphone",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "marketing",
+      "url": "/crm/chien-dich",
+      "displayOrder": 5,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_MARKETING_CHIEN_DICH",
+          "menuName": "Chiến dịch",
+          "menuNameEn": "Chiến dịch",
+          "description": "Quản lý chiến dịch",
+          "icon": "Megaphone",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "chien-dich",
+          "url": "/crm/chien-dich",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingChien.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingChien.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MarketingChien.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "MarketingChien.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "MarketingChien.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingChien.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_CHIEN_DICH_EMAIL",
+          "menuName": "Chiến dịch email",
+          "menuNameEn": "Chiến dịch email",
+          "description": "Quản lý chiến dịch email",
+          "icon": "Mail",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "email-chien-dich",
+          "url": "/crm/email-chien-dich",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingChien.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingChien.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingChien.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_MAU_EMAIL",
+          "menuName": "Mẫu email",
+          "menuNameEn": "Mẫu email",
+          "description": "Quản lý mẫu email",
+          "icon": "MailOpen",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "mau-email",
+          "url": "/crm/mau-email",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingMau.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingMau.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingMau.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_AIMARKETING",
+          "menuName": "aiMarketing",
+          "menuNameEn": "aiMarketing",
+          "description": "Quản lý aimarketing",
+          "icon": "Sparkles",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "ai-marketing",
+          "url": "/crm/ai-marketing",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingAimarketing.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingAimarketing.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_TIN_NHAN_HANG_LOAT",
+          "menuName": "Tin nhắn hàng loạt",
+          "menuNameEn": "Tin nhắn hàng loạt",
+          "description": "Quản lý tin nhắn hàng loạt",
+          "icon": "MessageSquare",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "tin-nhan-hang-loat",
+          "url": "/crm/tin-nhan-hang-loat",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingTin.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingTin.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingTin.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_WEB_FORM",
+          "menuName": "Web form",
+          "menuNameEn": "Web form",
+          "description": "Quản lý web form",
+          "icon": "FormInput",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "web-form",
+          "url": "/crm/web-form",
+          "displayOrder": 6,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingWeb.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingWeb.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingWeb.RowDelete",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_DI_TUYEN",
+          "menuName": "Đi tuyến",
+          "menuNameEn": "Đi tuyến",
+          "description": "Quản lý đi tuyến",
+          "icon": "MapPin",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "di-tuyen",
+          "url": "/crm/di-tuyen",
+          "displayOrder": 7,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingDi.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingDi.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MarketingDi.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "MarketingDi.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "MarketingDi.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingDi.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_PHIEN_DI_TUYEN",
+          "menuName": "Phiên đi tuyến",
+          "menuNameEn": "Phiên đi tuyến",
+          "description": "Quản lý phiên đi tuyến",
+          "icon": "Navigation",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "phien-di-tuyen",
+          "url": "/crm/phien-di-tuyen",
+          "displayOrder": 8,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingPhien.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingPhien.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MarketingPhien.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_MARKETING_MUC_TIEU",
+          "menuName": "Mục tiêu",
+          "menuNameEn": "Mục tiêu",
+          "description": "Quản lý mục tiêu",
+          "icon": "Target",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_MARKETING",
+          "navMenuId": "muc-tieu",
+          "url": "/crm/muc-tieu",
+          "displayOrder": 9,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "MarketingMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "MarketingMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "MarketingMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "MarketingMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "MarketingMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "MarketingMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "CRM_BAO_CAO",
+      "menuName": "Báo cáo",
+      "menuNameEn": "Reports",
+      "description": "Báo cáo tình hình sử dụng hóa đơn và chứng từ",
+      "icon": "BarChart3",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "bao-cao",
+      "url": "/crm/bao-cao",
+      "displayOrder": 6,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_BAO_CAO_BAO_CAO",
+          "menuName": "Báo cáo",
+          "menuNameEn": "Reports",
+          "description": "Quản lý báo cáo",
+          "icon": "BarChart3",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_BAO_CAO",
+          "navMenuId": "bao-cao",
+          "url": "/crm/bao-cao",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "period-filter",
+              "featureName": "Lọc kỳ",
+              "description": "Cho phép: lọc kỳ",
+              "featureType": 1,
+              "permissionCode": "BaoCao.BtnPeriodFilter",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuCode": "CRM_DANH_MUC",
+      "menuName": "Danh mục",
+      "menuNameEn": "Categories",
+      "description": "Danh mục khách hàng và hàng hóa",
+      "icon": "FolderOpen",
+      "isTopMenu": true,
+      "isNavMenu": false,
+      "navMenuId": "danh-muc",
+      "url": "/crm/hang-hoa",
+      "displayOrder": 7,
+      "level": 0,
+      "target": 1,
+      "isActive": true,
+      "children": [
+        {
+          "menuCode": "CRM_DANH_MUC_HANG_HOA",
+          "menuName": "Hàng hóa",
+          "menuNameEn": "Items",
+          "description": "Quản lý hàng hóa",
+          "icon": "Package",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "hang-hoa",
+          "url": "/crm/hang-hoa",
+          "displayOrder": 1,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_LOAI_HANG_HOA",
+          "menuName": "Loại hàng hóa",
+          "menuNameEn": "Loại hàng hóa",
+          "description": "Quản lý loại hàng hóa",
+          "icon": "Tags",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "loai-hang-hoa",
+          "url": "/crm/loai-hang-hoa",
+          "displayOrder": 2,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_CHINH_SACH_GIA",
+          "menuName": "Chính sách giá",
+          "menuNameEn": "Chính sách giá",
+          "description": "Quản lý chính sách giá",
+          "icon": "BadgeDollarSign",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "chinh-sach-gia",
+          "url": "/crm/chinh-sach-gia",
+          "displayOrder": 3,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 5
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_LOAI_KHACH_HANG",
+          "menuName": "Loại khách hàng",
+          "menuNameEn": "Loại khách hàng",
+          "description": "Quản lý loại khách hàng",
+          "icon": "UsersRound",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "loai-khach-hang",
+          "url": "/crm/loai-khach-hang",
+          "displayOrder": 4,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_DU_AN_BAN_HANG",
+          "menuName": "Dự án bán hàng",
+          "menuNameEn": "Dự án bán hàng",
+          "description": "Quản lý dự án bán hàng",
+          "icon": "FolderKanban",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "du-an-ban-hang",
+          "url": "/crm/du-an-ban-hang",
+          "displayOrder": 5,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_DOI_THU",
+          "menuName": "Đối thủ",
+          "menuNameEn": "Đối thủ",
+          "description": "Quản lý đối thủ",
+          "icon": "Swords",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "doi-thu",
+          "url": "/crm/doi-thu",
+          "displayOrder": 6,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_TUYEN_DI",
+          "menuName": "Tuyến đi",
+          "menuNameEn": "Tuyến đi",
+          "description": "Quản lý tuyến đi",
+          "icon": "Route",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "tuyen-van-chuyen",
+          "url": "/crm/tuyen-van-chuyen",
+          "displayOrder": 7,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_TRA_CUU_TON_KHO",
+          "menuName": "Tra cứu tồn kho",
+          "menuNameEn": "Tra cứu tồn kho",
+          "description": "Quản lý tra cứu tồn kho",
+          "icon": "Warehouse",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "tra-cuu-ton-kho",
+          "url": "/crm/tra-cuu-ton-kho",
+          "displayOrder": 8,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_YEU_CAU_MUA_HANG",
+          "menuName": "Yêu cầu mua hàng",
+          "menuNameEn": "Yêu cầu mua hàng",
+          "description": "Quản lý yêu cầu mua hàng",
+          "icon": "ClipboardList",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "yeu-cau-mua-hang",
+          "url": "/crm/yeu-cau-mua-hang",
+          "displayOrder": 9,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_NHAN",
+          "menuName": "Nhãn",
+          "menuNameEn": "Nhãn",
+          "description": "Quản lý nhãn",
+          "icon": "Tag",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "nhan",
+          "url": "/crm/nhan",
+          "displayOrder": 10,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "view",
+              "featureName": "Xem chi tiết",
+              "description": "Cho phép: xem chi tiết",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowView",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 4
+            },
+            {
+              "featureCode": "clone",
+              "featureName": "Nhân bản",
+              "description": "Cho phép: nhân bản",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.RowClone",
+              "isActive": true,
+              "sortOrder": 5
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 6
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_LICH_SU_NHAP_KHAU",
+          "menuName": "Lịch sử nhập khẩu",
+          "menuNameEn": "Lịch sử nhập khẩu",
+          "description": "Quản lý lịch sử nhập khẩu",
+          "icon": "FileDown",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "lich-su-nhap-khau",
+          "url": "/crm/lich-su-nhap-khau",
+          "displayOrder": 11,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_WEBHOOKS",
+          "menuName": "Webhooks",
+          "menuNameEn": "Webhooks",
+          "description": "Quản lý webhooks",
+          "icon": "Webhook",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "webhooks",
+          "url": "/crm/webhooks",
+          "displayOrder": 12,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "refresh",
+              "featureName": "Làm mới",
+              "description": "Cho phép: làm mới",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnRefresh",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "create",
+              "featureName": "Thêm mới",
+              "description": "Cho phép: thêm mới",
+              "featureType": 2,
+              "permissionCode": "DanhMuc.BtnCreate",
+              "isActive": true,
+              "sortOrder": 2
+            },
+            {
+              "featureCode": "edit",
+              "featureName": "Sửa",
+              "description": "Cho phép: sửa",
+              "featureType": 3,
+              "permissionCode": "DanhMuc.RowEdit",
+              "isActive": true,
+              "sortOrder": 3
+            },
+            {
+              "featureCode": "delete",
+              "featureName": "Xóa",
+              "description": "Cho phép: xóa",
+              "featureType": 4,
+              "permissionCode": "DanhMuc.RowDelete",
+              "isActive": true,
+              "sortOrder": 4
+            }
+          ]
+        },
+        {
+          "menuCode": "CRM_DANH_MUC_CAU_HINH_HE_THONG",
+          "menuName": "Cấu hình hệ thống",
+          "menuNameEn": "Cấu hình hệ thống",
+          "description": "Quản lý cấu hình hệ thống",
+          "icon": "Settings2",
+          "isTopMenu": false,
+          "isNavMenu": true,
+          "parentMenuCode": "CRM_DANH_MUC",
+          "navMenuId": "cau-hinh-he-thong",
+          "url": "/crm/cau-hinh-he-thong",
+          "displayOrder": 13,
+          "level": 1,
+          "target": 1,
+          "isActive": true,
+          "features": [
+            {
+              "featureCode": "reset",
+              "featureName": "Reset mặc định",
+              "description": "Cho phép: reset mặc định",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnReset",
+              "isActive": true,
+              "sortOrder": 1
+            },
+            {
+              "featureCode": "save",
+              "featureName": "Lưu cấu hình",
+              "description": "Cho phép: lưu cấu hình",
+              "featureType": 1,
+              "permissionCode": "DanhMuc.BtnSave",
+              "isActive": true,
+              "sortOrder": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

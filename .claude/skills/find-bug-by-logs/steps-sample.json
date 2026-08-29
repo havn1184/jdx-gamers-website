@@ -1,0 +1,21 @@
+[
+  {
+    "action": "click",
+    "selector": "[data-qa='btn_them_moi'], button:has-text('Thêm')",
+    "description": "Mở dialog thêm mới",
+    "waitAfter": 1000
+  },
+  {
+    "action": "fill",
+    "selector": "input:visible",
+    "value": "TEST_DATA",
+    "description": "Nhập dữ liệu test vào field đầu tiên",
+    "waitAfter": 300
+  },
+  {
+    "action": "click",
+    "selector": "[data-qa='btn_luu'], button:has-text('Lưu')",
+    "description": "Bấm nút Lưu",
+    "waitAfter": 2000
+  }
+]
