@@ -78,7 +78,7 @@ export function ProfilePage() {
             </div>
           </div>
           {!user.emailVerified && (
-            <Button variant='outline' size='sm' className='flex-shrink-0 border-white/20 text-white hover:bg-white/10' disabled={sendingEmailVerify} onClick={handleSendEmailVerify} data-qa='btn_gui_xac_thuc_email'>
+            <Button variant='outline' size='sm' className='flex-shrink-0 border-white/20 bg-transparent text-white hover:bg-white/10' disabled={sendingEmailVerify} onClick={handleSendEmailVerify} data-qa='btn_gui_xac_thuc_email'>
               {sendingEmailVerify && <Loader2 className='h-3.5 w-3.5 animate-spin mr-1' />} Gửi email xác thực
             </Button>
           )}

@@ -11,6 +11,8 @@ export interface MockAccessoryArt {
 
 export interface AccessoryProduct {
   id: string
+  /** Mã sản phẩm (SKU) — quản trị viên khai báo, hiển thị cho khách để tra cứu/đối chiếu */
+  sku: string
   name: string
   category: AccessoryCategory
   /** Hãng sản xuất — dùng để lọc theo hãng (VD: Logitech, Razer, ASUS ROG...) */
@@ -19,8 +21,10 @@ export interface AccessoryProduct {
   price: number
   stockQuantity: number
   status: 'active' | 'inactive'
-  /** Ảnh thật từ kho ảnh miễn phí (Pexels) — sưu tầm theo danh mục, không phải ảnh chụp đúng sản phẩm */
+  /** Ảnh bìa (= galleryImages[0]) — ảnh thật từ kho ảnh miễn phí (Pexels), sưu tầm theo danh mục */
   imageUrl: string
+  /** Bộ ảnh minh hoạ sản phẩm — hiển thị dạng thumbnail chọn ảnh ở trang chi tiết (kiểu Shopee) */
+  galleryImages: string[]
   /** Fallback khi ảnh lỗi/không tải được — gradient + icon */
   art: MockAccessoryArt
 }

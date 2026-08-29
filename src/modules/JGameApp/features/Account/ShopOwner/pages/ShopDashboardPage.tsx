@@ -38,7 +38,7 @@ function ShopProfileCard({ shop, onSaved }: { shop: ReturnType<typeof useMyShop>
           <p className='mt-1 flex items-center gap-1.5 text-sm text-white/60'><MapPin className='h-3.5 w-3.5 flex-shrink-0' /> {shop.address}, {shop.city}</p>
           {shop.description && <p className='mt-1.5 text-sm text-white/50'>{shop.description}</p>}
         </div>
-        <Button variant='outline' size='sm' className='flex-shrink-0 gap-1.5' onClick={f.startEdit} data-qa='btn_sua_thong_tin_gian_hang'>
+        <Button variant='outline' size='sm' className='flex-shrink-0 gap-1.5 border-white/20 bg-transparent text-white hover:bg-white/10' onClick={f.startEdit} data-qa='btn_sua_thong_tin_gian_hang'>
           <Pencil className='h-3.5 w-3.5' /> Sửa thông tin
         </Button>
       </div>
@@ -77,7 +77,7 @@ function ShopProfileCard({ shop, onSaved }: { shop: ReturnType<typeof useMyShop>
         <Button className='jgame-btn-primary gap-1.5 text-white' size='sm' disabled={!f.isValid || f.submitting} onClick={f.handleSave} data-qa='btn_luu_thong_tin_gian_hang'>
           {f.submitting && <Loader2 className='h-3.5 w-3.5 animate-spin' />} Lưu thay đổi
         </Button>
-        <Button variant='outline' size='sm' className='gap-1.5' onClick={f.cancelEdit} data-qa='btn_huy_sua_gian_hang'>
+        <Button variant='outline' size='sm' className='gap-1.5 border-white/20 bg-transparent text-white hover:bg-white/10' onClick={f.cancelEdit} data-qa='btn_huy_sua_gian_hang'>
           <X className='h-3.5 w-3.5' /> Huỷ
         </Button>
       </div>

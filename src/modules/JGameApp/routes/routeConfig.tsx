@@ -65,6 +65,7 @@ const AdminReferralPartnersPage = lazy(() => import('../features/Account/Admin/r
 const AdminPromotionsPage = lazy(() => import('../features/Account/Admin/promotions/pages/AdminPromotionsPage').then(m => ({ default: m.AdminPromotionsPage })))
 const AdminReportsPage = lazy(() => import('../features/Account/Admin/reports/pages/AdminReportsPage').then(m => ({ default: m.AdminReportsPage })))
 const AdminAccessoriesPage = lazy(() => import('../features/Account/Admin/accessories/pages/AdminAccessoriesPage').then(m => ({ default: m.AdminAccessoriesPage })))
+const AdminAccessoryFormPage = lazy(() => import('../features/Account/Admin/accessories/pages/AdminAccessoryFormPage').then(m => ({ default: m.AdminAccessoryFormPage })))
 
 // Kiếm tiền — nhiệm vụ trải nghiệm/test game, thưởng JCoin
 const TasksMarketplacePage = lazy(() => import('../features/Public/tasks/pages/TasksMarketplacePage').then(m => ({ default: m.TasksMarketplacePage })))
@@ -146,6 +147,8 @@ export const routeConfig: JGameRoute[] = [
   { path: 'quan-tri', element: <AdminDashboardPage />, pageId: 'jgame-admin-dashboard', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/danh-muc-the', element: <AdminCardsPage />, pageId: 'jgame-admin-cards', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/phu-kien', element: <AdminAccessoriesPage />, pageId: 'jgame-admin-accessories', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/phu-kien/them', element: <AdminAccessoryFormPage />, pageId: 'jgame-admin-accessory-create', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/phu-kien/:productId/sua', element: <AdminAccessoryFormPage />, pageId: 'jgame-admin-accessory-edit', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/nha-cung-cap', element: <AdminSuppliersPage />, pageId: 'jgame-admin-suppliers', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/giao-dich', element: <AdminOrdersPage />, pageId: 'jgame-admin-orders', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/doi-tac-referral', element: <AdminReferralPartnersPage />, pageId: 'jgame-admin-referral', requireAuth: true, requireAdmin: true },

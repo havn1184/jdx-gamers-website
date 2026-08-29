@@ -94,7 +94,7 @@ export function OrderResultPage() {
             </div>
           )}
 
-          <Button variant='outline' className='mt-6 border-white/20 text-white hover:bg-white/10' data-qa='btn_lien_he_ho_tro'>
+          <Button variant='outline' className='mt-6 border-white/20 bg-transparent text-white hover:bg-white/10' data-qa='btn_lien_he_ho_tro'>
             <LifeBuoy className='h-4 w-4 mr-1.5' /> Liên hệ hỗ trợ
           </Button>
         </>

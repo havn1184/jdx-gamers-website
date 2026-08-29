@@ -1,11 +1,13 @@
 /**
  * AccessoryDetailPage — Chi tiết sản phẩm phụ kiện (SC-27).
  */
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronLeft, Loader2, AlertCircle, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { Button } from '../../../../shared/components/ui/button'
 import { AccessoryArt } from '../components/AccessoryArt'
 import { formatCurrency } from '../../../../shared/utils/FormatUtils'
+import { cn } from '../../../../shared/components/ui/utils'
 import { useAccessoryDetailFetchData } from '../hooks/useAccessoryDetail.page.fetchData'
 
 export const PAGE_ID = 'jgame-accessory-detail'
@@ -14,6 +16,7 @@ export const PAGE_FEATURES = [{ label: 'Thêm vào giỏ', code: 'btn-them-vao-g
 export function AccessoryDetailPage() {
   const { productId } = useParams<{ productId: string }>()
   const { product, loading, errorMessage, quantity, setQuantity, handleAddToCart, handleBuyNow } = useAccessoryDetailFetchData(productId)
+  const [activeImage, setActiveImage] = useState(0)
 
   if (loading) return <div className='flex items-center justify-center gap-2 py-24 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div>
   if (errorMessage || !product) {
@@ -21,6 +24,7 @@ export function AccessoryDetailPage() {
   }
 
   const outOfStock = product.stockQuantity === 0
+  const gallery = product.galleryImages.length > 0 ? product.galleryImages : [product.imageUrl]
 
   return (
     <div className='mx-auto max-w-5xl px-4 py-8 sm:px-6'>
@@ -29,10 +33,27 @@ export function AccessoryDetailPage() {
       </Link>
 
       <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
-        <AccessoryArt art={product.art} imageUrl={product.imageUrl} label={product.brand} className='aspect-square w-full rounded-2xl' />
+        <div>
+          <AccessoryArt art={product.art} imageUrl={gallery[activeImage]} label={product.brand} className='aspect-square w-full rounded-2xl' />
+          {gallery.length > 1 && (
+            <div className='mt-3 grid grid-cols-5 gap-2'>
+              {gallery.map((img, idx) => (
+                <button
+                  key={img + idx}
+                  type='button'
+                  onClick={() => setActiveImage(idx)}
+                  className={cn('overflow-hidden rounded-lg border-2', activeImage === idx ? 'border-purple-400' : 'border-transparent opacity-70 hover:opacity-100')}
+                  data-qa={`btn_gallery_${idx}`}
+                >
+                  <img src={img} alt={`${product.name} ${idx + 1}`} loading='lazy' className='aspect-square w-full object-cover' />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div>
-          <p className='text-sm text-white/50'>{product.brand}</p>
+          <p className='text-sm text-white/50'>{product.brand} <span className='text-white/30'>· Mã SP: {product.sku}</span></p>
           <h1 className='mt-1 text-2xl font-bold text-white'>{product.name}</h1>
           <p className='mt-2 text-sm text-white/60'>{product.specs}</p>
           <p className='mt-4 text-2xl font-bold text-white'>{formatCurrency(product.price)}</p>
@@ -55,7 +76,7 @@ export function AccessoryDetailPage() {
           </div>
 
           <div className='mt-6 flex gap-3'>
-            <Button variant='outline' className='flex-1 border-white/20 text-white hover:bg-white/10' disabled={outOfStock} onClick={handleAddToCart} data-qa='btn_them_vao_gio'>
+            <Button variant='outline' className='flex-1 border-white/20 bg-transparent text-white hover:bg-white/10' disabled={outOfStock} onClick={handleAddToCart} data-qa='btn_them_vao_gio'>
               <ShoppingCart className='h-4 w-4 mr-1.5' /> Thêm vào giỏ
             </Button>
             <Button className='jgame-btn-primary flex-1 text-white' disabled={outOfStock} onClick={handleBuyNow} data-qa='btn_mua_ngay'>

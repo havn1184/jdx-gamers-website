@@ -48,7 +48,7 @@ export function SecurityPage() {
         {user.twoFactorEnabled ? (
           <>
             <p className='flex items-center gap-2 text-sm text-emerald-400'><ShieldCheck className='h-4 w-4' /> Đang bật</p>
-            <Button variant='outline' className='border-white/20 text-white hover:bg-white/10' disabled={processing2FA} onClick={disable2FA} data-qa='btn_tat_2fa'>
+            <Button variant='outline' className='border-white/20 bg-transparent text-white hover:bg-white/10' disabled={processing2FA} onClick={disable2FA} data-qa='btn_tat_2fa'>
               {processing2FA && <Loader2 className='h-4 w-4 animate-spin mr-1.5' />} Tắt 2FA
             </Button>
           </>

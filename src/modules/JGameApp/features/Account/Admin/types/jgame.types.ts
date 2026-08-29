@@ -127,6 +127,8 @@ export type AccessoryCategoryAdmin = 'mouse' | 'keyboard' | 'headset' | 'gpu' | 
 
 export interface AccessoryAdmin {
   id: string
+  /** Mã sản phẩm (SKU) — khai báo thủ công hoặc dùng gợi ý tự sinh theo nhóm/hãng */
+  sku: string
   name: string
   category: AccessoryCategoryAdmin
   /** Hãng sản xuất — nhập tự do, gợi ý từ các hãng đã khai báo trước đó (VD: Logitech, Razer, ASUS ROG...) */
@@ -135,11 +137,15 @@ export interface AccessoryAdmin {
   price: number
   stockQuantity: number
   status: EntityStatus
+  /** Ảnh bìa — luôn là ảnh đầu tiên trong galleryImages */
   imageUrl: string
+  /** Bộ ảnh minh hoạ sản phẩm (tối thiểu 1 ảnh) */
+  galleryImages: string[]
 }
 
 export interface AccessoryFormPayload {
   id?: string
+  sku: string
   name: string
   category: AccessoryCategoryAdmin
   brand: string
@@ -147,7 +153,7 @@ export interface AccessoryFormPayload {
   price: number
   stockQuantity: number
   status: EntityStatus
-  imageUrl: string
+  galleryImages: string[]
 }
 
 export interface AccessoryAdminListParams extends JGameAdminListParams {

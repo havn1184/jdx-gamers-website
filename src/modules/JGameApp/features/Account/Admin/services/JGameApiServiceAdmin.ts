@@ -232,6 +232,12 @@ export class JGameApiServiceAdmin {
     return response.json()
   }
 
+  static async getAccessoryById(id: string): Promise<ApiResponse<AccessoryAdmin | null>> {
+    if (JGAME_USE_MOCK) return mockApiCall(() => accessories.find(p => p.id === id) || null)
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/${id}`), { method: 'GET' })
+    return response.json()
+  }
+
   /** Danh sách hãng sản xuất đã khai báo — dùng để gợi ý khi thêm/sửa sản phẩm. */
   static async getAccessoryBrands(): Promise<ApiResponse<string[]>> {
     if (JGAME_USE_MOCK) return mockApiCall(() => Array.from(new Set(accessories.map(p => p.brand))).sort())
@@ -241,7 +247,7 @@ export class JGameApiServiceAdmin {
 
   static async createAccessory(data: AccessoryFormPayload): Promise<ApiResponse<AccessoryAdmin>> {
     if (JGAME_USE_MOCK) {
-      const created: AccessoryAdmin = { id: `acc-${Date.now()}`, ...data }
+      const created: AccessoryAdmin = { id: `acc-${Date.now()}`, ...data, imageUrl: data.galleryImages[0] || '' }
       accessories.unshift(created)
       return mockApiCall(() => created)
     }
@@ -253,7 +259,7 @@ export class JGameApiServiceAdmin {
     if (JGAME_USE_MOCK) {
       const found = accessories.find(p => p.id === data.id)
       if (!found) return mockApiError('Không tìm thấy sản phẩm')
-      Object.assign(found, data)
+      Object.assign(found, data, { imageUrl: data.galleryImages[0] || '' })
       return mockApiCall(() => found)
     }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'PUT', body: JSON.stringify(data) })
