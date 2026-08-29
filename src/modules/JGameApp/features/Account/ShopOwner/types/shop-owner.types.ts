@@ -4,6 +4,6 @@
  */
 export type {
   CybergameShop, PlaytimeZone, PlaytimeTicket, ZoneType, ShopSyncMode,
-  RegisterShopPayload, UpsertZonePayload, UpsertTicketPayload,
+  RegisterShopPayload, UpdateShopProfilePayload, UpsertZonePayload, UpsertTicketPayload,
   PlaytimeOrder, PlaytimeOrderStatus, ShopPayoutPeriod, ShopDashboardSummary,
 } from '../../../Public/playtime/types/playtime.types'

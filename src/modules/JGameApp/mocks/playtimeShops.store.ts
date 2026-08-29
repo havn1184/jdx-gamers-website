@@ -233,6 +233,16 @@ export function updateShopSyncMode(shopId: string, syncMode: CybergameShop['sync
   return shop
 }
 
+export function updateShopProfile(shopId: string, payload: { name: string; city: string; address: string; description: string }): CybergameShop | undefined {
+  const shop = getShopById(shopId)
+  if (!shop) return undefined
+  shop.name = payload.name
+  shop.city = payload.city
+  shop.address = payload.address
+  shop.description = payload.description
+  return shop
+}
+
 /** Đồng bộ mock từ NetBarBox/DoDoNew — cập nhật ngẫu nhiên availableSlots các vé của gian hàng. */
 export function syncShopNow(shopId: string): PlaytimeTicketView[] {
   tickets

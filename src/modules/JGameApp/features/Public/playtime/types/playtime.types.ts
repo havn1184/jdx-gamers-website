@@ -134,6 +134,8 @@ export interface RegisterShopPayload {
   description: string
 }
 
+export type UpdateShopProfilePayload = RegisterShopPayload
+
 export interface UpsertZonePayload {
   id?: string
   name: string

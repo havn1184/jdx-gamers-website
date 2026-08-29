@@ -5,13 +5,13 @@
  */
 import { apiCall, buildJGameUrl, JGAME_USE_MOCK, mockApiCall, mockApiError, TokenManager, type ApiResponse } from '../../../../shared/services/api'
 import {
-  getShopByOwnerId, registerShop, updateShopSyncMode, syncShopNow,
+  getShopByOwnerId, registerShop, updateShopSyncMode, updateShopProfile, syncShopNow,
   listZonesByShop, upsertZone, deleteZone, listTicketsByShopRaw, upsertTicket, deleteTicket,
 } from '../../../../mocks/playtimeShops.store'
 import { listMockPlaytimeOrdersByShop, confirmMockPlaytimeOrderUsed } from '../../../../mocks/playtimeOrders.store'
 import { getCurrentPayoutPeriod, getPayoutHistory } from '../../../../mocks/shopPayouts.mock'
 import type {
-  CybergameShop, PlaytimeZone, PlaytimeTicket, ShopSyncMode, RegisterShopPayload,
+  CybergameShop, PlaytimeZone, PlaytimeTicket, ShopSyncMode, RegisterShopPayload, UpdateShopProfilePayload,
   UpsertZonePayload, UpsertTicketPayload, PlaytimeOrder, PlaytimeOrderStatus, ShopPayoutPeriod, ShopDashboardSummary,
 } from '../types/shop-owner.types'
 
@@ -35,6 +35,16 @@ export class ShopOwnerApiService {
       return mockApiCall(() => registerShop(ownerId, payload), 400)
     }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop`), { method: 'POST', body: JSON.stringify(payload) })
+    return response.json()
+  }
+
+  static async updateShopProfile(payload: UpdateShopProfilePayload): Promise<ApiResponse<CybergameShop>> {
+    if (JGAME_USE_MOCK) {
+      const shop = getShopByOwnerId(getMockOwnerId())
+      if (!shop) return mockApiError('Bạn chưa có gian hàng')
+      return mockApiCall(() => updateShopProfile(shop.id, payload)!, 350)
+    }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop/profile`), { method: 'PUT', body: JSON.stringify(payload) })
     return response.json()
   }
 
