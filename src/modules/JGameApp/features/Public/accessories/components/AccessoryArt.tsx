@@ -10,8 +10,12 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Mouse, Keyboard, Headphones, Cpu, Monitor, Armchair,
 }
 
+/** Gradient/icon mặc định khi không có `art` (BE thật không trả field UI-only này — chỉ nhánh
+ * mock Website có sẵn `art` trang trí). */
+const DEFAULT_ART: MockAccessoryArt = { gradient: ['#7C3AED', '#EC4899'], icon: 'Mouse' }
+
 interface AccessoryArtProps {
-  art: MockAccessoryArt
+  art?: MockAccessoryArt
   imageUrl?: string
   label: string
   className?: string
@@ -19,7 +23,8 @@ interface AccessoryArtProps {
 
 export const AccessoryArt = memo(function AccessoryArt({ art, imageUrl, label, className }: AccessoryArtProps) {
   const [imgError, setImgError] = useState(false)
-  const Icon = ICON_MAP[art.icon] || ShoppingBag
+  const resolvedArt = art ?? DEFAULT_ART
+  const Icon = ICON_MAP[resolvedArt.icon] || ShoppingBag
 
   if (imageUrl && !imgError) {
     return (
@@ -38,7 +43,7 @@ export const AccessoryArt = memo(function AccessoryArt({ art, imageUrl, label, c
   return (
     <div
       className={`relative flex items-center justify-center overflow-hidden ${className ?? ''}`}
-      style={{ backgroundImage: `linear-gradient(135deg, ${art.gradient[0]}, ${art.gradient[1]})` }}
+      style={{ backgroundImage: `linear-gradient(135deg, ${resolvedArt.gradient[0]}, ${resolvedArt.gradient[1]})` }}
     >
       <Icon className='h-1/3 w-1/3 text-white/90 drop-shadow-lg' />
       <span className='absolute bottom-2 left-2 right-2 truncate text-center text-xs font-semibold text-white/95 drop-shadow'>

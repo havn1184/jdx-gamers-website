@@ -8,8 +8,12 @@ import type { MockTaskArt } from '../types/task.types'
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = { Trophy, Timer, Gem, Swords }
 
+/** Gradient/icon mặc định khi không có `art` (BE thật không trả field này — chỉ nhánh mock
+ * Website có sẵn `art` trang trí). Xem ghi chú tại `types/task.types.ts`. */
+const DEFAULT_ART: MockTaskArt = { gradient: ['#7C3AED', '#0ea5e9'], icon: 'Trophy' }
+
 interface TaskArtProps {
-  art: MockTaskArt
+  art?: MockTaskArt
   imageUrl?: string
   label: string
   className?: string
@@ -17,7 +21,8 @@ interface TaskArtProps {
 
 export function TaskArt({ art, imageUrl, label, className }: TaskArtProps) {
   const [imgError, setImgError] = useState(false)
-  const Icon = ICON_MAP[art.icon] || ShoppingBag
+  const resolvedArt = art ?? DEFAULT_ART
+  const Icon = ICON_MAP[resolvedArt.icon] || ShoppingBag
 
   if (imageUrl && !imgError) {
     return (
@@ -30,7 +35,7 @@ export function TaskArt({ art, imageUrl, label, className }: TaskArtProps) {
   return (
     <div
       className={`relative flex items-center justify-center overflow-hidden ${className ?? ''}`}
-      style={{ backgroundImage: `linear-gradient(135deg, ${art.gradient[0]}, ${art.gradient[1]})` }}
+      style={{ backgroundImage: `linear-gradient(135deg, ${resolvedArt.gradient[0]}, ${resolvedArt.gradient[1]})` }}
     >
       <Icon className='h-1/3 w-1/3 text-white/90 drop-shadow-lg' />
       <span className='absolute bottom-2 left-2 right-2 truncate text-center text-xs font-semibold text-white/95 drop-shadow'>{label}</span>

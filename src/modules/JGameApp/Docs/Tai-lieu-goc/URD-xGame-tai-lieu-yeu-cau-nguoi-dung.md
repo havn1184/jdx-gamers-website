@@ -1,12 +1,89 @@
 # URD — Tài Liệu Phân Tích Yêu Cầu Người Dùng: Nền Tảng JGame Store
 
-> **Phiên bản:** 1.3 | **Ngày:** 2026-08-28
-> **Trạng thái:** Dự thảo — chờ rà soát với đội phát triển & đối tác kỹ thuật
-> **Tài liệu liên quan:** [nen-tang-ket-noi-gamer.md](nen-tang-ket-noi-gamer.md) (ý tưởng kinh doanh gốc — marketplace kết nối phòng game)
+> **Phiên bản:** 2.0 | **Ngày:** 2026-08-30
+> **Trạng thái:** Đã cập nhật theo hiện trạng triển khai thực tế (xem mục 0.2) — vẫn cần rà soát khi có backend thật
+> **Tài liệu liên quan:** [nen-tang-ket-noi-gamer.md](nen-tang-ket-noi-gamer.md) (ý tưởng kinh doanh gốc) · các tài liệu giải pháp triển khai trong [`../Nang-cap/`](../Nang-cap/) (nguồn xác nhận cho mục 0.2) · tài liệu nghiệp vụ/kiến trúc chi tiết tại `Website/.claude/business-rules/` và `Website/.claude/system-architect/`
 
 ---
 
-## 0. GHI CHÚ VỀ PHẠM VI TÀI LIỆU
+## 0.2. CẬP NHẬT HIỆN TRẠNG TRIỂN KHAI (v2.0 — 2026-08-30)
+
+> Mục này ghi đè các phần **lỗi thời** của bản v1.3 gốc (mục 1–23 giữ nguyên bên dưới làm tài liệu tham chiếu lịch sử/đặc tả gốc, nhưng khi có mâu thuẫn thì **mục này là đúng**). Nguồn xác nhận: 6 tài liệu giải pháp đã APPROVED trong `Docs/Nang-cap/` + khảo sát trực tiếp mã nguồn `src/modules/JGameApp/`.
+
+### 0.2.1. Thay đổi lớn nhất: cả 3 giai đoạn + 1 nghiệp vụ mới đã được xây **song song**, không tuần tự theo đàm phán đối tác
+
+URD gốc giả định GĐ2/GĐ3 chỉ triển khai **sau khi** GĐ1 ổn định và đàm phán API xong với NCC/NetBarBox/DoDoNew (mục 0, mục 14). Thực tế: toàn bộ GĐ1 (bán thẻ), GĐ2 (chợ vé cybergame), GĐ3 (phụ kiện gamer) **đã code đầy đủ giao diện + luồng nghiệp vụ**, cộng thêm 1 nghiệp vụ hoàn toàn mới **không có trong URD gốc — "Kiếm tiền" (nhiệm vụ trải nghiệm game + ví JCoin)**. Lý do làm được: **chưa có backend/đối tác thật nào** — toàn bộ hệ thống hiện chạy trên **mock giả lập phía frontend**, xem mục 0.2.2.
+
+### 0.2.2. Toàn hệ thống hiện là Frontend + Mock — CHƯA có tích hợp thật nào
+
+- Không có backend thật. Mọi API đi qua **1 gate mock duy nhất** `JGAME_USE_MOCK` (`shared/services/api/mockGate.ts`), bật/tắt qua `VITE_JGAME_USE_MOCK` (mặc định `true`). Khi có BE thật: set `VITE_JGAME_USE_MOCK=false` + `VITE_JGAME_API_URL` — không sửa code gọi ở page/hook (mỗi `ApiService` đã viết sẵn 2 nhánh cùng chữ ký `Promise<ApiResponse<T>>`).
+- **Chưa tích hợp thật** với: jPay (QR giả lập bằng SVG pattern, không phải QR thật), J-Invoice, Zalo ZNS/SMS OTP, bất kỳ NCC thẻ game nào (Garena/VNG/...), NetBarBox/DoDoNew (nút "Đồng bộ ngay" chỉ random số liệu). Đây là **thay đổi phạm vi cần xác nhận lại**, không phải lỗi.
+- Dữ liệu mock lưu 2 kiểu: **in-memory** (mất khi reload — đơn hàng thẻ/vé/phụ kiện, gian hàng, nhiệm vụ...) hoặc **localStorage** (tồn tại qua reload — tài khoản người dùng `jgame_auth_users_db`, lịch sử đăng nhập, giỏ hàng `jgame_cart`, giới hạn vé 0đ/tuần).
+- Chi tiết kiến trúc mock đầy đủ: xem `Website/.claude/system-architect/mock-gate-va-api.md`.
+
+### 0.2.3. Hệ thống tài khoản: KHÔNG dùng SSO, KHÔNG còn OTP-only — tự xây độc lập
+
+URD gốc (mục 3, 6.1, 18.2) đặc tả đăng ký/đăng nhập bằng **OTP qua Zalo ZNS** (dự phòng SMS), không có khái niệm mật khẩu. Thực tế đã đổi hướng hoàn toàn:
+
+- JGame là **website độc lập**, tự xây hệ thống tài khoản riêng — **không** dùng SSO chung nền tảng, không phụ thuộc `TokenManager`/`SsoApp`.
+- Đăng ký: email + số điện thoại + **mật khẩu**. Đăng nhập: **chỉ số điện thoại** (đã chuẩn hoá, bỏ lựa chọn email/SĐT) + mật khẩu, có "Ghi nhớ đăng nhập".
+- Có: quên mật khẩu / đặt lại mật khẩu (qua token), xác minh email (link token), xác minh số điện thoại (OTP mock), đổi mật khẩu, **2FA dạng TOTP mô phỏng** (mã demo cố định `123456`, không dựng QR thật), lịch sử đăng nhập & hoạt động (thời gian/thiết bị/IP mock/hành động).
+- **Cảnh báo bảo mật đã ghi nhận trong code:** đây là mock phía FE — mật khẩu chỉ "obfuscate" bằng base64 trong `localStorage`, **không phải hash bảo mật thật**. Khi có BE thật, toàn bộ logic xác thực/băm mật khẩu PHẢI chuyển hẳn sang server.
+- Chi tiết: `Website/.claude/business-rules/auth-tai-khoan.md`.
+
+### 0.2.4. Mô hình vai trò thực tế: 1 role loại trừ (`admin`) + 2 "hồ sơ" không loại trừ
+
+Khác mô hình RBAC nhiều vai trò cứng của URD gốc (mục 20). Thực tế (`AuthUser.role: 'customer' | 'admin'`):
+
+| Vai trò | Cách xác định | Loại trừ với vai trò khác? |
+|---|---|---|
+| Khách hàng (Member) | Mọi tài khoản đăng ký, mặc định `role='customer'` | — |
+| Quản trị viên (Admin) | `role='admin'` — gate cứng qua `RequireAdmin` | Có — 1 tài khoản chỉ có 1 role |
+| **Chủ gian hàng (Cybergame Owner)** — actor mới GĐ2 | Có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua "Kênh Người Bán") | **Không** — 1 Member vừa mua vừa mở gian hàng được (giống mô hình Shopee) |
+| **Đối tác tiếp thị liên kết (Referrer/CTV)** | Có bản ghi `AffiliatePartner.userId = userId` (đăng ký qua "Trở thành đối tác") | **Không** — 1 Member có thể đồng thời là đối tác |
+
+→ Điều này **trả lời thẳng câu hỏi mở ở mục 20 URD gốc** ("1 User có thể vừa là ReferralPartner không?") — câu trả lời thực tế là **CÓ**, và áp dụng luôn cho vai trò Chủ gian hàng.
+
+4 tài khoản demo dựng sẵn (seed tự động khi load app lần đầu) để test nhanh từng vai trò: `khachhang@jgame.vn`, `chugianhang@jgame.vn`, `doitac@jgame.vn`, `admin@jgame.vn` (mật khẩu `Demo@123`). Đăng nhập xong tự điều hướng đúng khu vực: khách hàng → `/jgame/tai-khoan`, chủ gian hàng → `/jgame/kenh-nguoi-ban`, đối tác → `/jgame/doi-tac`, admin → `/jgame/quan-tri`.
+
+### 0.2.5. Khu quản trị (Admin/SC-A*) nằm TRONG JGameApp, không phải AdminApp
+
+URD gốc mục 17.2/18.6 giả định backoffice dùng chung hạ tầng Admin nội bộ tách biệt. Thực tế: vì JGame là site độc lập (mục 0.2.3), khu quản trị từng làm tạm trong `AdminApp/features/jgame/` đã được **chuyển hẳn vào chính JGameApp**, route `/jgame/quan-tri/*`, bảo vệ bởi `RequireAdmin`, layout riêng (`AdminLayout` trong `features/Account/Admin/`). `AdminApp` không còn route/menu nào liên quan JGame.
+
+### 0.2.6. Cấu trúc thư mục: `features/Public` và `features/Account/{User,Admin,ShopOwner,Partner}`
+
+Không còn cấu trúc phẳng theo domain (`features/catalog`, `features/order`...) như tài liệu giải pháp GĐ1 đầu tiên mô tả. Đã tái cấu trúc thành 2 vùng — **Public** (xem được không cần đăng nhập) và **Account** (chia 4 nhóm tài khoản: User/Admin/ShopOwner/Partner, mỗi nhóm có layout NavMenu sidebar riêng, độc lập hoàn toàn về code UI, không dùng chung 1 component layout). Chi tiết đầy đủ: `Website/.claude/system-architect/00-tong-quan-kien-truc.md`.
+
+### 0.2.7. Giai đoạn 2 — Chợ vé giờ chơi Cybergame: đã triển khai đầy đủ (khác mô hình URD gốc)
+
+URD gốc mục 7 chỉ đặc tả mức khung "đặt vé 0đ/săn vé". Thực tế đã xây thành **marketplace nhiều gian hàng kiểu Shopee** — mỗi phòng cybergame là 1 "gian hàng" (`CybergameShop`) có nhiều Zone (thường/VIP/cấu hình cao) và nhiều loại vé (`PlaytimeTicket`) theo số giờ, có flash-sale giảm sâu 70-90%, slot trống realtime (mock timer giảm dần). Kèm khu **Kênh Người Bán** đầy đủ cho Chủ gian hàng: đăng ký gian hàng, quản lý Zone/Vé, đồng bộ NetBarBox/DoDoNew (mock), quản lý đơn đã bán, đối soát công nợ. Đặc tả đầy đủ: `Website/.claude/business-rules/cho-ve-cybergame.md`.
+
+### 0.2.8. Giai đoạn 3 — Kho phụ kiện Gamer: đã triển khai đầy đủ
+
+URD gốc mục 8 chỉ đặc tả mức khung. Thực tế đã có catalog phụ kiện (chuột/bàn phím/tai nghe/PC/màn hình/ghế), giỏ hàng đa sản phẩm (`CartContext`, khác mô hình "1 đơn = 1 mệnh giá" của GĐ1 thẻ game), checkout kèm địa chỉ giao hàng + đơn vị vận chuyển, theo dõi đơn hàng vật lý (state machine riêng `PENDING→PAID→PACKING→SHIPPING→DELIVERED`/`CANCELLED`/`RETURNED`), và trang quản trị CRUD sản phẩm/đơn hàng. Đặc tả đầy đủ: `Website/.claude/business-rules/phu-kien-gamer.md`.
+
+### 0.2.9. Nghiệp vụ hoàn toàn mới, KHÔNG có trong URD gốc: "Kiếm tiền" (nhiệm vụ + ví JCoin)
+
+Đây là bổ sung ngoài phạm vi URD gốc, cần đưa vào lần rà soát BA tiếp theo. Tóm tắt: nhà phát hành game đăng "nhiệm vụ" (đạt cấp độ / chơi đủ giờ-ngày / sưu tập vật phẩm) trả thưởng bằng **JCoin** — tiền ảo nội bộ, **không rút được tiền mặt**, chỉ dùng để thanh toán một phần đơn hàng thẻ game / vé giờ chơi / phụ kiện. Đặc tả đầy đủ: `Website/.claude/business-rules/kiem-tien-jcoin.md`.
+
+### 0.2.10. Trang chủ & điều hướng: đã đổi cấu trúc
+
+Trang danh mục thẻ game (SC-01 gốc) không còn là trang chủ — đã chuyển sang `/jgame/nap-the` ("Nạp thẻ game"). Trang chủ mới `/jgame` là **trang hub** tổng hợp điểm nhấn cả 3 phân hệ (Nạp thẻ / Chợ vé / Phụ kiện), lấy dữ liệu thật từ chính 3 API tương ứng (không mock riêng).
+
+### 0.2.11. Bảng tổng hợp route thực tế (thay thế mục 17 khi có mâu thuẫn)
+
+Xem danh sách route đầy đủ, chính xác theo `src/modules/JGameApp/routes/routeConfig.tsx` tại `Website/.claude/system-architect/routing-va-layout.md` — đã bao gồm toàn bộ route GĐ1/GĐ2/GĐ3/Kiếm tiền/Tài khoản/Admin nêu trên, khác đáng kể so với bảng route ở mục 16 (Phụ lục) và mục 17 của bản gốc bên dưới.
+
+### 0.2.12. Khoảng trống lớn nhất giữa URD và code — cần backend thật mới lộ ra
+
+- **Backend trống hoàn toàn.** Repo `Backend/` chưa có bất kỳ commit nào liên quan JGame — không có gì để kế thừa, phải xây từ đầu đúng theo mục 18/19 URD (danh sách API, data dictionary) khi bắt tay code BE thật.
+- **UC-13 (Đối soát JGame–NCC–jPay) và UC-14 (J-Invoice) — CHƯA có bất kỳ dòng code nào**, kể cả ở dạng mock UI. Đây là 2 khoảng trống lớn nhất, khác hẳn các nghiệp vụ khác (đã có mock UI đầy đủ) — cần đặc tả kỹ và ưu tiên khi thiết kế backend thật, vì hiện không có gì để tham chiếu ngoài URD gốc.
+- **OTP hiện tại chỉ là `console.info` giả lập** (sinh số ngẫu nhiên, log ra console) — không có bất kỳ gateway Zalo ZNS/SMS thật nào đứng sau, kể cả ở mức thử nghiệm.
+- **Phân quyền hiện tại chỉ so sánh chuỗi role đơn giản** (`user.role === 'admin'`) ở tầng route guard — chưa có mô hình permission theo từng hành động như các module khác trong InvoiceEasy; cần thiết kế lại khi có backend thật nếu muốn permission-based.
+
+---
+
+## 0. GHI CHÚ VỀ PHẠM VI TÀI LIỆU (bản gốc v1.3 — xem mục 0.2 để biết phần nào đã lỗi thời)
 
 Tài liệu ý tưởng kinh doanh gốc mô tả JGame như một **marketplace hai chiều** giữa phòng game và game thủ (đặt chỗ, lấp ghế trống). Tài liệu URD này đặc tả một **nhánh sản phẩm cụ thể — "JGame Store"** — nền tảng thương mại điện tử bán hàng hóa số & vật lý cho cộng đồng gamer, dùng chung hạ tầng thành viên/ví/thanh toán/referral với sản phẩm chính. Ba nghiệp vụ trong nhánh này được triển khai theo lộ trình:
 
@@ -740,4 +817,15 @@ JGame về sau có thể trở thành nơi lưu trữ, phân phối và vận h�
 
 ---
 
-*Tài liệu này là bản dự thảo URD (v1.3) — sản phẩm đổi tên thành **JGame**, hệ thống hóa đơn điện tử đổi thành **J-Invoice**, bổ sung tích hợp OTP qua **Zalo ZNS** (dự phòng SMS) cho luồng đăng ký/đăng nhập, và bổ sung định hướng kiến trúc mở cho nền tảng mini game JS/HTML5 (mục 23). Mục 17–22 đủ để đội UI/UX, backend và database bắt đầu tài liệu thiết kế chi tiết tương ứng (wireframe/mockup, API spec, DB schema). Mục 3.1, 6.4, 7.2, 11 đã làm rõ mô hình 3 nhóm hệ thống bên ngoài (jPay, Game Publisher Gateway đa đối tác, Nền tảng quản lý giờ chơi đa đối tác) và yêu cầu kiến trúc Adapter cho Nhóm 2 & 3. Vẫn cần rà soát cùng đội kỹ thuật và khảo sát tài liệu API riêng của từng đối tác (jPay/J-Invoice/Zalo ZNS/từng nhà phát hành/từng nền tảng quản lý phòng game) để xác nhận khả năng tích hợp thực tế trước khi chốt thiết kế kỹ thuật cuối cùng.*
+*Tài liệu này là bản dự thảo URD gốc (v1.3) — sản phẩm đổi tên thành **JGame**, hệ thống hóa đơn điện tử đổi thành **J-Invoice**, bổ sung tích hợp OTP qua **Zalo ZNS** (dự phòng SMS) cho luồng đăng ký/đăng nhập, và bổ sung định hướng kiến trúc mở cho nền tảng mini game JS/HTML5 (mục 23). Mục 17–22 đủ để đội UI/UX, backend và database bắt đầu tài liệu thiết kế chi tiết tương ứng (wireframe/mockup, API spec, DB schema). Mục 3.1, 6.4, 7.2, 11 đã làm rõ mô hình 3 nhóm hệ thống bên ngoài (jPay, Game Publisher Gateway đa đối tác, Nền tảng quản lý giờ chơi đa đối tác) và yêu cầu kiến trúc Adapter cho Nhóm 2 & 3. Vẫn cần rà soát cùng đội kỹ thuật và khảo sát tài liệu API riêng của từng đối tác (jPay/J-Invoice/Zalo ZNS/từng nhà phát hành/từng nền tảng quản lý phòng game) để xác nhận khả năng tích hợp thực tế trước khi chốt thiết kế kỹ thuật cuối cùng.*
+
+---
+
+## GHI CHÚ KẾT — TÌNH TRẠNG THỰC TẾ SO VỚI BẢN GỐC (v2.0, 2026-08-30)
+
+**Mục 1–23 ở trên là bản đặc tả GỐC (v1.3), giữ nguyên làm tài liệu tham chiếu lịch sử.** Đọc **mục 0.2 ở đầu tài liệu** trước để biết phần nào đã lỗi thời. Tóm tắt nhanh:
+
+- ✅ **Đã triển khai (frontend + mock, chưa có BE/đối tác thật):** GĐ1 bán thẻ game, GĐ2 chợ vé cybergame (đầy đủ, không còn "mức khung"), GĐ3 kho phụ kiện (đầy đủ), hệ thống tài khoản độc lập (không SSO), khu quản trị trong chính JGameApp.
+- 🆕 **Mới, ngoài phạm vi URD gốc:** phân hệ "Kiếm tiền" — nhiệm vụ trải nghiệm game + ví JCoin (mục 0.2.9).
+- ❌ **Chưa có / vẫn đúng như URD gốc mô tả là "chưa có":** tích hợp thật với jPay, J-Invoice, Zalo ZNS/SMS, bất kỳ NCC thẻ game nào, NetBarBox/DoDoNew. Toàn bộ vẫn là mock phía FE.
+- 📄 **Tài liệu nghiệp vụ & kiến trúc chi tiết, cập nhật theo code thực tế:** xem `Website/.claude/business-rules/` (nghiệp vụ từng phân hệ) và `Website/.claude/system-architect/` (kiến trúc, routing, mock gate, auth).

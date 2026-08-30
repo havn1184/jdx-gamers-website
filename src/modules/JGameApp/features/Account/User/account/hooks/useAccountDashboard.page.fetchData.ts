@@ -40,7 +40,7 @@ export function useAccountDashboard() {
     ])
 
     if (walletRes.success && walletRes.data != null) setJcoinBalance(walletRes.data)
-    if (tasksRes.success && tasksRes.data) setInProgressTasksCount(tasksRes.data.filter(t => t.progress.status === 'in_progress').length)
+    if (tasksRes.success && tasksRes.data) setInProgressTasksCount(tasksRes.data.filter(t => t.progress.isRegistered && !t.progress.isCompleted).length)
     setHasShop(Boolean(shopRes.success && shopRes.data))
     setIsAffiliate(Boolean(affiliateRes.success && affiliateRes.data))
 

@@ -11,6 +11,24 @@ export interface ReferrerSummary {
   pendingCommission: number
 }
 
+/**
+ * Hồ sơ đối tác tiếp thị liên kết — shape trả về từ BE `AffiliatePartnerResponse`
+ * (GET /api/referral/my-status trả object này hoặc `null`, KHÔNG phải boolean).
+ */
+export interface AffiliatePartner {
+  id: string
+  userId: string
+  referralCode: string
+  shareUrl: string
+  displayName: string
+  channel: string
+  commissionRateDefault: number
+  totalOrders: number
+  totalCommission: number
+  pendingCommission: number
+  createdAt: string
+}
+
 export type ReferralReconcileStatus = 'pending' | 'confirmed' | 'reversed'
 
 export interface ReferralTransactionItem {

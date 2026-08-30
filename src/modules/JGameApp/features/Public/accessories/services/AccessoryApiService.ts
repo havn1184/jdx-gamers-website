@@ -15,6 +15,8 @@ function getMockUserId(): string {
 
 export class AccessoryApiService {
   private static readonly BASE_PATH = '/api/accessories'
+  /** Path App-style: /api/orders/accessory (không phải /api/accessories/orders). */
+  private static readonly ORDERS_PATH = '/api/orders/accessory'
 
   static async getProducts(params?: AccessoryListParams): Promise<ApiResponse<AccessoryProduct[]>> {
     if (JGAME_USE_MOCK) {
@@ -28,7 +30,7 @@ export class AccessoryApiService {
         })
       })
     }
-    const url = buildJGameUrlWithParams(`${this.BASE_PATH}/products`, params as Record<string, unknown> | undefined)
+    const url = buildJGameUrlWithParams(this.BASE_PATH, params as Record<string, unknown> | undefined)
     const response = await apiCall(url, { method: 'GET' })
     return response.json()
   }
@@ -39,7 +41,7 @@ export class AccessoryApiService {
       if (!product) return mockApiError('Không tìm thấy sản phẩm')
       return mockApiCall(() => product)
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/products/${id}`), { method: 'GET' })
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/${id}`), { method: 'GET' })
     return response.json()
   }
 
@@ -64,7 +66,7 @@ export class AccessoryApiService {
         return mockApiError((e as Error).message)
       }
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders`), { method: 'POST', body: JSON.stringify(payload) })
+    const response = await apiCall(buildJGameUrl(this.ORDERS_PATH), { method: 'POST', body: JSON.stringify(payload) })
     return response.json()
   }
 
@@ -74,13 +76,13 @@ export class AccessoryApiService {
       if (!order) return mockApiError('Không tìm thấy đơn hàng')
       return mockApiCall(() => order, 200)
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders/${orderId}`), { method: 'GET' })
+    const response = await apiCall(buildJGameUrl(`${this.ORDERS_PATH}/${orderId}`), { method: 'GET' })
     return response.json()
   }
 
   static async getMyOrders(): Promise<ApiResponse<AccessoryOrder[]>> {
     if (JGAME_USE_MOCK) return mockApiCall(() => listMockAccessoryOrdersByUser(getMockUserId()), 300)
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders/me`), { method: 'GET' })
+    const response = await apiCall(buildJGameUrl(this.ORDERS_PATH), { method: 'GET' })
     return response.json()
   }
 }

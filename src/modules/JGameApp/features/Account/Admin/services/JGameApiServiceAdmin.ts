@@ -13,7 +13,52 @@ import type {
   OrderAdminItem, ReferralPartnerAdmin, ReferralPartnerFormPayload,
   PromotionAdmin, PromotionFormPayload, RevenueReportRow, JGameAdminListParams,
   AccessoryAdmin, AccessoryFormPayload, AccessoryAdminListParams,
+  AdminOrderStatus, AdminOrderType, AdminDashboardSummary,
 } from '../types/jgame.types'
+
+/** Response thô GET /api/admin/orders (BE gộp cả 3 domain — quyet-dinh-hop-nhat-api.md #15). */
+interface AdminOrderSummaryResponseDto {
+  id: string
+  orderType: 0 | 1 | 2
+  customerNameMasked: string
+  totalAmount: number
+  status: number
+  createdAt: string
+}
+
+/** Response thô GET /api/admin/reports/revenue (BE trả theo NGÀY, không theo NCC — quyet-dinh-hop-nhat-api.md #14). */
+interface AdminRevenueByDayResponseDto {
+  date: string
+  revenue: number
+}
+
+const ORDER_TYPE_LABELS: Record<0 | 1 | 2, AdminOrderType> = { 0: 'card', 1: 'playtime', 2: 'accessory' }
+
+/** Map status int BE → string domain-riêng (BE dùng enum status RIÊNG theo từng orderType, xem
+ * AdminOrderSummaryResponse.cs class-doc — PHẢI đọc đúng bảng enum tương ứng orderType, không dùng chung 1 bảng). */
+const CARD_ORDER_STATUS: AdminOrderStatus[] = ['PENDING', 'PAID', 'SUCCESS', 'SUPPLY_FAILED', 'REFUND_PROCESSING', 'REFUNDED', 'EXPIRED']
+const PLAYTIME_ORDER_STATUS: AdminOrderStatus[] = ['PENDING', 'PAID', 'CONFIRMED', 'USED', 'SUPPLY_FAILED', 'REFUND_PROCESSING', 'REFUNDED', 'EXPIRED']
+const ACCESSORY_ORDER_STATUS: AdminOrderStatus[] = ['PENDING', 'PAID', 'PACKING', 'SHIPPING', 'DELIVERED', 'CANCELLED', 'RETURNED']
+
+function mapAdminOrderStatus(orderType: 0 | 1 | 2, status: number): AdminOrderStatus {
+  const table = orderType === 0 ? CARD_ORDER_STATUS : orderType === 1 ? PLAYTIME_ORDER_STATUS : ACCESSORY_ORDER_STATUS
+  return table[status] ?? 'PENDING'
+}
+
+/** BE gộp orders KHÔNG trả productName/supplierName (chỉ trả customerNameMasked) — map tạm sang
+ * shape OrderAdminItem cũ để UI (bảng/badge) không vỡ, kèm field orderType mới cho nơi cần phân biệt domain. */
+function mapAdminOrderSummary(dto: AdminOrderSummaryResponseDto): OrderAdminItem {
+  const orderType = ORDER_TYPE_LABELS[dto.orderType]
+  return {
+    id: dto.id,
+    productName: `Đơn ${orderType === 'card' ? 'thẻ' : orderType === 'playtime' ? 'vé giờ chơi' : 'phụ kiện'}`,
+    supplierName: dto.customerNameMasked,
+    totalAmount: dto.totalAmount,
+    status: mapAdminOrderStatus(dto.orderType, dto.status),
+    createdAt: dto.createdAt,
+    orderType,
+  }
+}
 
 function filterByKeywordStatus<T extends { status: string }>(
   items: T[], params: JGameAdminListParams | undefined, getKeywordFields: (item: T) => string[]
@@ -113,13 +158,43 @@ export class JGameApiServiceAdmin {
   }
 
   // ===== Giao dịch =====
+  /** GET /api/admin/orders (path PHẲNG, không có `/jgame` — 1 trong 3 endpoint admin đã build thật, khác
+   * các method CRUD khác trong file này vẫn còn dùng `${BASE_PATH}/...` vì BE chưa scaffold).
+   * BE trả gộp cả 3 domain (`AdminOrderSummaryResponse[]`), không hỗ trợ filter theo keyword như mock
+   * → lọc keyword ở phía FE sau khi nhận dữ liệu, giữ đúng hành vi cũ. */
   static async getOrders(params?: JGameAdminListParams): Promise<ApiResponse<OrderAdminItem[]>> {
     if (JGAME_USE_MOCK) {
       const keyword = params?.keyword?.trim().toLowerCase()
       const filtered = orders.filter(o => !keyword || o.id.toLowerCase().includes(keyword) || o.productName.toLowerCase().includes(keyword))
       return mockApiCall(() => filtered)
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders`), { method: 'GET' })
+    const response = await apiCall(buildJGameUrl('/api/admin/orders'), { method: 'GET' })
+    const result = await response.json() as ApiResponse<AdminOrderSummaryResponseDto[]>
+    if (!result.success || !result.data) return result as unknown as ApiResponse<OrderAdminItem[]>
+    const mapped = result.data.map(mapAdminOrderSummary)
+    const keyword = params?.keyword?.trim().toLowerCase()
+    const filtered = keyword
+      ? mapped.filter(o => o.id.toLowerCase().includes(keyword) || o.productName.toLowerCase().includes(keyword) || o.supplierName.toLowerCase().includes(keyword))
+      : mapped
+    return { ...result, data: filtered }
+  }
+
+  /** GET /api/admin/dashboard — 1 trong 3 endpoint admin đã build thật. Website hiện CHƯA gọi endpoint này
+   * (trang Tổng quan tự gộp dữ liệu từ getOrders/getSuppliers/getReferralPartners/getPromotions/getRevenueReport
+   * — xem useAdminDashboard.page.fetchData.ts), nên method này khai báo sẵn cho lần dùng sau, chưa wiring vào hook
+   * để tránh phải viết lại UI trang Tổng quan (shape 2 bên khác hẳn nhau). */
+  static async getDashboard(): Promise<ApiResponse<AdminDashboardSummary>> {
+    if (JGAME_USE_MOCK) {
+      return mockApiCall(() => {
+        const report = buildRevenueReport()
+        const gmv = report.reduce((sum, r) => sum + r.gmv, 0)
+        const totalOrders = report.reduce((sum, r) => sum + r.totalOrders, 0)
+        const successOrders = report.reduce((sum, r) => sum + r.successOrders, 0)
+        const rate = totalOrders ? successOrders / totalOrders : 0
+        return { gmvToday: gmv, gmvMonth: gmv, ordersToday: totalOrders, cardOrderSuccessRate: rate, playtimeOrderSuccessRate: rate, accessoryOrderSuccessRate: rate }
+      })
+    }
+    const response = await apiCall(buildJGameUrl('/api/admin/dashboard'), { method: 'GET' })
     return response.json()
   }
 
@@ -214,10 +289,28 @@ export class JGameApiServiceAdmin {
   }
 
   // ===== Báo cáo doanh thu & đối soát =====
+  /** GET /api/admin/reports/revenue — 1 trong 3 endpoint admin đã build thật, path PHẲNG.
+   *
+   * QUYẾT ĐỊNH (nc_ mục 4 Bước 7): BE chỉ làm bản báo cáo THEO NGÀY (`{date, revenue}`), KHÔNG có bản
+   * theo NCC như mock cũ (`RevenueReportRow` có supplierName/totalOrders/successOrders/failedOrders/failRatePercent).
+   * Đây là 2 báo cáo khác bản chất — sửa UI hẳn sang hiển thị theo ngày là việc lớn, NGOÀI PHẠM VI bước này.
+   * Ưu tiên không vỡ build: map tạm `date` → `supplierName` (cột đầu bảng hiện tại), `revenue` → `gmv`,
+   * các field còn lại (totalOrders/successOrders/failedOrders/failRatePercent) = 0 vì BE không trả.
+   * TODO (bước sau): đổi UI trang Báo cáo (`reports/`) sang bảng theo ngày thay vì theo NCC. */
   static async getRevenueReport(): Promise<ApiResponse<RevenueReportRow[]>> {
     if (JGAME_USE_MOCK) return mockApiCall(() => buildRevenueReport())
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/reports/revenue`), { method: 'GET' })
-    return response.json()
+    const response = await apiCall(buildJGameUrl('/api/admin/reports/revenue'), { method: 'GET' })
+    const result = await response.json() as ApiResponse<AdminRevenueByDayResponseDto[]>
+    if (!result.success || !result.data) return result as unknown as ApiResponse<RevenueReportRow[]>
+    const mapped: RevenueReportRow[] = result.data.map(row => ({
+      supplierName: row.date,
+      totalOrders: 0,
+      successOrders: 0,
+      failedOrders: 0,
+      gmv: row.revenue,
+      failRatePercent: 0,
+    }))
+    return { ...result, data: mapped }
   }
 
   // ===== Phụ kiện Gamer (hãng sản xuất/nhóm sản phẩm/chi tiết sản phẩm) =====

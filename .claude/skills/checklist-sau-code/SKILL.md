@@ -6,9 +6,34 @@ argument-hint: 'Tên portal hoặc feature cần check. VD: ketoanapp, invoiceap
 
 # Checklist Sau Khi Code — SASUCO InvoiceEasy
 
-> **Quy trình 2 giai đoạn:**
+> **Quy trình:**
+> 0. **Giai đoạn 0 — Cập nhật tài liệu nghiệp vụ/kiến trúc** (chỉ áp dụng khi sửa `src/modules/JGameApp/`): nếu thay đổi vừa code làm lỗi thời nội dung trong `Website/.claude/business-rules/` hoặc `Website/.claude/system-architect/` → PHẢI cập nhật tài liệu + bump version + ghi changelog trước khi coi là hoàn thành
 > 1. **Giai đoạn 1 — `check-for-skill`:** Chạy script tĩnh kiểm tra tuân thủ các skill lập trình
 > 2. **Giai đoạn 2 — `check-for-runtime`:** Playwright mở browser → login → duyệt page → bắt lỗi runtime
+
+---
+
+## Giai Đoạn 0 — Cập nhật tài liệu nghiệp vụ/kiến trúc (JGameApp)
+
+> Chỉ áp dụng khi thay đổi nằm trong `src/modules/JGameApp/`. 2 thư mục tài liệu tham chiếu cho agent maintain sau này:
+> - `Website/.claude/business-rules/` — nghiệp vụ từng phân hệ (nạp thẻ, chợ vé, phụ kiện, kiếm tiền/JCoin, tài khoản, đối tác, admin)
+> - `Website/.claude/system-architect/` — kiến trúc kỹ thuật (cấu trúc thư mục, mock gate, auth/phân quyền, routing/layout, mock store)
+
+**Bắt buộc kiểm tra trước khi coi task hoàn thành:** thay đổi vừa được duyệt (approved) có làm lỗi thời nội dung đang mô tả trong 1 trong 2 thư mục trên không? Ví dụ cần cập nhật:
+
+| Loại thay đổi trong code | File cần rà soát/cập nhật |
+|---|---|
+| Thêm/sửa/xoá 1 nghiệp vụ, đổi luồng mua hàng, đổi state machine đơn hàng, đổi mô hình vai trò/hoa hồng... | File tương ứng trong `business-rules/` |
+| Đổi cấu trúc thư mục `features/`, đổi cơ chế mock gate/API, đổi hệ thống auth/route guard, đổi `routeConfig.tsx`, đổi pattern mock store... | File tương ứng trong `system-architect/` |
+| Thêm 1 phân hệ/actor hoàn toàn mới (không có sẵn file nào mô tả) | Tạo file mới đúng thư mục + thêm dòng link vào `00-tong-quan.md` (business-rules) nếu cần |
+
+**Khi có cập nhật, PHẢI làm đủ 3 bước** (áp dụng riêng cho từng thư mục bị ảnh hưởng):
+
+1. Sửa nội dung file(s) liên quan trong `business-rules/` và/hoặc `system-architect/`.
+2. Bump version theo semver trong `CHANGELOG.md` của đúng thư mục đó (`MAJOR` = đổi mô hình/kiến trúc nền tảng hoặc breaking change, `MINOR` = thêm nghiệp vụ/thành phần kiến trúc mới, `PATCH` = sửa/làm rõ nội dung đã có) — cập nhật cả dòng "Phiên bản hiện tại" ở đầu `CHANGELOG.md`.
+3. Thêm 1 dòng mới vào bảng trong `CHANGELOG.md`: **thời gian (yyyy-MM-dd) · version mới · tóm tắt thay đổi · danh sách file bị sửa**.
+
+> Không tự ý bump version khi thay đổi chưa được duyệt (approved) — chỉ cập nhật tài liệu sau khi user đã xác nhận/approve thay đổi nghiệp vụ hoặc kiến trúc đó, đúng quy trình `dev-workflow`/`ppt-nc-toan-trinh` đã dùng cho các đợt nâng cấp trước (`Docs/Nang-cap/`).
 
 ---
 
@@ -210,3 +235,4 @@ Script có 5 cơ chế giới hạn để tránh token overflow khi lỗi lặp 
 | Dialog kích thước | `tao-ui-dialog` | `check-dialog` |
 | Refactor an toàn | `sua-file-an-toan` | `check-encoding`, `check-syntax`, `check-closing-tags`, `check-dup-keys` |
 | Runtime test | `kiem-thu` | `runtime-check` (Playwright) |
+| Nghiệp vụ/kiến trúc JGameApp | `Website/.claude/business-rules/`, `Website/.claude/system-architect/` | Giai đoạn 0 (đầu file) — cập nhật + bump version + `CHANGELOG.md` |

@@ -14,12 +14,6 @@ import { CustomerLayout } from '../../account/components/CustomerLayout'
 export const PAGE_ID = 'jgame-my-tasks'
 export const PAGE_FEATURES = [{ label: 'Xem chi tiết nhiệm vụ', code: 'row-view' }]
 
-const STATUS_META: Record<string, { label: string; className: string }> = {
-  registered: { label: 'Đã đăng ký', className: 'bg-blue-500/20 text-blue-300' },
-  in_progress: { label: 'Đang thực hiện', className: 'bg-amber-500/20 text-amber-300' },
-  rewarded: { label: 'Đã nhận thưởng', className: 'bg-emerald-500/20 text-emerald-300' },
-}
-
 export function MyTasksPage() {
   const { items, loading } = useMyTasksFetchData()
 
@@ -39,23 +33,27 @@ export function MyTasksPage() {
       {!loading && items.length > 0 && (
         <div className='space-y-3'>
           {items.map(({ task, progress }) => {
-            const meta = STATUS_META[progress.status]
+            const meta = progress.isCompleted
+              ? { label: 'Đã nhận thưởng', className: 'bg-emerald-500/20 text-emerald-300' }
+              : { label: 'Đang thực hiện', className: 'bg-amber-500/20 text-amber-300' }
             return (
-              <Link key={progress.id} to={`/jgame/kiem-tien/${task.id}`} className='flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/10' data-qa={`row_view_${task.id}`}>
-                <TaskArt art={task.art} imageUrl={task.galleryImages[0]} label={task.gameName} className='h-16 w-16 flex-shrink-0 rounded-xl' />
+              <Link key={task.id} to={`/jgame/kiem-tien/${task.id}`} className='flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/10' data-qa={`row_view_${task.id}`}>
+                <TaskArt art={task.art} imageUrl={task.galleryImages?.[0]} label={task.title} className='h-16 w-16 flex-shrink-0 rounded-xl' />
                 <div className='min-w-0 flex-1'>
                   <div className='flex items-center gap-2'>
-                    <span className='truncate font-semibold text-white'>{task.gameName}</span>
+                    <span className='truncate font-semibold text-white'>{task.title}</span>
                     <Badge className={cn('flex-shrink-0 border-none', meta.className)}>{meta.label}</Badge>
                   </div>
                   <p className='mt-1 text-sm text-white/60'>{formatProgressSummary(task, progress)}</p>
                   <div className='mt-2 h-1.5 overflow-hidden rounded-full bg-white/10'>
                     <div className='jgame-gradient-brand h-full' style={{ width: `${getProgressPercent(task, progress)}%` }} />
                   </div>
-                  <p className='mt-1.5 flex items-center gap-1 text-xs text-white/40'><RefreshCw className='h-3 w-3' /> Đồng bộ: {formatDateTime(progress.lastSyncedAt)}</p>
+                  {progress.lastSyncedAt && (
+                    <p className='mt-1.5 flex items-center gap-1 text-xs text-white/40'><RefreshCw className='h-3 w-3' /> Đồng bộ: {formatDateTime(progress.lastSyncedAt)}</p>
+                  )}
                 </div>
                 <div className='flex flex-shrink-0 items-center gap-2 text-right'>
-                  <span className='flex items-center gap-1 font-semibold text-amber-300'><Coins className='h-4 w-4' /> {formatNumber(task.jcoinReward)}</span>
+                  <span className='flex items-center gap-1 font-semibold text-amber-300'><Coins className='h-4 w-4' /> {formatNumber(task.rewardJcoin)}</span>
                   <ChevronRight className='h-4 w-4 text-white/40' />
                 </div>
               </Link>

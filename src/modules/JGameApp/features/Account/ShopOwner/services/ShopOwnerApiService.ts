@@ -24,7 +24,7 @@ export class ShopOwnerApiService {
 
   static async getMyShop(): Promise<ApiResponse<CybergameShop | null>> {
     if (JGAME_USE_MOCK) return mockApiCall(() => getShopByOwnerId(getMockOwnerId()) || null, 250)
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop`), { method: 'GET' })
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/my-shop`), { method: 'GET' })
     return response.json()
   }
 
@@ -34,7 +34,7 @@ export class ShopOwnerApiService {
       if (getShopByOwnerId(ownerId)) return mockApiError('Bạn đã có gian hàng, không thể đăng ký thêm')
       return mockApiCall(() => registerShop(ownerId, payload), 400)
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop`), { method: 'POST', body: JSON.stringify(payload) })
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/register`), { method: 'POST', body: JSON.stringify(payload) })
     return response.json()
   }
 
@@ -185,23 +185,29 @@ export class ShopOwnerApiService {
     return response.json()
   }
 
-  static async getPayoutSummary(): Promise<ApiResponse<ShopPayoutPeriod>> {
+  /** BE gộp 1 endpoint `GET /api/shop-owner/payouts` trả mảng đầy đủ (không tách current/history như
+   * trước — quyet-dinh-hop-nhat-api.md #18). Phần tử đầu tiên (kỳ hiện tại, PENDING) tách ra làm
+   * "current", phần còn lại (đã PAID) làm "history" ngay tại client — cách đơn giản nhất, giữ nguyên 2
+   * hàm public cũ để không phải sửa lại 2 nơi gọi hiện có. */
+  private static async getAllPayouts(): Promise<ApiResponse<ShopPayoutPeriod[]>> {
     if (JGAME_USE_MOCK) {
       const shop = getShopByOwnerId(getMockOwnerId())
       if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => getCurrentPayoutPeriod(shop.id), 250)
+      return mockApiCall(() => [getCurrentPayoutPeriod(shop.id), ...getPayoutHistory(shop.id)], 300)
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/payouts/current`), { method: 'GET' })
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/payouts`), { method: 'GET' })
     return response.json()
   }
 
+  static async getPayoutSummary(): Promise<ApiResponse<ShopPayoutPeriod>> {
+    const res = await this.getAllPayouts()
+    if (!res.success || !res.data || res.data.length === 0) return res as ApiResponse<ShopPayoutPeriod>
+    return { ...res, data: res.data[0] }
+  }
+
   static async getPayoutHistory(): Promise<ApiResponse<ShopPayoutPeriod[]>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => getPayoutHistory(shop.id), 300)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/payouts/history`), { method: 'GET' })
-    return response.json()
+    const res = await this.getAllPayouts()
+    if (!res.success || !res.data) return res
+    return { ...res, data: res.data.slice(1) }
   }
 }

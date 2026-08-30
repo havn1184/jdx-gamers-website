@@ -22,7 +22,69 @@ import shot9 from '../assets/game-task/Screenshot 2026-08-29 092910.png'
 import shot10 from '../assets/game-task/Screenshot 2026-08-29 092932.png'
 import shot11 from '../assets/game-task/Screenshot 2026-08-29 092943.png'
 import shot12 from '../assets/game-task/Screenshot 2026-08-29 092958.png'
-import type { GameTask, UserTaskProgress, TaskListParams } from '../features/Public/tasks/types/task.types'
+/**
+ * Types cục bộ cho mock (KHÔNG import từ `features/Public/tasks/types/task.types` nữa) —
+ * type đó đã đổi sang shape BE thật (nc_ tích hợp API thật) và không còn field chi tiết
+ * (`requirement` object/`status` enum/`art`/`galleryImages`...) mà mock này vẫn cần để mô
+ * phỏng game tự đồng bộ trạng thái. Giữ NGUYÊN toàn bộ field/logic/dữ liệu mock bên dưới —
+ * chỉ tách type ra để không phá vỡ nhánh mock khi type dùng cho API thật đổi.
+ * `TaskApiService.ts` chịu trách nhiệm map các type này sang shape BE khi trả cho UI.
+ */
+export type MockTaskRequirementType = 'level' | 'playtime' | 'collection'
+export type MockTaskStatus = 'active' | 'closed'
+export type MockPublisherFundStatus = 'funded' | 'pending'
+
+export interface MockTaskArt {
+  gradient: [string, string]
+  icon: string
+}
+
+export interface MockTaskRequirement {
+  type: MockTaskRequirementType
+  targetLevel?: number
+  hoursPerDay?: number
+  totalDays?: number
+  itemNames?: string[]
+}
+
+export interface GameTask {
+  id: string
+  gameName: string
+  publisherName: string
+  publisherFundStatus: MockPublisherFundStatus
+  art: MockTaskArt
+  galleryImages: string[]
+  description: string
+  requirement: MockTaskRequirement
+  jcoinReward: number
+  slotLimit: number
+  slotUsed: number
+  deadline: string
+  status: MockTaskStatus
+  createdAt: string
+}
+
+export type MockUserTaskStatus = 'registered' | 'in_progress' | 'rewarded'
+
+export interface UserTaskProgress {
+  id: string
+  userId: string
+  taskId: string
+  status: MockUserTaskStatus
+  currentLevel?: number
+  daysCompleted?: number
+  todayHours?: number
+  itemsCollected?: string[]
+  lastSyncedAt: string
+  registeredAt: string
+  rewardedAt?: string
+  milestoneLog?: { label: string; reward: number; completedAt: string }[]
+}
+
+export interface TaskListParams {
+  requirementType?: MockTaskRequirementType | 'all'
+  keyword?: string
+}
 
 /** Ảnh gameplay minh hoạ nhiệm vụ, lấy từ bộ ảnh chụp thật trong assets/game-task
  * (RPG hành động, chiến thuật lượt, thẻ bài, chiến thuật lâu đài...) — không gắn với

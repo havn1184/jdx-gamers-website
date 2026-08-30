@@ -25,8 +25,8 @@ export interface AccessoryProduct {
   imageUrl: string
   /** Bộ ảnh minh hoạ sản phẩm — hiển thị dạng thumbnail chọn ảnh ở trang chi tiết (kiểu Shopee) */
   galleryImages: string[]
-  /** Fallback khi ảnh lỗi/không tải được — gradient + icon */
-  art: MockAccessoryArt
+  /** Fallback khi ảnh lỗi/không tải được — gradient + icon. UI-only, BE thật không trả field này. */
+  art?: MockAccessoryArt
 }
 
 export interface AccessoryListParams {
@@ -62,6 +62,13 @@ export interface AccessoryOrderItem {
   quantity: number
 }
 
+/** 1 mốc trong lịch sử trạng thái đơn — BE trả thêm field này (App có sẵn, Website chưa hiển thị UI). */
+export interface AccessoryOrderTimelineEntry {
+  status: AccessoryOrderStatus
+  timestamp: string
+  note: string
+}
+
 export interface AccessoryOrder {
   id: string
   userId: string
@@ -73,6 +80,8 @@ export interface AccessoryOrder {
   totalAmount: number
   status: AccessoryOrderStatus
   trackingCode?: string
+  /** Chỉ có ở GET detail (BE) — null/undefined ở GET list. Tuỳ chọn hiển thị thêm, chưa bắt buộc dùng ở UI. */
+  timeline?: AccessoryOrderTimelineEntry[]
   createdAt: string
   updatedAt: string
 }

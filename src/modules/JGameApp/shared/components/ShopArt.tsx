@@ -10,8 +10,12 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Cpu, Zap, Trophy, Monitor, Gamepad2, Swords,
 }
 
+/** Gradient/icon mặc định khi không có `art` (BE thật không trả field UI-only này — chỉ nhánh
+ * mock Website có sẵn `art` trang trí). */
+const DEFAULT_ART: MockShopArt = { gradient: ['#7C3AED', '#22D3EE'], icon: 'Gamepad2' }
+
 interface ShopArtProps {
-  art: MockShopArt
+  art?: MockShopArt
   imageUrl?: string
   label: string
   className?: string
@@ -19,7 +23,8 @@ interface ShopArtProps {
 
 export const ShopArt = memo(function ShopArt({ art, imageUrl, label, className }: ShopArtProps) {
   const [imgError, setImgError] = useState(false)
-  const Icon = ICON_MAP[art.icon] || ShoppingBag
+  const resolvedArt = art ?? DEFAULT_ART
+  const Icon = ICON_MAP[resolvedArt.icon] || ShoppingBag
 
   if (imageUrl && !imgError) {
     return (
@@ -32,7 +37,7 @@ export const ShopArt = memo(function ShopArt({ art, imageUrl, label, className }
   return (
     <div
       className={`relative flex items-center justify-center overflow-hidden ${className ?? ''}`}
-      style={{ backgroundImage: `linear-gradient(135deg, ${art.gradient[0]}, ${art.gradient[1]})` }}
+      style={{ backgroundImage: `linear-gradient(135deg, ${resolvedArt.gradient[0]}, ${resolvedArt.gradient[1]})` }}
     >
       <Icon className='h-1/3 w-1/3 text-white/90 drop-shadow-lg' />
       <span className='absolute bottom-2 left-2 right-2 truncate text-center text-xs font-semibold text-white/95 drop-shadow'>{label}</span>

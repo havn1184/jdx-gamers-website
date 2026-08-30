@@ -45,9 +45,15 @@ export function useTaskDetailFetchData(taskId: string | undefined) {
     setRegistering(true)
     setErrorMessage(null)
     try {
+      // BE chỉ trả { registrationCode } khi đăng ký thành công (không trả progress đầy đủ
+      // như trước) — gọi lại getMyProgress để lấy tiến độ mới nhất cho UI.
       const r = await TaskApiService.registerTask(taskId)
-      if (r.success && r.data) setProgress(r.data)
-      else setErrorMessage(r.message || 'Không đăng ký được nhiệm vụ')
+      if (r.success && r.data) {
+        const progressRes = await TaskApiService.getMyProgress(taskId)
+        if (progressRes.success) setProgress(progressRes.data)
+      } else {
+        setErrorMessage(r.message || 'Không đăng ký được nhiệm vụ')
+      }
     } finally {
       setRegistering(false)
     }

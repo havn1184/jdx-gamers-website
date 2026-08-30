@@ -21,7 +21,8 @@ export interface CybergameShop {
   imageUrl: string
   /** Ảnh thực tế phòng máy (nếu có) — hiển thị dạng gallery ở trang chi tiết gian hàng */
   galleryImages?: string[]
-  art: MockShopArt
+  /** UI-only, chỉ nhánh mock Website có sẵn — BE thật không trả field này. */
+  art?: MockShopArt
   status: ShopStatus
   syncMode: ShopSyncMode
   rating: number

@@ -18,6 +18,38 @@ import type {
 /** Mock 2FA — mã xác nhận cố định để test không cần thư viện TOTP thật. */
 export const MOCK_2FA_DEMO_CODE = '123456'
 
+/**
+ * BE serialize enum `Role` dạng số nguyên (Customer=0, Admin=1) — Program.cs cố tình KHÔNG thêm
+ * JsonStringEnumConverter. Website lại định nghĩa `AuthUser.role: 'customer' | 'admin'` (string) vì
+ * trước đây chỉ có mock cục bộ. Chuẩn hoá ngay tại tầng service (nhánh gọi API thật) để phần còn lại
+ * của Website (so sánh `role === 'admin'`) không phải đổi gì.
+ */
+export function normalizeAuthUserRole<T extends { role: unknown } | undefined | null>(user: T): T {
+  if (!user) return user
+  const raw = (user as { role: unknown }).role
+  if (typeof raw === 'number') {
+    return { ...user, role: raw === 1 ? 'admin' : 'customer' }
+  }
+  return user
+}
+
+/**
+ * Cùng lý do trên: BE serialize `LoginActivityAction` dạng số nguyên (thứ tự trùng khớp union string
+ * của Website theo đúng index 0-9 — xem `AuthEnums.cs`). Chuẩn hoá tại tầng service.
+ */
+const LOGIN_ACTIVITY_ACTIONS = [
+  'LOGIN', 'LOGOUT', 'REGISTER', 'CHANGE_PASSWORD', 'RESET_PASSWORD',
+  'ENABLE_2FA', 'DISABLE_2FA', 'VERIFY_EMAIL', 'VERIFY_PHONE', 'UPDATE_PROFILE',
+] as const
+
+export function normalizeLoginHistoryAction<T extends { action: unknown }>(entry: T): T {
+  const raw = (entry as { action: unknown }).action
+  if (typeof raw === 'number' && LOGIN_ACTIVITY_ACTIONS[raw]) {
+    return { ...entry, action: LOGIN_ACTIVITY_ACTIONS[raw] }
+  }
+  return entry
+}
+
 export class AuthApiService {
   private static readonly BASE_PATH = '/api/auth'
 
@@ -32,7 +64,9 @@ export class AuthApiService {
       return mockApiCall(() => ({ accessToken, refreshToken, user: toAuthUser(stored) }))
     }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/register`), { method: 'POST', body: JSON.stringify(payload) })
-    return response.json()
+    const json = await response.json()
+    if (json.data) json.data.user = normalizeAuthUserRole(json.data.user)
+    return json
   }
 
   static async login(payload: LoginPayload): Promise<ApiResponse<LoginResult>> {
@@ -50,7 +84,9 @@ export class AuthApiService {
       return mockApiCall(() => ({ accessToken, refreshToken, user: toAuthUser(stored) }))
     }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/login`), { method: 'POST', body: JSON.stringify(payload) })
-    return response.json()
+    const json = await response.json()
+    if (json.data) json.data.user = normalizeAuthUserRole(json.data.user)
+    return json
   }
 
   static async verify2FA(payload: Verify2FAPayload): Promise<ApiResponse<LoginResult>> {
@@ -66,7 +102,9 @@ export class AuthApiService {
       return mockApiCall(() => ({ accessToken, refreshToken, user: toAuthUser(stored) }))
     }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/verify-2fa`), { method: 'POST', body: JSON.stringify(payload) })
-    return response.json()
+    const json = await response.json()
+    if (json.data) json.data.user = normalizeAuthUserRole(json.data.user)
+    return json
   }
 
   static async forgotPassword(payload: ForgotPasswordPayload): Promise<ApiResponse<boolean>> {
@@ -193,7 +231,10 @@ export class AuthApiService {
       if (!stored) return mockApiError('Chưa đăng nhập')
       return mockApiCall(() => toAuthUser(stored), 100)
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/me`), { method: 'GET' })
-    return response.json()
+    // BE chỉ có 1 path duy nhất lấy current user: /api/account/profile (không có /api/auth/me).
+    const response = await apiCall(buildJGameUrl('/api/account/profile'), { method: 'GET' })
+    const json = await response.json()
+    if (json.data) json.data = normalizeAuthUserRole(json.data)
+    return json
   }
 }

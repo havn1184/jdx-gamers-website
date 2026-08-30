@@ -37,7 +37,8 @@ export interface CardProduct {
   /** Điều khoản sử dụng / chính sách đổi trả riêng theo loại thẻ (FR-6.7.2) */
   policyText: string
   status: CardProductStatus
-  art: MockCardArt
+  /** UI-only, chỉ nhánh mock Website có sẵn — BE thật không trả field này. */
+  art?: MockCardArt
   /** Logo thật của NCC (thu thập từ nguồn thực tế) — ưu tiên hiển thị, gradient/icon chỉ là fallback khi ảnh lỗi. */
   imageUrl?: string
   denominations: CardDenomination[]

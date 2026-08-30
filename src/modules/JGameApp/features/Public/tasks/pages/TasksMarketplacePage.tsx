@@ -6,7 +6,7 @@ import { Search, Loader2, PackageOpen, Coins, Trophy, Timer, Gem, Users, CheckCi
 import { Input } from '../../../../shared/components/ui/input'
 import { Badge } from '../../../../shared/components/ui/badge'
 import { TaskArt } from '../components/TaskArt'
-import { formatNumber, formatDate } from '../../../../shared/utils/FormatUtils'
+import { formatNumber } from '../../../../shared/utils/FormatUtils'
 import { cn } from '../../../../shared/components/ui/utils'
 import { useTaskMarketplaceFetchData, type TaskFilter } from '../hooks/useTaskMarketplace.page.fetchData'
 import { formatRequirementSummary } from '../utils/formatRequirement'
@@ -94,21 +94,21 @@ export function TasksMarketplacePage() {
               return (
                 <Link key={task.id} to={`/jgame/kiem-tien/${task.id}`} className='jgame-card-hover overflow-hidden rounded-2xl border border-white/10 bg-white/5' data-qa={`row_view_${task.id}`}>
                   <div className='relative'>
-                    <TaskArt art={task.art} imageUrl={task.galleryImages[0]} label={task.gameName} className='aspect-[16/9] w-full' />
+                    <TaskArt art={task.art} imageUrl={task.galleryImages?.[0]} label={task.title} className='aspect-[16/9] w-full' />
                     <span className='absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 text-xs font-bold text-amber-300 backdrop-blur'>
-                      <Coins className='h-3.5 w-3.5' /> {formatNumber(task.jcoinReward)}
+                      <Coins className='h-3.5 w-3.5' /> {formatNumber(task.rewardJcoin)}
                     </span>
                   </div>
                   <div className='p-4'>
                     <div className='mb-1 flex items-center justify-between gap-2'>
                       <p className='truncate text-xs font-semibold uppercase tracking-wide text-white/50'>{task.publisherName}</p>
-                      {task.publisherFundStatus === 'funded' ? (
+                      {task.publisherFundStatus ? (
                         <Badge className='flex items-center gap-1 border-none bg-emerald-500/20 text-[10px] text-emerald-300'><CheckCircle2 className='h-3 w-3' /> NPH đã cấp quỹ</Badge>
                       ) : (
                         <Badge className='flex items-center gap-1 border-none bg-amber-500/20 text-[10px] text-amber-300'><Clock3 className='h-3 w-3' /> Chờ cấp quỹ</Badge>
                       )}
                     </div>
-                    <h3 className='truncate font-semibold text-white'>{task.gameName}</h3>
+                    <h3 className='truncate font-semibold text-white'>{task.title}</h3>
                     <p className='mt-1 text-sm text-white/60'>{formatRequirementSummary(task)}</p>
 
                     <div className='mt-3 h-1.5 overflow-hidden rounded-full bg-white/10'>
@@ -118,7 +118,6 @@ export function TasksMarketplacePage() {
                       <span className={cn('flex items-center gap-1', lowSlot ? 'animate-pulse font-semibold text-red-400' : 'text-white/50')}>
                         <Users className='h-3 w-3' /> {remaining > 0 ? `Còn ${formatNumber(remaining)} suất` : 'Đã đủ số lượng'}
                       </span>
-                      <span className='text-white/40'>Hạn: {formatDate(task.deadline)}</span>
                     </div>
                   </div>
                 </Link>
