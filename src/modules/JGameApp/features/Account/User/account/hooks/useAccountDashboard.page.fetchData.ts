@@ -1,9 +1,11 @@
 /**
- * useAccountDashboard.page.fetchData — Logic trang Tổng quan tài khoản: gộp số dư JCoin,
- * số nhiệm vụ đang làm, 3 đơn hàng gần nhất (cả 3 loại), trạng thái đăng ký Kênh Người Bán/Đối tác.
+ * useAccountDashboard.page.fetchData — Logic trang Tổng quan tài khoản: gộp số dư ví (VND +
+ * JCoin), số nhiệm vụ đang làm, 3 đơn hàng gần nhất (cả 3 loại), trạng thái đăng ký Kênh
+ * Người Bán/Đối tác.
  */
 import { useCallback, useEffect, useState } from 'react'
 import { TaskApiService } from '../../../../Public/tasks/services/TaskApiService'
+import { WalletApiService } from '../../../../Public/wallet/services/WalletApiService'
 import { OrderApiService } from '../../order/services/OrderApiService'
 import { AccessoryApiService } from '../../../../Public/accessories/services/AccessoryApiService'
 import { PlaytimeApiService } from '../../../../Public/playtime/services/PlaytimeApiService'
@@ -19,6 +21,7 @@ export interface RecentOrderItem {
 }
 
 export function useAccountDashboard() {
+  const [vndBalance, setVndBalance] = useState(0)
   const [jcoinBalance, setJcoinBalance] = useState(0)
   const [inProgressTasksCount, setInProgressTasksCount] = useState(0)
   const [totalOrdersCount, setTotalOrdersCount] = useState(0)
@@ -30,7 +33,7 @@ export function useAccountDashboard() {
   const fetchData = useCallback(async () => {
     setLoading(true)
     const [walletRes, tasksRes, cardRes, accessoryRes, playtimeRes, shopRes, affiliateRes] = await Promise.all([
-      TaskApiService.getWalletBalance(),
+      WalletApiService.getWallet(),
       TaskApiService.getMyTasks(),
       OrderApiService.getMyOrders(),
       AccessoryApiService.getMyOrders(),
@@ -39,7 +42,10 @@ export function useAccountDashboard() {
       ReferrerApiService.getMyAffiliateStatus(),
     ])
 
-    if (walletRes.success && walletRes.data != null) setJcoinBalance(walletRes.data)
+    if (walletRes.success && walletRes.data) {
+      setVndBalance(walletRes.data.vndBalance)
+      setJcoinBalance(walletRes.data.jcoinBalance)
+    }
     if (tasksRes.success && tasksRes.data) setInProgressTasksCount(tasksRes.data.filter(t => t.progress.isRegistered && !t.progress.isCompleted).length)
     setHasShop(Boolean(shopRes.success && shopRes.data))
     setIsAffiliate(Boolean(affiliateRes.success && affiliateRes.data))
@@ -66,5 +72,5 @@ export function useAccountDashboard() {
 
   useEffect(() => { void fetchData() }, [fetchData])
 
-  return { jcoinBalance, inProgressTasksCount, totalOrdersCount, recentOrders, hasShop, isAffiliate, loading, refetch: fetchData }
+  return { vndBalance, jcoinBalance, inProgressTasksCount, totalOrdersCount, recentOrders, hasShop, isAffiliate, loading, refetch: fetchData }
 }

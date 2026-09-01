@@ -27,38 +27,38 @@ const shops: CybergameShop[] = [
     id: 'shop-alpha', ownerId: 'demo-shop-owner-1', name: 'Alpha Cyber Center', city: 'Hà Nội',
     address: '12 Trần Duy Hưng, Cầu Giấy', description: 'Phòng máy cấu hình cao, 100+ chỗ, ghế gaming DXRacer.',
     imageUrl: 'https://images.pexels.com/photos/9072216/pexels-photo-9072216.jpeg', art: { gradient: ['#7C3AED', '#EC4899'], icon: 'Cpu' },
-    status: 'active', syncMode: 'netbarbox', rating: 4.8, totalSold: 3520, createdAt: new Date(Date.now() - 200 * 86400000).toISOString(),
+    status: 'active', syncMode: 'netbarbox', rating: 4.8, reviewCount: 0, totalSold: 3520, createdAt: new Date(Date.now() - 200 * 86400000).toISOString(),
   },
   {
     id: 'shop-nova', ownerId: 'demo-shop-owner-2', name: 'Nova Gaming House', city: 'TP. Hồ Chí Minh',
     address: '88 Nguyễn Văn Cừ, Quận 5', description: 'Chuỗi phòng game lớn nhất khu vực, hỗ trợ thi đấu giải.',
     imageUrl: 'https://images.pexels.com/photos/9072388/pexels-photo-9072388.jpeg', art: { gradient: ['#22D3EE', '#7C3AED'], icon: 'Zap' },
-    status: 'active', syncMode: 'dodonew', rating: 4.6, totalSold: 5180, createdAt: new Date(Date.now() - 400 * 86400000).toISOString(),
+    status: 'active', syncMode: 'dodonew', rating: 4.6, reviewCount: 0, totalSold: 5180, createdAt: new Date(Date.now() - 400 * 86400000).toISOString(),
   },
   {
     id: 'shop-phoenix', ownerId: 'demo-shop-owner-3', name: 'Phoenix Esports Zone', city: 'Đà Nẵng',
     address: '45 Nguyễn Văn Linh, Hải Châu', description: 'Không gian thi đấu chuyên nghiệp, màn hình 240Hz.',
     imageUrl: 'https://images.pexels.com/photos/6125337/pexels-photo-6125337.jpeg', art: { gradient: ['#F97316', '#EF4444'], icon: 'Trophy' },
-    status: 'active', syncMode: 'manual', rating: 4.9, totalSold: 2140, createdAt: new Date(Date.now() - 120 * 86400000).toISOString(),
+    status: 'active', syncMode: 'manual', rating: 4.9, reviewCount: 0, totalSold: 2140, createdAt: new Date(Date.now() - 120 * 86400000).toISOString(),
   },
   {
     id: 'shop-titan', ownerId: 'demo-shop-owner-4', name: 'Titan NetHub', city: 'Hà Nội',
     address: '200 Xã Đàn, Đống Đa', description: 'Giá rẻ, gần trường học, mở cửa 24/7.',
     imageUrl: 'https://images.pexels.com/photos/7849510/pexels-photo-7849510.jpeg', art: { gradient: ['#22C55E', '#0EA5E9'], icon: 'Monitor' },
-    status: 'active', syncMode: 'netbarbox', rating: 4.3, totalSold: 4310, createdAt: new Date(Date.now() - 300 * 86400000).toISOString(),
+    status: 'active', syncMode: 'netbarbox', rating: 4.3, reviewCount: 0, totalSold: 4310, createdAt: new Date(Date.now() - 300 * 86400000).toISOString(),
   },
   {
     id: 'shop-vortex', ownerId: 'demo-shop-owner-5', name: 'Vortex Gaming', city: 'TP. Hồ Chí Minh',
     address: '15 Cách Mạng Tháng 8, Quận 3', description: 'Setup RGB, ghế massage, phòng VIP riêng biệt.',
     imageUrl: 'https://images.pexels.com/photos/4317157/pexels-photo-4317157.jpeg', art: { gradient: ['#EC4899', '#F97316'], icon: 'Gamepad2' },
-    status: 'active', syncMode: 'manual', rating: 4.7, totalSold: 1890, createdAt: new Date(Date.now() - 60 * 86400000).toISOString(),
+    status: 'active', syncMode: 'manual', rating: 4.7, reviewCount: 0, totalSold: 1890, createdAt: new Date(Date.now() - 60 * 86400000).toISOString(),
   },
   {
     id: 'shop-spartacus', ownerId: 'demo-shop-owner-6', name: 'Spartacus Gaming', city: 'Hà Nội',
     address: '25 Láng Hạ, Ba Đình', description: 'The Gateway To The Heaven — không gian thi đấu phong cách đấu trường, khu Couple Zone, khu hút thuốc riêng biệt.',
     imageUrl: spartacus1, galleryImages: [spartacus1, spartacus2, spartacus3, spartacus4, spartacus5],
     art: { gradient: ['#DC2626', '#111827'], icon: 'Swords' },
-    status: 'active', syncMode: 'netbarbox', rating: 4.9, totalSold: 6240, createdAt: new Date(Date.now() - 500 * 86400000).toISOString(),
+    status: 'active', syncMode: 'netbarbox', rating: 4.9, reviewCount: 0, totalSold: 6240, createdAt: new Date(Date.now() - 500 * 86400000).toISOString(),
   },
 ]
 
@@ -139,7 +139,10 @@ function toView(t: PlaytimeTicket): PlaytimeTicketView | undefined {
   const shop = zone ? shops.find(s => s.id === zone.shopId) : undefined
   if (!zone || !shop) return undefined
   return {
-    ...t, shopName: shop.name, shopCity: shop.city, shopImageUrl: shop.imageUrl, shopArt: shop.art,
+    ...t, shopName: shop.name, shopCity: shop.city, shopImageUrl: shop.imageUrl,
+    // shop.art là optional trong CybergameShop nhưng shopArt bắt buộc ở PlaytimeTicketView — mọi
+    // shop mock đều khai báo art thật, fallback chỉ để khớp type (giống PlaytimeApiService.mapTicketView).
+    shopArt: shop.art ?? { gradient: ['#7C3AED', '#EC4899'], icon: 'Gamepad2' },
     shopRating: shop.rating, zoneName: zone.name, zoneType: zone.zoneType,
   }
 }
@@ -220,7 +223,7 @@ export function registerShop(ownerId: string, payload: RegisterShopPayload): Cyb
     id: genId('shop'), ownerId, name: payload.name, city: payload.city, address: payload.address,
     description: payload.description, imageUrl: 'https://images.pexels.com/photos/6125337/pexels-photo-6125337.jpeg',
     art: { gradient: ['#7C3AED', '#EC4899'], icon: 'Gamepad2' }, status: 'active', syncMode: 'manual',
-    rating: 5, totalSold: 0, createdAt: new Date().toISOString(),
+    rating: 5, reviewCount: 0, totalSold: 0, createdAt: new Date().toISOString(),
   }
   shops.push(shop)
   return shop
@@ -290,6 +293,7 @@ export function upsertTicket(shopId: string, payload: UpsertTicketPayload): Play
       existing.totalSlots = payload.totalSlots
       existing.availableSlots = payload.availableSlots
       existing.isFlashSale = payload.isFlashSale
+      if (payload.status) existing.status = payload.status
       return existing
     }
   }

@@ -22,13 +22,27 @@ export function useAdminDashboard() {
 
   const fetchData = useCallback(async () => {
     setLoading(true)
-    const [reportRes, ordersRes, suppliersRes, partnersRes, promotionsRes] = await Promise.all([
+    // Promise.allSettled (không phải Promise.all): getSuppliers/getReferralPartners/getPromotions
+    // vẫn gọi endpoint mock cục bộ (BE thật chưa có CRUD danh mục — xem quyet-dinh-hop-nhat-api.md
+    // "Admin CRUD danh mục — chưa scaffold"). Nếu 1 trong 5 API lỗi (vd 404 khi BE thật chưa có),
+    // Promise.all sẽ reject toàn bộ và loading kẹt mãi — allSettled tránh việc 1 API thiếu làm
+    // treo cả trang, phần dữ liệu tương ứng chỉ hiển thị rỗng/0.
+    const [reportSettled, ordersSettled, suppliersSettled, partnersSettled, promotionsSettled] = await Promise.allSettled([
       JGameApiServiceAdmin.getRevenueReport(),
       JGameApiServiceAdmin.getOrders(),
       JGameApiServiceAdmin.getSuppliers(),
       JGameApiServiceAdmin.getReferralPartners(),
       JGameApiServiceAdmin.getPromotions(),
     ])
+    // Map riêng từng settled result (thay vì results.map chung) để giữ đúng type generic T của
+    // từng API — gộp chung vào 1 mảng sẽ làm TypeScript suy ra union của cả 5 kiểu data.
+    const toResult = <T,>(r: PromiseSettledResult<{ success: boolean; data: T | null; message: string | null }>) =>
+      r.status === 'fulfilled' ? r.value : { success: false as const, data: null, message: null }
+    const reportRes = toResult(reportSettled)
+    const ordersRes = toResult(ordersSettled)
+    const suppliersRes = toResult(suppliersSettled)
+    const partnersRes = toResult(partnersSettled)
+    const promotionsRes = toResult(promotionsSettled)
 
     if (reportRes.success && reportRes.data) {
       const rows = reportRes.data

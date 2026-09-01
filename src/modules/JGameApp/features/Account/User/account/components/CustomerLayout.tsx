@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, UserRound, ShieldCheck, History, Package, ListChecks, Coins, Store, Megaphone,
+  Ticket, Star,
 } from 'lucide-react'
 import { cn } from '../../../../../shared/components/ui/utils'
 import { useAuth } from '../../../../../contexts/AuthContext'
@@ -19,8 +20,10 @@ const BASE_MENU = [
   { to: '/jgame/bao-mat', label: 'Bảo mật', icon: ShieldCheck },
   { to: '/jgame/lich-su-hoat-dong', label: 'Lịch sử hoạt động', icon: History },
   { to: '/jgame/lich-su', label: 'Đơn hàng của tôi', icon: Package },
+  { to: '/jgame/ve-da-mua', label: 'Vé đã mua', icon: Ticket },
+  { to: '/jgame/danh-gia-cua-toi', label: 'Đánh giá của tôi', icon: Star },
   { to: '/jgame/kiem-tien/nhiem-vu-cua-toi', label: 'Nhiệm vụ của tôi', icon: ListChecks },
-  { to: '/jgame/kiem-tien/vi-jcoin', label: 'Ví JCoin', icon: Coins },
+  { to: '/jgame/vi', label: 'Ví của tôi', icon: Coins },
 ]
 
 export function CustomerLayout({ children }: { children: ReactNode }) {

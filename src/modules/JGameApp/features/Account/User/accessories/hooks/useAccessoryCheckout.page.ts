@@ -5,18 +5,18 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../../../../contexts/CartContext'
 import { AccessoryApiService } from '../../../../Public/accessories/services/AccessoryApiService'
-import { useJcoinBalance } from '../../tasks/hooks/useJcoinBalance'
-import { TaskApiService } from '../../../../Public/tasks/services/TaskApiService'
+import { useWalletBalance } from '../../wallet/hooks/useWalletBalance'
 import type { ShippingAddress, ShippingMethod } from '../../../../Public/accessories/types/accessory.types'
+import type { PaymentMethod } from '../../../../Public/wallet/types/wallet.types'
 
 export function useAccessoryCheckout() {
   const navigate = useNavigate()
   const { items, totalAmount, clear } = useCart()
-  const { balance: jcoinBalance, refetchBalance } = useJcoinBalance()
+  const { balance: wallet, refetchBalance } = useWalletBalance()
   const [shippingMethods, setShippingMethods] = useState<ShippingMethod[]>([])
   const [shippingMethodId, setShippingMethodId] = useState('')
   const [address, setAddress] = useState<ShippingAddress>({ fullName: '', phone: '', address: '' })
-  const [useJcoin, setUseJcoin] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -38,22 +38,12 @@ export function useAccessoryCheckout() {
       setErrorMessage('Vui lòng nhập đầy đủ thông tin giao hàng')
       return
     }
-    if (items.length === 0) return
-
-    const payWithJcoin = useJcoin && jcoinBalance >= grandTotal && grandTotal > 0
+    if (items.length === 0 || paymentMethod === null) return
 
     setSubmitting(true)
     setErrorMessage(null)
     try {
-      if (payWithJcoin) {
-        const spendRes = await TaskApiService.spendWallet(grandTotal, 'SPEND_ACCESSORY', 'Thanh toán đơn hàng phụ kiện')
-        if ((spendRes.data ?? 0) < grandTotal) {
-          setErrorMessage('Số dư JCoin không đủ — vui lòng thử lại')
-          setSubmitting(false)
-          return
-        }
-      }
-      const r = await AccessoryApiService.createOrder({ items, shippingAddress: address, shippingMethodId, payWithJcoin })
+      const r = await AccessoryApiService.createOrder({ items, shippingAddress: address, shippingMethodId, paymentMethod })
       if (r.success && r.data) {
         clear()
         void refetchBalance()
@@ -66,10 +56,10 @@ export function useAccessoryCheckout() {
     } finally {
       setSubmitting(false)
     }
-  }, [address, items, shippingMethodId, clear, navigate, useJcoin, jcoinBalance, grandTotal, refetchBalance])
+  }, [address, items, shippingMethodId, clear, navigate, paymentMethod, refetchBalance])
 
   return {
     items, totalAmount, shippingMethods, shippingMethodId, setShippingMethodId,
-    address, setAddress, shippingFee, grandTotal, useJcoin, setUseJcoin, jcoinBalance, submitting, errorMessage, handleSubmit,
+    address, setAddress, shippingFee, grandTotal, paymentMethod, setPaymentMethod, wallet, submitting, errorMessage, handleSubmit,
   }
 }

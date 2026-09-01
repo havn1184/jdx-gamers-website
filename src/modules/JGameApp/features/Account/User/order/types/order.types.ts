@@ -1,6 +1,7 @@
 /**
  * Types cho đơn hàng / thanh toán / mã thẻ — theo URD mục 6.3 (state machine) + mục 19.
  */
+import type { PaymentMethod } from '../../../../Public/wallet/types/wallet.types'
 
 export type OrderStatus =
   | 'PENDING'
@@ -16,8 +17,9 @@ export interface CreateOrderPayload {
   quantity: number
   /** Mã referrer lấy từ cookie/sessionStorage (?ref=...), nếu có */
   referrerCode?: string
-  /** true khi đã trừ đủ JCoin cho đơn này — bỏ qua bước chờ QR (xem phân hệ Kiếm tiền) */
-  payWithJcoin?: boolean
+  /** Bắt buộc — ví VND hoặc JCoin dùng thanh toán đơn (nc_vi-2-loai-tien-thanh-toan.md).
+   * Thanh toán ví là atomic, đơn trả về đã ở trạng thái PAID ngay, không còn chờ QR. */
+  paymentMethod: PaymentMethod
 }
 
 export interface OrderSummary {

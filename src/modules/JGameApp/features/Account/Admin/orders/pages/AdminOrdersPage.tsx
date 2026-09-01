@@ -26,6 +26,15 @@ const STATUS_META: Record<AdminOrderStatus, { label: string; className: string }
   REFUND_PROCESSING: { label: 'Đang hoàn tiền', className: 'bg-amber-500/20 text-amber-300' },
   REFUNDED: { label: 'Đã hoàn tiền', className: 'bg-slate-500/20 text-slate-300' },
   EXPIRED: { label: 'Hết hạn', className: 'bg-slate-500/20 text-slate-300' },
+  // Trạng thái riêng domain Playtime (đơn vé giờ chơi)
+  CONFIRMED: { label: 'Đã xác nhận', className: 'bg-blue-500/20 text-blue-300' },
+  USED: { label: 'Đã sử dụng', className: 'bg-emerald-500/20 text-emerald-300' },
+  // Trạng thái riêng domain Accessory (đơn phụ kiện)
+  PACKING: { label: 'Đang đóng gói', className: 'bg-amber-500/20 text-amber-300' },
+  SHIPPING: { label: 'Đang giao hàng', className: 'bg-blue-500/20 text-blue-300' },
+  DELIVERED: { label: 'Đã giao', className: 'bg-emerald-500/20 text-emerald-300' },
+  CANCELLED: { label: 'Đã hủy', className: 'bg-red-500/20 text-red-300' },
+  RETURNED: { label: 'Đã trả hàng', className: 'bg-slate-500/20 text-slate-300' },
 }
 
 export function AdminOrdersPage() {

@@ -7,13 +7,13 @@ import { Button } from '../../../../../shared/components/ui/button'
 import { ShopArt } from '../../../../../shared/components/ShopArt'
 import { formatCurrency } from '../../../../../shared/utils/FormatUtils'
 import { useTicketReserve } from '../hooks/useTicketReserve.page'
-import { JcoinPayToggle } from '../../tasks/components/JcoinPayToggle'
+import { PaymentMethodSelector } from '../../wallet/components/PaymentMethodSelector'
 
 export const PAGE_ID = 'jgame-playtime-confirm'
 export const PAGE_FEATURES = [{ label: 'Xác nhận điều khoản', code: 'chk-dong-y-dieu-khoan' }, { label: 'Đặt vé ngay', code: 'btn-dat-ve-ngay' }]
 
 export function TicketConfirmPage() {
-  const { selection, agreedPolicy, setAgreedPolicy, useJcoin, setUseJcoin, jcoinBalance, submitting, errorMessage, handleReserve } = useTicketReserve()
+  const { selection, agreedPolicy, setAgreedPolicy, paymentMethod, setPaymentMethod, wallet, submitting, errorMessage, handleReserve } = useTicketReserve()
 
   if (!selection) {
     return (
@@ -53,7 +53,7 @@ export function TicketConfirmPage() {
           <div className='flex justify-between text-base font-bold text-white'><span>Tổng tiền</span><span>{total === 0 ? 'Miễn phí' : formatCurrency(total)}</span></div>
         </div>
 
-        {total > 0 && <JcoinPayToggle balance={jcoinBalance} total={total} checked={useJcoin} onChange={setUseJcoin} />}
+        {total > 0 && <PaymentMethodSelector vndBalance={wallet.vndBalance} jcoinBalance={wallet.jcoinBalance} total={total} value={paymentMethod} onChange={setPaymentMethod} />}
 
         <label className='mt-5 flex cursor-pointer items-start gap-2 text-sm text-white/70'>
           <input type='checkbox' className='mt-0.5' checked={agreedPolicy} onChange={e => setAgreedPolicy(e.target.checked)} data-qa='chk_dong_y_dieu_khoan' />
@@ -66,7 +66,7 @@ export function TicketConfirmPage() {
           </div>
         )}
 
-        <Button className='jgame-btn-primary mt-5 w-full text-white' size='lg' disabled={!agreedPolicy || submitting} onClick={handleReserve} data-qa='btn_dat_ve_ngay'>
+        <Button className='jgame-btn-primary mt-5 w-full text-white' size='lg' disabled={!agreedPolicy || paymentMethod === null || submitting} onClick={handleReserve} data-qa='btn_dat_ve_ngay'>
           {submitting ? <Loader2 className='h-4 w-4 animate-spin mr-1.5' /> : null}
           {total === 0 ? 'Nhận vé miễn phí' : 'Thanh toán'}
         </Button>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { AlertCircle, Loader2, ShoppingBag } from 'lucide-react'
 import { Button } from '../../../../../shared/components/ui/button'
 import { CardArt } from '../../../../../shared/components/CardArt'
-import { JcoinPayToggle } from '../../tasks/components/JcoinPayToggle'
+import { PaymentMethodSelector } from '../../wallet/components/PaymentMethodSelector'
 import { formatCurrency } from '../../../../../shared/utils/FormatUtils'
 import { useOrderConfirm } from '../hooks/useOrderConfirm.page'
 
@@ -13,7 +13,7 @@ export const PAGE_ID = 'jgame-order-confirm'
 export const PAGE_FEATURES = [{ label: 'Xác nhận điều khoản', code: 'chk-dong-y-dieu-khoan' }, { label: 'Thanh toán', code: 'btn-thanh-toan' }]
 
 export function OrderConfirmPage() {
-  const { selection, agreedPolicy, setAgreedPolicy, useJcoin, setUseJcoin, jcoinBalance, submitting, errorMessage, handlePay } = useOrderConfirm()
+  const { selection, agreedPolicy, setAgreedPolicy, paymentMethod, setPaymentMethod, wallet, submitting, errorMessage, handlePay } = useOrderConfirm()
 
   if (!selection) {
     return (
@@ -48,7 +48,7 @@ export function OrderConfirmPage() {
           <div className='flex justify-between text-base font-bold text-white'><span>Tổng tiền</span><span>{formatCurrency(total)}</span></div>
         </div>
 
-        <JcoinPayToggle balance={jcoinBalance} total={total} checked={useJcoin} onChange={setUseJcoin} />
+        <PaymentMethodSelector vndBalance={wallet.vndBalance} jcoinBalance={wallet.jcoinBalance} total={total} value={paymentMethod} onChange={setPaymentMethod} />
 
         <label className='mt-5 flex cursor-pointer items-start gap-2 text-sm text-white/70'>
           <input
@@ -70,7 +70,7 @@ export function OrderConfirmPage() {
         <Button
           className='jgame-btn-primary mt-5 w-full text-white'
           size='lg'
-          disabled={!agreedPolicy || submitting}
+          disabled={!agreedPolicy || paymentMethod === null || submitting}
           onClick={handlePay}
           data-qa='btn_thanh_toan'
         >

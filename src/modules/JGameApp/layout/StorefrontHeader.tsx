@@ -10,7 +10,7 @@ import {
 import { Button } from '../shared/components/ui/button'
 import { useAuth } from '../contexts/AuthContext'
 import { useCart } from '../contexts/CartContext'
-import { useJcoinBalance } from '../features/Account/User/tasks/hooks/useJcoinBalance'
+import { useWalletBalance } from '../features/Account/User/wallet/hooks/useWalletBalance'
 import { useMyShop } from '../features/Account/ShopOwner/hooks/useMyShop'
 import { useMyAffiliate } from '../features/Account/Partner/hooks/useMyAffiliate'
 import { formatNumber } from '../shared/utils/FormatUtils'
@@ -28,7 +28,7 @@ const NAV_ITEMS: { label: string; to: string; soon?: boolean }[] = [
 export function StorefrontHeader() {
   const { isAuthenticated, user, logout } = useAuth()
   const { totalQuantity } = useCart()
-  const { balance: jcoinBalance } = useJcoinBalance()
+  const { balance: wallet } = useWalletBalance()
   const { shop, refetch: refetchShop } = useMyShop()
   const { isAffiliate, refetch: refetchAffiliate } = useMyAffiliate()
   const isShopOwner = Boolean(shop)
@@ -81,8 +81,8 @@ export function StorefrontHeader() {
 
         <div className='hidden md:flex items-center gap-2'>
           {isAuthenticated && (
-            <Link to='/jgame/kiem-tien/vi-jcoin' className='flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1.5 text-sm font-semibold text-amber-300 hover:bg-amber-500/20' data-qa='btn_vi_jcoin_header'>
-              <Coins className='h-4 w-4' /> {formatNumber(jcoinBalance)}
+            <Link to='/jgame/vi' className='flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1.5 text-sm font-semibold text-amber-300 hover:bg-amber-500/20' data-qa='btn_vi_jcoin_header'>
+              <Coins className='h-4 w-4' /> {formatNumber(wallet.jcoinBalance)}
             </Link>
           )}
           <Link to='/jgame/gio-hang' className='relative rounded-lg p-2 text-white/80 hover:bg-white/10 hover:text-white' data-qa='btn_gio_hang'>
@@ -203,7 +203,7 @@ export function StorefrontHeader() {
                 <Link to='/jgame/kenh-nguoi-ban' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Kênh người bán</Link>
               )}
               <Link to='/jgame/kiem-tien/nhiem-vu-cua-toi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Nhiệm vụ của tôi</Link>
-              <Link to='/jgame/kiem-tien/vi-jcoin' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Ví JCoin ({formatNumber(jcoinBalance)})</Link>
+              <Link to='/jgame/vi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Ví của tôi ({formatNumber(wallet.jcoinBalance)} JCoin)</Link>
               <Link to='/jgame/ho-so' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Hồ sơ cá nhân</Link>
               <Link to='/jgame/bao-mat' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Bảo mật</Link>
               <Link to='/jgame/lich-su-hoat-dong' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Lịch sử hoạt động</Link>

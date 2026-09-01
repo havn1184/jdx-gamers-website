@@ -2,7 +2,7 @@
  * AccountDashboardPage — Tổng quan tài khoản: landing sau khi khách hàng đăng nhập (SC-Account-Dashboard).
  */
 import { Link } from 'react-router-dom'
-import { Loader2, Coins, ListChecks, Package, Inbox, ChevronRight, Store, Megaphone } from 'lucide-react'
+import { Loader2, Coins, Wallet, ListChecks, Package, Inbox, ChevronRight, Store, Megaphone } from 'lucide-react'
 import { formatCurrency, formatDateTime, formatNumber } from '../../../../../shared/utils/FormatUtils'
 import { CustomerLayout } from '../components/CustomerLayout'
 import { useAccountDashboard } from '../hooks/useAccountDashboard.page.fetchData'
@@ -21,7 +21,7 @@ function StatTile({ icon, label, value }: { icon: React.ReactNode; label: string
 }
 
 export function AccountDashboardPage() {
-  const { jcoinBalance, inProgressTasksCount, totalOrdersCount, recentOrders, hasShop, isAffiliate, loading } = useAccountDashboard()
+  const { vndBalance, jcoinBalance, inProgressTasksCount, totalOrdersCount, recentOrders, hasShop, isAffiliate, loading } = useAccountDashboard()
 
   return (
     <CustomerLayout>
@@ -31,7 +31,8 @@ export function AccountDashboardPage() {
         <div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div>
       ) : (
         <>
-          <div className='grid grid-cols-2 gap-4 sm:grid-cols-3'>
+          <div className='grid grid-cols-2 gap-4 sm:grid-cols-4'>
+            <StatTile icon={<Wallet className='h-5 w-5' />} label='Số dư ví VND' value={formatCurrency(vndBalance)} />
             <StatTile icon={<Coins className='h-5 w-5' />} label='Số dư JCoin' value={formatNumber(jcoinBalance)} />
             <StatTile icon={<ListChecks className='h-5 w-5' />} label='Nhiệm vụ đang làm' value={formatNumber(inProgressTasksCount)} />
             <StatTile icon={<Package className='h-5 w-5' />} label='Tổng đơn hàng' value={formatNumber(totalOrdersCount)} />

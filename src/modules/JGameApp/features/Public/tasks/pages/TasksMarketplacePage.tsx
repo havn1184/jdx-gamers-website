@@ -43,7 +43,7 @@ export function TasksMarketplacePage() {
           </p>
           <div className='mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-3 text-sm'>
             <Link to='/jgame/kiem-tien/nhiem-vu-cua-toi' className='rounded-full border border-white/20 px-4 py-2 text-white/80 hover:bg-white/10' data-qa='btn_nhiem_vu_cua_toi'>Nhiệm vụ của tôi</Link>
-            <Link to='/jgame/kiem-tien/vi-jcoin' className='jgame-btn-primary rounded-full px-4 py-2 font-semibold text-white' data-qa='btn_vi_jcoin'>Ví JCoin</Link>
+            <Link to='/jgame/vi' className='jgame-btn-primary rounded-full px-4 py-2 font-semibold text-white' data-qa='btn_vi_jcoin'>Ví của tôi</Link>
           </div>
 
           <div className='mx-auto mt-8 flex max-w-xl items-center gap-2 rounded-2xl bg-white/10 p-2 backdrop-blur'>

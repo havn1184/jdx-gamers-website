@@ -6,7 +6,7 @@ import { Input } from '../../../../../shared/components/ui/input'
 import { Button } from '../../../../../shared/components/ui/button'
 import { formatCurrency } from '../../../../../shared/utils/FormatUtils'
 import { useAccessoryCheckout } from '../hooks/useAccessoryCheckout.page'
-import { JcoinPayToggle } from '../../tasks/components/JcoinPayToggle'
+import { PaymentMethodSelector } from '../../wallet/components/PaymentMethodSelector'
 import { cn } from '../../../../../shared/components/ui/utils'
 
 export const PAGE_ID = 'jgame-accessory-checkout'
@@ -15,7 +15,7 @@ export const PAGE_FEATURES = [{ label: 'Chọn vận chuyển', code: 'btn-chon-
 export function AccessoryCheckoutPage() {
   const {
     items, totalAmount, shippingMethods, shippingMethodId, setShippingMethodId,
-    address, setAddress, shippingFee, grandTotal, useJcoin, setUseJcoin, jcoinBalance, submitting, errorMessage, handleSubmit,
+    address, setAddress, shippingFee, grandTotal, paymentMethod, setPaymentMethod, wallet, submitting, errorMessage, handleSubmit,
   } = useAccessoryCheckout()
 
   return (
@@ -53,7 +53,7 @@ export function AccessoryCheckoutPage() {
         <div className='flex justify-between border-t border-white/10 pt-2 text-base font-bold text-white'><span>Tổng cộng</span><span>{formatCurrency(grandTotal)}</span></div>
       </div>
 
-      {grandTotal > 0 && <JcoinPayToggle balance={jcoinBalance} total={grandTotal} checked={useJcoin} onChange={setUseJcoin} />}
+      {grandTotal > 0 && <PaymentMethodSelector vndBalance={wallet.vndBalance} jcoinBalance={wallet.jcoinBalance} total={grandTotal} value={paymentMethod} onChange={setPaymentMethod} />}
 
       {errorMessage && (
         <div className='mt-4 flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300'>
@@ -61,7 +61,7 @@ export function AccessoryCheckoutPage() {
         </div>
       )}
 
-      <Button className='jgame-btn-primary mt-5 w-full text-white' size='lg' disabled={submitting} onClick={handleSubmit} data-qa='btn_dat_hang'>
+      <Button className='jgame-btn-primary mt-5 w-full text-white' size='lg' disabled={submitting || (grandTotal > 0 && paymentMethod === null)} onClick={handleSubmit} data-qa='btn_dat_hang'>
         {submitting && <Loader2 className='h-4 w-4 animate-spin mr-1.5' />} Đặt hàng
       </Button>
     </div>

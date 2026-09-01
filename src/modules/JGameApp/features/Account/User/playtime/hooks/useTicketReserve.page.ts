@@ -6,10 +6,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PlaytimeApiService } from '../../../../Public/playtime/services/PlaytimeApiService'
 import { useAuth } from '../../../../../contexts/AuthContext'
-import { useJcoinBalance } from '../../tasks/hooks/useJcoinBalance'
-import { TaskApiService } from '../../../../Public/tasks/services/TaskApiService'
-import { saveReturnTo } from '../../../../../shared/utils/pendingSelection'
+import { useWalletBalance } from '../../wallet/hooks/useWalletBalance'
+import { savePendingSelection, consumePendingSelection } from '../../../../../shared/utils/pendingSelection'
 import type { PlaytimeTicketView } from '../../../../Public/playtime/types/playtime.types'
+import { PaymentMethod } from '../../../../Public/wallet/types/wallet.types'
 
 const SELECTION_KEY = 'jgame_ticket_selection'
 
@@ -25,10 +25,10 @@ export function saveTicketSelection(ticketId: string, quantity: number): void {
 export function useTicketReserve() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAuth()
-  const { balance: jcoinBalance, refetchBalance } = useJcoinBalance()
+  const { balance: wallet, refetchBalance } = useWalletBalance()
   const [selection, setSelection] = useState<TicketSelectionState | null>(null)
   const [agreedPolicy, setAgreedPolicy] = useState(false)
-  const [useJcoin, setUseJcoin] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -44,30 +44,38 @@ export function useTicketReserve() {
 
   useEffect(() => { void loadSelection() }, [loadSelection])
 
+  // Vừa đăng nhập xong sau khi bị chuyển hướng lúc bấm "Đặt vé ngay" lúc chưa đăng nhập
+  // — vé/số lượng đã tự khôi phục qua `jgame_ticket_selection` (loadSelection ở trên),
+  // ở đây chỉ cần khôi phục lại phương thức thanh toán đã chọn (FR-6.1.2).
+  useEffect(() => {
+    if (!isAuthenticated || !selection) return
+    const pending = consumePendingSelection()
+    if (pending?.paymentMethod == null) return
+    setPaymentMethod(pending.paymentMethod)
+    setAgreedPolicy(true)
+  }, [isAuthenticated, selection])
+
+  // Vé miễn phí (total = 0) — BE vẫn yêu cầu paymentMethod nhưng trừ ví 0đ luôn thành công
+  // với bất kỳ ví nào, nên tự chọn Vnd để không bắt user chọn phương thức cho đơn 0đ.
+  useEffect(() => {
+    if (selection && selection.ticket.sellPrice * selection.quantity === 0) {
+      setPaymentMethod(PaymentMethod.Vnd)
+    }
+  }, [selection])
+
   const handleReserve = useCallback(async () => {
-    if (!selection || !agreedPolicy) return
+    if (!selection || !agreedPolicy || paymentMethod === null) return
 
     if (!isAuthenticated) {
-      saveReturnTo('/jgame/cho-ve/xac-nhan-dat-ve')
+      savePendingSelection({ paymentMethod }, '/jgame/cho-ve/xac-nhan-dat-ve')
       window.location.hash = '#/jgame/dang-nhap'
       return
     }
 
-    const total = selection.ticket.sellPrice * selection.quantity
-    const payWithJcoin = useJcoin && jcoinBalance >= total && total > 0
-
     setSubmitting(true)
     setErrorMessage(null)
     try {
-      if (payWithJcoin) {
-        const spendRes = await TaskApiService.spendWallet(total, 'SPEND_TICKET', `Thanh toán vé ${selection.ticket.shopName} — ${selection.ticket.zoneName}`)
-        if ((spendRes.data ?? 0) < total) {
-          setErrorMessage('Số dư JCoin không đủ — vui lòng thử lại')
-          setSubmitting(false)
-          return
-        }
-      }
-      const r = await PlaytimeApiService.createOrder({ ticketId: selection.ticket.id, quantity: selection.quantity, payWithJcoin })
+      const r = await PlaytimeApiService.createOrder({ ticketId: selection.ticket.id, quantity: selection.quantity, paymentMethod })
       if (r.success && r.data) {
         sessionStorage.removeItem(SELECTION_KEY)
         void refetchBalance()
@@ -80,7 +88,7 @@ export function useTicketReserve() {
     } finally {
       setSubmitting(false)
     }
-  }, [selection, agreedPolicy, isAuthenticated, navigate, useJcoin, jcoinBalance, refetchBalance])
+  }, [selection, agreedPolicy, isAuthenticated, navigate, paymentMethod, refetchBalance])
 
-  return { selection, agreedPolicy, setAgreedPolicy, useJcoin, setUseJcoin, jcoinBalance, submitting, errorMessage, handleReserve }
+  return { selection, agreedPolicy, setAgreedPolicy, paymentMethod, setPaymentMethod, wallet, submitting, errorMessage, handleReserve }
 }

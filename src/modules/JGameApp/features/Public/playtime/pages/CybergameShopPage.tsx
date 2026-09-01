@@ -27,13 +27,18 @@ function TicketRow({ ticket }: { ticket: PlaytimeTicketView }) {
   const lowSlot = ticket.availableSlots > 0 && ticket.availableSlots <= 3
   const soldOut = ticket.availableSlots <= 0
 
-  const handleReserve = () => {
+  const handleReserve = (e: React.MouseEvent) => {
+    e.stopPropagation()
     saveTicketSelection(ticket.id, 1)
     navigate('/jgame/cho-ve/xac-nhan-dat-ve')
   }
 
   return (
-    <div className='flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-4 sm:flex-row sm:items-center sm:justify-between'>
+    <div
+      className='flex cursor-pointer flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-4 hover:border-purple-400/40 sm:flex-row sm:items-center sm:justify-between'
+      onClick={() => navigate(`/jgame/cho-ve/ve/${ticket.id}`)}
+      data-qa={`row_ve_${ticket.id}`}
+    >
       <div>
         <div className='flex items-center gap-2'>
           <span className='font-semibold text-white'>{ticket.zoneName}</span>
@@ -89,7 +94,10 @@ export function CybergameShopPage() {
             <p className='mt-1.5 text-sm text-white/60'>{shop.description}</p>
           </div>
           <div className='flex flex-shrink-0 gap-4 text-sm text-white/70 sm:border-l sm:border-white/10 sm:pl-4'>
-            <span className='flex items-center gap-1.5'><Star className='h-4 w-4 text-amber-400' /> {shop.rating.toFixed(1)}</span>
+            <span className='flex items-center gap-1.5'>
+              <Star className='h-4 w-4 text-amber-400' /> {shop.rating.toFixed(1)}
+              {shop.reviewCount > 0 && <span className='text-white/40'>({shop.reviewCount})</span>}
+            </span>
             <span className='flex items-center gap-1.5'><Users className='h-4 w-4' /> Đã bán {formatNumber(shop.totalSold)}</span>
           </div>
         </div>

@@ -37,9 +37,10 @@ export interface CardProduct {
   /** Điều khoản sử dụng / chính sách đổi trả riêng theo loại thẻ (FR-6.7.2) */
   policyText: string
   status: CardProductStatus
-  /** UI-only, chỉ nhánh mock Website có sẵn — BE thật không trả field này. */
+  /** `art` build từ BrandColorFrom/BrandColorTo/BrandIcon của BE (CardApiService.mapProduct) —
+   * card thương hiệu nền trắng + khối màu, thay ảnh minh hoạ không liên quan trước đây. */
   art?: MockCardArt
-  /** Logo thật của NCC (thu thập từ nguồn thực tế) — ưu tiên hiển thị, gradient/icon chỉ là fallback khi ảnh lỗi. */
+  /** Logo thật của NCC — BE hiện luôn trả null (chưa sourcing logo thật), `art` là hiển thị chính. */
   imageUrl?: string
   denominations: CardDenomination[]
 }

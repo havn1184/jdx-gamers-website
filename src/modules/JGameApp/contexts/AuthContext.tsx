@@ -8,7 +8,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from 'react'
 import { TokenManager } from '../shared/services/api'
 import { useAuthSession } from '../features/Public/auth/hooks/useAuthSession'
-import { logActivity } from '../mocks/loginHistory.store'
 import { clearPendingSelection } from '../shared/utils/pendingSelection'
 import type { AuthUser } from '../features/Public/auth/types/auth.types'
 
@@ -33,8 +32,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => { void refreshUser() }, [refreshUser])
 
   const logout = useCallback(() => {
-    const userId = TokenManager.getUserId()
-    if (userId) logActivity(userId, 'LOGOUT')
     TokenManager.clearTokens()
     // Xoá returnTo/lựa chọn dở dang còn sót lại — tránh lần đăng nhập kế tiếp (có thể là
     // tài khoản khác) bị "hijack" điều hướng sang trang của phiên trước thay vì đúng

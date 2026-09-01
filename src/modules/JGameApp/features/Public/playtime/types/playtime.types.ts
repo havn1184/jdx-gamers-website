@@ -1,10 +1,19 @@
 /**
  * Types cho Chợ vé giờ chơi Cybergame (Giai đoạn 2 — URD mục 7).
  */
+import type { PaymentMethod } from '../../wallet/types/wallet.types'
 
 export type ZoneType = 'standard' | 'vip' | 'highend'
 export type ShopSyncMode = 'manual' | 'netbarbox' | 'dodonew'
 export type ShopStatus = 'active' | 'inactive'
+
+/** Nguồn gốc 1 gói vé — Manual (chủ gian hàng tự nhập) hay đồng bộ từ nền tảng ngoài (Netbarbox/DoDoNew). */
+export const PlaytimeTicketSourcePlatform = {
+  Manual: 0,
+  Netbarbox: 1,
+  Dodonew: 2,
+} as const
+export type PlaytimeTicketSourcePlatform = (typeof PlaytimeTicketSourcePlatform)[keyof typeof PlaytimeTicketSourcePlatform]
 
 export interface MockShopArt {
   gradient: [string, string]
@@ -27,6 +36,8 @@ export interface CybergameShop {
   syncMode: ShopSyncMode
   rating: number
   totalSold: number
+  /** Số lượt đánh giá — tổng hợp động từ PlaytimeReviewService bên BE. */
+  reviewCount: number
   createdAt: string
 }
 
@@ -54,6 +65,10 @@ export interface PlaytimeTicket {
   isFlashSale: boolean
   flashSaleEndsAt?: string
   status: TicketStatus
+  /** Nguồn gốc gói vé — chỉ có ở BE thật sau nc_ tích hợp Netbarbox, optional để không phá vỡ nhánh mock cũ. */
+  sourcePlatform?: PlaytimeTicketSourcePlatform
+  /** Đánh dấu thời điểm gói bị gỡ ở nguồn (Netbarbox) nhưng vẫn giữ lại lịch sử — null/undefined nếu còn tồn tại ở nguồn. */
+  sourceRemovedAt?: string | null
 }
 
 /** View đã join thêm thông tin gian hàng/zone — dùng cho hiển thị marketplace. */
@@ -94,6 +109,29 @@ export interface PlaytimeOrder {
   qrCode: string
   createdAt: string
   updatedAt: string
+  /** Thời điểm đơn chuyển sang PAID — null nếu chưa thanh toán. Mốc tính điều kiện đánh giá. */
+  paidAt?: string | null
+  /** Computed từ BE — true khi đơn đủ điều kiện đánh giá NGAY BÂY GIỜ (đã thanh toán, trong 3
+   *  ngày kể từ paidAt, chưa đánh giá). FE KHÔNG tự tính lại ngày. */
+  canReview: boolean
+  /** Computed từ BE — true khi đơn đã có đánh giá (còn hạn hay không). */
+  hasReviewed: boolean
+}
+
+/** 1 đánh giá khách hàng cho 1 đơn vé giờ chơi đã thanh toán. */
+export interface PlaytimeReview {
+  id: string
+  orderId: string
+  shopId: string
+  shopName: string
+  ticketId: string
+  zoneName: string
+  userId: string
+  reviewerName: string
+  /** 1–5 sao */
+  rating: number
+  comment?: string
+  createdAt: string
 }
 
 export interface ShopPayoutPeriod {
@@ -124,8 +162,8 @@ export interface MarketplaceSections {
 export interface CreateTicketOrderPayload {
   ticketId: string
   quantity: number
-  /** true khi đã trừ đủ JCoin cho đơn này — bỏ qua bước chờ QR (xem phân hệ Kiếm tiền) */
-  payWithJcoin?: boolean
+  /** Bắt buộc — ví VND hoặc JCoin dùng thanh toán đơn (nc_vi-2-loai-tien-thanh-toan.md). */
+  paymentMethod: PaymentMethod
 }
 
 export interface RegisterShopPayload {
@@ -154,6 +192,8 @@ export interface UpsertTicketPayload {
   totalSlots: number
   availableSlots: number
   isFlashSale: boolean
+  /** Chỉ dùng khi bật/tắt bán 1 gói đã có (nút "Bật bán"/"Ngừng bán") — không set khi tạo mới. */
+  status?: TicketStatus
 }
 
 export interface ShopDetailResult {

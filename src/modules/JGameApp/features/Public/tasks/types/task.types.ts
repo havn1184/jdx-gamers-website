@@ -1,10 +1,11 @@
 /**
  * Types cho phân hệ "Kiếm tiền" — nhiệm vụ trải nghiệm/test game, trả thưởng JCoin.
  *
- * Field đặt theo ĐÚNG contract BE thật `JGameApi` (GameTaskResponse/UserTaskProgressResponse/
- * JcoinWalletResponse/JcoinTransactionResponse — theo App, xem quyet-dinh-hop-nhat-api.md
- * #10/#11/#13), KHÔNG theo model cũ của Website nữa (`gameName`/`jcoinReward`/`requirement`
- * object/`status` enum). Đây là nc_ "Tích hợp Website + App gọi API thật JGameApi".
+ * Field đặt theo ĐÚNG contract BE thật `JGameApi` (GameTaskResponse/UserTaskProgressResponse —
+ * theo App, xem quyet-dinh-hop-nhat-api.md #10/#11), KHÔNG theo model cũ của Website nữa
+ * (`gameName`/`jcoinReward`/`requirement` object/`status` enum). Đây là nc_ "Tích hợp Website +
+ * App gọi API thật JGameApi". Ví (VND + JCoin) đã tách sang types/wallet.types.ts
+ * (nc_vi-2-loai-tien-thanh-toan.md).
  *
  * TỰ QUYẾT (BE không có, Website mock cũ có) — xem báo cáo nc_ để biết chi tiết:
  * - `requirement` chi tiết (targetLevel/hoursPerDay/totalDays/itemNames) bị bỏ, BE chỉ trả
@@ -60,18 +61,4 @@ export interface UserTaskProgress {
 export interface TaskListParams {
   requirementType?: TaskRequirementType | 'all'
   keyword?: string
-}
-
-/** JCoin — ví + giao dịch. BE dùng enum int (EarnTask=0/SpendCard=1/SpendTicket=2/
- * SpendAccessory=3) cho `type`; Website vẫn dùng chuỗi để hiển thị UI (giữ nguyên tên hiển
- * thị cũ) — TaskApiService chịu trách nhiệm map int -> chuỗi khi đọc response thật. */
-export type JcoinTxType = 'EARN_TASK' | 'SPEND_CARD' | 'SPEND_TICKET' | 'SPEND_ACCESSORY'
-
-export interface JcoinTransaction {
-  id: string
-  userId: string
-  type: JcoinTxType
-  amount: number
-  reason: string
-  createdAt: string
 }

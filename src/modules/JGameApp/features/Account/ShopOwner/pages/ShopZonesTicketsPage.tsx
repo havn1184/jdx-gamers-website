@@ -1,13 +1,15 @@
 /**
  * ShopZonesTicketsPage — Quản lý Zone & Vé, nhập thủ công (SC-P2-S3).
  */
-import { Loader2, Pencil, Trash2, Plus, X } from 'lucide-react'
+import { Loader2, Pencil, Trash2, Plus, X, Play, Pause, AlertCircle } from 'lucide-react'
 import { Input } from '../../../../shared/components/ui/input'
 import { Button } from '../../../../shared/components/ui/button'
 import { formatCurrency } from '../../../../shared/utils/FormatUtils'
+import { cn } from '../../../../shared/components/ui/utils'
 import { ShopOwnerLayout } from '../components/ShopOwnerLayout'
 import { useMyShop } from '../hooks/useMyShop'
 import { useShopZonesTickets } from '../hooks/useShopZonesTickets.page'
+import { PlaytimeTicketSourcePlatform } from '../types/shop-owner.types'
 import type { ZoneType } from '../types/shop-owner.types'
 
 export const PAGE_ID = 'jgame-shop-zones-tickets'
@@ -16,6 +18,7 @@ export const PAGE_FEATURES = [
   { label: 'Xóa zone', code: 'row-delete-zone' },
   { label: 'Thêm/sửa vé', code: 'btn-luu-ve' },
   { label: 'Xóa vé', code: 'row-delete-ve' },
+  { label: 'Bật/tắt bán vé', code: 'btn-toggle-status-ve' },
 ]
 
 const ZONE_TYPE_LABEL: Record<ZoneType, string> = { standard: 'Thường', vip: 'VIP', highend: 'Cấu hình cao' }
@@ -23,9 +26,10 @@ const ZONE_TYPE_LABEL: Record<ZoneType, string> = { standard: 'Thường', vip: 
 export function ShopZonesTicketsPage() {
   const { shop } = useMyShop()
   const {
-    zones, tickets, loading,
+    zones, tickets, loading, errorMessage,
     zoneForm, setZoneForm, savingZone, startEditZone, cancelEditZone, submitZone, removeZone,
     ticketForm, setTicketForm, savingTicket, startEditTicket, cancelEditTicket, submitTicket, removeTicket,
+    toggleTicketStatus,
   } = useShopZonesTickets()
 
   if (loading) return <ShopOwnerLayout shopName={shop?.name}><div className='flex items-center justify-center gap-2 py-16 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải...</div></ShopOwnerLayout>
@@ -33,6 +37,12 @@ export function ShopZonesTicketsPage() {
   return (
     <ShopOwnerLayout shopName={shop?.name}>
       <h1 className='mb-6 text-xl font-bold text-white'>Quản lý Zone & Vé</h1>
+
+      {errorMessage && (
+        <div className='mb-4 flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300' data-qa='loi_zone_ve'>
+          <AlertCircle className='h-4 w-4 flex-shrink-0' /> {errorMessage}
+        </div>
+      )}
 
       {/* Zones */}
       <section className='mb-10'>
@@ -128,11 +138,29 @@ export function ShopZonesTicketsPage() {
                 <div>
                   <span className='font-semibold text-white'>{zoneName} · {ticket.hours}h</span>
                   {ticket.isFlashSale && <span className='jgame-badge-soon ml-2 rounded-full px-2 py-0.5 text-[10px] font-bold'>Flash Sale</span>}
+                  {ticket.sourcePlatform === PlaytimeTicketSourcePlatform.Netbarbox && (
+                    <span className='ml-2 rounded-full border border-sky-400/40 bg-sky-500/10 px-2 py-0.5 text-[10px] font-bold text-sky-300' data-qa={`badge_netbarbox_${ticket.id}`}>
+                      Đồng bộ từ Netbarbox
+                    </span>
+                  )}
+                  <span className={cn('ml-2 rounded-full px-2 py-0.5 text-[10px] font-bold', ticket.status === 'active' ? 'bg-emerald-500/10 text-emerald-300' : 'bg-white/10 text-white/50')}>
+                    {ticket.status === 'active' ? 'Đang bán' : 'Chưa bán'}
+                  </span>
+                  {ticket.sourceRemovedAt && <p className='mt-0.5 text-[11px] text-amber-300'>Gói đã bị gỡ ở Netbarbox — vẫn giữ lại lịch sử.</p>}
                   <p className='mt-0.5 text-xs text-white/50'>
                     {ticket.sellPrice === 0 ? 'Miễn phí' : formatCurrency(ticket.sellPrice)} · Còn {ticket.availableSlots}/{ticket.totalSlots} vé
                   </p>
                 </div>
                 <div className='flex gap-1'>
+                  <Button
+                    variant='ghost' size='sm'
+                    className={cn('border rounded-lg bg-white', ticket.status === 'active' ? 'icon-warning' : 'icon-success')}
+                    title={ticket.status === 'active' ? 'Ngừng bán' : 'Bật bán'}
+                    onClick={() => toggleTicketStatus(ticket)}
+                    data-qa={`btn_toggle_status_ve_${ticket.id}`}
+                  >
+                    {ticket.status === 'active' ? <Pause className='h-4 w-4' /> : <Play className='h-4 w-4' />}
+                  </Button>
                   <Button variant='ghost' size='sm' className='icon-warning border rounded-lg bg-white' title='Sửa' onClick={() => startEditTicket(ticket)}><Pencil className='h-4 w-4' /></Button>
                   <Button variant='ghost' size='sm' className='icon-danger border rounded-lg bg-white' title='Xóa' onClick={() => removeTicket(ticket.id)} data-qa={`row_delete_ve_${ticket.id}`}><Trash2 className='h-4 w-4' /></Button>
                 </div>

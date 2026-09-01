@@ -1,186 +1,166 @@
 /**
  * ShopOwnerApiService — Kênh Người Bán (Giai đoạn 2 — URD mục 7): đăng ký gian hàng,
  * quản lý zone/vé, đồng bộ NetBarBox/DoDoNew, đơn hàng đã bán, công nợ & lịch sử thanh toán.
- * Qua gate mock (JGAME_USE_MOCK). Khi có BE thật: xoá nhánh mock, giữ nhánh apiCall.
+ *
+ * Toàn bộ method đã có BE thật (my-shop, register, updateShopProfile, setSyncMode, syncNow,
+ * dashboard, orders, confirm-used, payouts, getZones/upsertZone/deleteZone,
+ * getTickets/upsertTicket/deleteTicket) — không còn method nào giữ gate `JGAME_USE_MOCK`
+ * (20260901-nc_shop-owner-zone-ve-crud.md, trước đó nhóm zone/ticket/sync CHƯA có endpoint BE).
  */
-import { apiCall, buildJGameUrl, JGAME_USE_MOCK, mockApiCall, mockApiError, TokenManager, type ApiResponse } from '../../../../shared/services/api'
-import {
-  getShopByOwnerId, registerShop, updateShopSyncMode, updateShopProfile, syncShopNow,
-  listZonesByShop, upsertZone, deleteZone, listTicketsByShopRaw, upsertTicket, deleteTicket,
-} from '../../../../mocks/playtimeShops.store'
-import { listMockPlaytimeOrdersByShop, confirmMockPlaytimeOrderUsed } from '../../../../mocks/playtimeOrders.store'
-import { getCurrentPayoutPeriod, getPayoutHistory } from '../../../../mocks/shopPayouts.mock'
+import { apiCall, buildJGameUrl, type ApiResponse } from '../../../../shared/services/api'
 import type {
-  CybergameShop, PlaytimeZone, PlaytimeTicket, ShopSyncMode, RegisterShopPayload, UpdateShopProfilePayload,
+  CybergameShop, PlaytimeZone, PlaytimeTicket, ZoneType, TicketStatus, ShopSyncMode, RegisterShopPayload, UpdateShopProfilePayload,
   UpsertZonePayload, UpsertTicketPayload, PlaytimeOrder, PlaytimeOrderStatus, ShopPayoutPeriod, ShopDashboardSummary,
 } from '../types/shop-owner.types'
+import type { PlaytimeTerminal } from '../types/netbarbox.types'
 
-function getMockOwnerId(): string {
-  return TokenManager.getUserId() || 'demo-user'
+// BE serialize enum về int (Program.cs không dùng JsonStringEnumConverter) — map đúng thứ tự khai
+// báo trong Enums/*.cs của JGameApi sang string union Website đang dùng.
+// Chiều ĐỌC (BE int -> FE string): dùng để normalize response.
+const SHOP_STATUS_MAP = ['active', 'inactive'] as const
+const SHOP_SYNC_MODE_MAP = ['manual', 'netbarbox', 'dodonew'] as const
+const ZONE_TYPE_MAP = ['standard', 'vip', 'highend'] as const // khớp PlaytimeZoneType Standard=0/Vip=1/Highend=2
+const PLAYTIME_ORDER_STATUS_MAP = [
+  'PENDING', 'PAID', 'CONFIRMED', 'USED', 'SUPPLY_FAILED', 'REFUND_PROCESSING', 'REFUNDED', 'EXPIRED',
+] as const
+const SHOP_PAYOUT_STATUS_MAP = ['PENDING', 'PAID'] as const
+
+// Chiều GHI (FE string -> BE int): dùng khi gửi request POST/PUT lên BE — thiếu bước này khiến
+// System.Text.Json không bind được chuỗi vào enum int, BE trả 400 model-binding trước khi vào Controller
+// (đã xảy ra thật với setSyncMode — 20260901-nc_shop-owner-zone-ve-crud.md mục 2.1).
+function toSyncModeInt(mode: ShopSyncMode): number { return SHOP_SYNC_MODE_MAP.indexOf(mode) }
+function toZoneTypeInt(zoneType: ZoneType): number { return ZONE_TYPE_MAP.indexOf(zoneType) }
+function toStatusInt(status: TicketStatus): number { return SHOP_STATUS_MAP.indexOf(status) }
+
+function normalizeShop(shop: CybergameShop): CybergameShop {
+  return {
+    ...shop,
+    status: (typeof shop.status === 'number' ? SHOP_STATUS_MAP[shop.status] : shop.status) as CybergameShop['status'],
+    syncMode: (typeof shop.syncMode === 'number' ? SHOP_SYNC_MODE_MAP[shop.syncMode] : shop.syncMode) as CybergameShop['syncMode'],
+  }
+}
+
+function normalizeZone(zone: PlaytimeZone): PlaytimeZone {
+  return {
+    ...zone,
+    zoneType: (typeof zone.zoneType === 'number' ? ZONE_TYPE_MAP[zone.zoneType] : zone.zoneType) as PlaytimeZone['zoneType'],
+  }
+}
+
+function normalizeTicket(ticket: PlaytimeTicket): PlaytimeTicket {
+  return {
+    ...ticket,
+    status: (typeof ticket.status === 'number' ? SHOP_STATUS_MAP[ticket.status] : ticket.status) as PlaytimeTicket['status'],
+  }
+}
+
+function normalizePlaytimeOrder(order: PlaytimeOrder): PlaytimeOrder {
+  const raw = order.status as unknown
+  if (typeof raw === 'number') {
+    return { ...order, status: (PLAYTIME_ORDER_STATUS_MAP[raw] ?? 'PENDING') as PlaytimeOrder['status'] }
+  }
+  return order
+}
+
+function normalizePayout(p: ShopPayoutPeriod): ShopPayoutPeriod {
+  const raw = p.status as unknown
+  if (typeof raw === 'number') {
+    return { ...p, status: (SHOP_PAYOUT_STATUS_MAP[raw] ?? 'PENDING') as ShopPayoutPeriod['status'] }
+  }
+  return p
 }
 
 export class ShopOwnerApiService {
   private static readonly BASE_PATH = '/api/shop-owner'
 
   static async getMyShop(): Promise<ApiResponse<CybergameShop | null>> {
-    if (JGAME_USE_MOCK) return mockApiCall(() => getShopByOwnerId(getMockOwnerId()) || null, 250)
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/my-shop`), { method: 'GET' })
-    return response.json()
+    const result: ApiResponse<CybergameShop | null> = await response.json()
+    if (result.success && result.data) result.data = normalizeShop(result.data)
+    return result
   }
 
   static async registerShop(payload: RegisterShopPayload): Promise<ApiResponse<CybergameShop>> {
-    if (JGAME_USE_MOCK) {
-      const ownerId = getMockOwnerId()
-      if (getShopByOwnerId(ownerId)) return mockApiError('Bạn đã có gian hàng, không thể đăng ký thêm')
-      return mockApiCall(() => registerShop(ownerId, payload), 400)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/register`), { method: 'POST', body: JSON.stringify(payload) })
     return response.json()
   }
 
   static async updateShopProfile(payload: UpdateShopProfilePayload): Promise<ApiResponse<CybergameShop>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => updateShopProfile(shop.id, payload)!, 350)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop/profile`), { method: 'PUT', body: JSON.stringify(payload) })
-    return response.json()
+    const result: ApiResponse<CybergameShop> = await response.json()
+    if (result.success && result.data) result.data = normalizeShop(result.data)
+    return result
   }
 
   static async setSyncMode(syncMode: ShopSyncMode): Promise<ApiResponse<CybergameShop>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => updateShopSyncMode(shop.id, syncMode)!, 250)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop/sync-mode`), { method: 'PUT', body: JSON.stringify({ syncMode }) })
-    return response.json()
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop/sync-mode`), { method: 'PUT', body: JSON.stringify({ syncMode: toSyncModeInt(syncMode) }) })
+    const result: ApiResponse<CybergameShop> = await response.json()
+    if (result.success && result.data) result.data = normalizeShop(result.data)
+    return result
   }
 
   static async syncNow(): Promise<ApiResponse<PlaytimeTicket[]>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => { syncShopNow(shop.id); return listTicketsByShopRaw(shop.id) }, 900)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop/sync-now`), { method: 'POST' })
-    return response.json()
+    const result: ApiResponse<PlaytimeTicket[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizeTicket)
+    return result
   }
 
   static async getZones(): Promise<ApiResponse<PlaytimeZone[]>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => listZonesByShop(shop.id), 250)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/zones`), { method: 'GET' })
-    return response.json()
+    const result: ApiResponse<PlaytimeZone[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizeZone)
+    return result
   }
 
   static async upsertZone(payload: UpsertZonePayload): Promise<ApiResponse<PlaytimeZone>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => upsertZone(shop.id, payload), 300)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/zones`), { method: 'POST', body: JSON.stringify(payload) })
-    return response.json()
+    const body = { ...payload, zoneType: toZoneTypeInt(payload.zoneType) }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/zones`), { method: 'POST', body: JSON.stringify(body) })
+    const result: ApiResponse<PlaytimeZone> = await response.json()
+    if (result.success && result.data) result.data = normalizeZone(result.data)
+    return result
   }
 
   static async deleteZone(zoneId: string): Promise<ApiResponse<null>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      deleteZone(shop.id, zoneId)
-      return mockApiCall(() => null, 250)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/zones/${zoneId}`), { method: 'DELETE' })
     return response.json()
   }
 
   static async getTickets(): Promise<ApiResponse<PlaytimeTicket[]>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => listTicketsByShopRaw(shop.id), 250)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/tickets`), { method: 'GET' })
-    return response.json()
+    const result: ApiResponse<PlaytimeTicket[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizeTicket)
+    return result
   }
 
   static async upsertTicket(payload: UpsertTicketPayload): Promise<ApiResponse<PlaytimeTicket>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => upsertTicket(shop.id, payload), 300)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/tickets`), { method: 'POST', body: JSON.stringify(payload) })
-    return response.json()
+    const body = { ...payload, status: payload.status ? toStatusInt(payload.status) : undefined }
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/tickets`), { method: 'POST', body: JSON.stringify(body) })
+    const result: ApiResponse<PlaytimeTicket> = await response.json()
+    if (result.success && result.data) result.data = normalizeTicket(result.data)
+    return result
   }
 
   static async deleteTicket(ticketId: string): Promise<ApiResponse<null>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      deleteTicket(shop.id, ticketId)
-      return mockApiCall(() => null, 250)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/tickets/${ticketId}`), { method: 'DELETE' })
     return response.json()
   }
 
-  static async getShopOrders(status?: PlaytimeOrderStatus | 'all'): Promise<ApiResponse<PlaytimeOrder[]>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => listMockPlaytimeOrdersByShop(shop.id, status), 300)
-    }
+  static async getShopOrders(_status?: PlaytimeOrderStatus | 'all'): Promise<ApiResponse<PlaytimeOrder[]>> {
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders`), { method: 'GET' })
-    return response.json()
+    const result: ApiResponse<PlaytimeOrder[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizePlaytimeOrder)
+    return result
   }
 
   static async confirmTicketUsed(orderId: string): Promise<ApiResponse<PlaytimeOrder>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      const order = confirmMockPlaytimeOrderUsed(orderId, shop.id)
-      if (!order) return mockApiError('Không thể xác nhận đơn hàng này')
-      return mockApiCall(() => order, 250)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders/${orderId}/confirm-used`), { method: 'POST' })
-    return response.json()
+    const result: ApiResponse<PlaytimeOrder> = await response.json()
+    if (result.success && result.data) result.data = normalizePlaytimeOrder(result.data)
+    return result
   }
 
   static async getDashboardSummary(): Promise<ApiResponse<ShopDashboardSummary>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => {
-        const orders = listMockPlaytimeOrdersByShop(shop.id)
-        const startOfToday = new Date(); startOfToday.setHours(0, 0, 0, 0)
-        const startOfWeek = new Date(Date.now() - 7 * 86400000)
-        const revenueSince = (from: Date) => orders.filter(o => ['CONFIRMED', 'USED'].includes(o.status) && new Date(o.createdAt) >= from).reduce((s, o) => s + o.totalAmount, 0)
-        const tickets = listTicketsByShopRaw(shop.id)
-        const zones = listZonesByShop(shop.id)
-        const soldByTicket = new Map<string, number>()
-        orders.forEach(o => { if (['CONFIRMED', 'USED'].includes(o.status)) soldByTicket.set(o.ticketId, (soldByTicket.get(o.ticketId) || 0) + o.quantity) })
-        const topTickets = [...soldByTicket.entries()]
-          .sort((a, b) => b[1] - a[1]).slice(0, 5)
-          .map(([ticketId, soldCount]) => {
-            const t = tickets.find(x => x.id === ticketId)
-            const zoneName = zones.find(z => z.id === t?.zoneId)?.name || ''
-            return t ? { ticket: t, zoneName, soldCount } : null
-          }).filter((v): v is { ticket: PlaytimeTicket; zoneName: string; soldCount: number } => Boolean(v))
-        return {
-          todayRevenue: revenueSince(startOfToday),
-          weekRevenue: revenueSince(startOfWeek),
-          newOrdersCount: orders.filter(o => o.status === 'PAID' || o.status === 'CONFIRMED').length,
-          lowSlotTickets: tickets.filter(t => t.status === 'active' && t.availableSlots <= 3 && t.availableSlots > 0),
-          topTickets,
-        }
-      }, 350)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/dashboard`), { method: 'GET' })
     return response.json()
   }
@@ -190,18 +170,15 @@ export class ShopOwnerApiService {
    * "current", phần còn lại (đã PAID) làm "history" ngay tại client — cách đơn giản nhất, giữ nguyên 2
    * hàm public cũ để không phải sửa lại 2 nơi gọi hiện có. */
   private static async getAllPayouts(): Promise<ApiResponse<ShopPayoutPeriod[]>> {
-    if (JGAME_USE_MOCK) {
-      const shop = getShopByOwnerId(getMockOwnerId())
-      if (!shop) return mockApiError('Bạn chưa có gian hàng')
-      return mockApiCall(() => [getCurrentPayoutPeriod(shop.id), ...getPayoutHistory(shop.id)], 300)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/payouts`), { method: 'GET' })
-    return response.json()
+    const result: ApiResponse<ShopPayoutPeriod[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizePayout)
+    return result
   }
 
   static async getPayoutSummary(): Promise<ApiResponse<ShopPayoutPeriod>> {
     const res = await this.getAllPayouts()
-    if (!res.success || !res.data || res.data.length === 0) return res as ApiResponse<ShopPayoutPeriod>
+    if (!res.success || !res.data || res.data.length === 0) return { ...res, data: null }
     return { ...res, data: res.data[0] }
   }
 
@@ -209,5 +186,22 @@ export class ShopOwnerApiService {
     const res = await this.getAllPayouts()
     if (!res.success || !res.data) return res
     return { ...res, data: res.data.slice(1) }
+  }
+
+  /** Khai báo 1 máy mới thủ công — BE đã có sẵn (20260831-nc_tich-hop-netbarbox-doi-soat.md mục 3.5.1),
+   * chỉ thiếu chỗ gọi ở FE cho tới nc_ này (20260901-nc_shop-owner-zone-ve-crud.md). */
+  static async createTerminal(payload: { zoneId: string; terminalNumber: string; netbarboxTerminalRef: string }): Promise<ApiResponse<PlaytimeTerminal>> {
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/terminals`), { method: 'POST', body: JSON.stringify(payload) })
+    return response.json()
+  }
+
+  static async updateTerminal(terminalId: string, payload: { zoneId?: string; terminalNumber?: string; netbarboxTerminalRef?: string }): Promise<ApiResponse<PlaytimeTerminal>> {
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/terminals/${terminalId}`), { method: 'PUT', body: JSON.stringify(payload) })
+    return response.json()
+  }
+
+  static async deleteTerminal(terminalId: string): Promise<ApiResponse<null>> {
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/terminals/${terminalId}`), { method: 'DELETE' })
+    return response.json()
   }
 }

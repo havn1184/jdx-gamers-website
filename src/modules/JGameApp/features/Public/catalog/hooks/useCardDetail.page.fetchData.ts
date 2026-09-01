@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CardApiService } from '../services/CardApiService'
-import { savePendingSelection } from '../../../../shared/utils/pendingSelection'
+import { savePendingSelection, consumePendingSelection } from '../../../../shared/utils/pendingSelection'
 import { useAuth } from '../../../../contexts/AuthContext'
 import type { CardProduct, CardDenomination } from '../types/card.types'
 
@@ -38,6 +38,23 @@ export function useCardDetailFetchData(productId: string | undefined) {
   }, [productId])
 
   useEffect(() => { void fetchData() }, [fetchData])
+
+  // Vừa đăng nhập xong sau khi bị chuyển hướng lúc bấm "Mua ngay" lúc chưa đăng nhập
+  // — khôi phục đúng mệnh giá/số lượng đã chọn rồi tiếp tục sang bước xác nhận đơn hàng,
+  // không bắt user chọn lại từ đầu (FR-6.1.2).
+  useEffect(() => {
+    if (!product || !isAuthenticated) return
+    const pending = consumePendingSelection()
+    if (!pending?.denominationId) return
+    const matched = product.denominations.find(d => d.id === pending.denominationId)
+    if (!matched) return
+    const restoredQuantity = pending.quantity ?? 1
+    setSelectedDenomination(matched)
+    setQuantity(restoredQuantity)
+    setAgreedPolicy(true)
+    sessionStorage.setItem('jgame_selection', JSON.stringify({ denominationId: matched.id, quantity: restoredQuantity }))
+    navigate('/jgame/xac-nhan-don-hang')
+  }, [product, isAuthenticated, navigate])
 
   const handleBuyNow = useCallback(() => {
     if (!selectedDenomination || !agreedPolicy) return

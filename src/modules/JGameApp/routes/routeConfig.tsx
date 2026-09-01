@@ -44,6 +44,9 @@ const AccessoryOrderTrackingPage = lazy(() => import('../features/Account/User/a
 // Chợ vé giờ chơi Cybergame (Giai đoạn 2)
 const PlaytimeMarketplacePage = lazy(() => import('../features/Public/playtime/pages/PlaytimeMarketplacePage').then(m => ({ default: m.PlaytimeMarketplacePage })))
 const CybergameShopPage = lazy(() => import('../features/Public/playtime/pages/CybergameShopPage').then(m => ({ default: m.CybergameShopPage })))
+const TicketDetailPage = lazy(() => import('../features/Public/playtime/pages/TicketDetailPage').then(m => ({ default: m.TicketDetailPage })))
+const MyPlaytimeOrdersPage = lazy(() => import('../features/Account/User/playtime/pages/MyPlaytimeOrdersPage').then(m => ({ default: m.MyPlaytimeOrdersPage })))
+const MyPlaytimeReviewsPage = lazy(() => import('../features/Account/User/reviews/pages/MyPlaytimeReviewsPage').then(m => ({ default: m.MyPlaytimeReviewsPage })))
 const TicketConfirmPage = lazy(() => import('../features/Account/User/playtime/pages/TicketConfirmPage').then(m => ({ default: m.TicketConfirmPage })))
 const PlaytimePaymentQrPage = lazy(() => import('../features/Account/User/playtime/pages/PlaytimePaymentQrPage').then(m => ({ default: m.PlaytimePaymentQrPage })))
 const PlaytimeOrderResultPage = lazy(() => import('../features/Account/User/playtime/pages/PlaytimeOrderResultPage').then(m => ({ default: m.PlaytimeOrderResultPage })))
@@ -55,6 +58,8 @@ const ShopZonesTicketsPage = lazy(() => import('../features/Account/ShopOwner/pa
 const ShopSyncPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopSyncPage').then(m => ({ default: m.ShopSyncPage })))
 const ShopOrdersPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopOrdersPage').then(m => ({ default: m.ShopOrdersPage })))
 const ShopPayoutsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopPayoutsPage').then(m => ({ default: m.ShopPayoutsPage })))
+const ShopTerminalsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopTerminalsPage').then(m => ({ default: m.ShopTerminalsPage })))
+const ShopSlotsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopSlotsPage').then(m => ({ default: m.ShopSlotsPage })))
 
 // Quản trị JGame (chuyển từ AdminApp về JGameApp — website độc lập)
 const AdminDashboardPage = lazy(() => import('../features/Account/Admin/dashboard/pages/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })))
@@ -71,7 +76,10 @@ const AdminAccessoryFormPage = lazy(() => import('../features/Account/Admin/acce
 const TasksMarketplacePage = lazy(() => import('../features/Public/tasks/pages/TasksMarketplacePage').then(m => ({ default: m.TasksMarketplacePage })))
 const TaskDetailPage = lazy(() => import('../features/Public/tasks/pages/TaskDetailPage').then(m => ({ default: m.TaskDetailPage })))
 const MyTasksPage = lazy(() => import('../features/Account/User/tasks/pages/MyTasksPage').then(m => ({ default: m.MyTasksPage })))
-const JcoinWalletPage = lazy(() => import('../features/Account/User/tasks/pages/JcoinWalletPage').then(m => ({ default: m.JcoinWalletPage })))
+
+// Ví (VND + JCoin) — nc_vi-2-loai-tien-thanh-toan.md
+const WalletPage = lazy(() => import('../features/Account/User/wallet/pages/WalletPage').then(m => ({ default: m.WalletPage })))
+const WalletTopupPage = lazy(() => import('../features/Account/User/wallet/pages/WalletTopupPage').then(m => ({ default: m.WalletTopupPage })))
 
 export interface JGameRoute {
   path: string
@@ -131,6 +139,9 @@ export const routeConfig: JGameRoute[] = [
   // Chợ vé giờ chơi Cybergame (Giai đoạn 2)
   { path: 'cho-ve', element: <PlaytimeMarketplacePage />, pageId: 'jgame-playtime-marketplace' },
   { path: 'cho-ve/gian-hang/:shopId', element: <CybergameShopPage />, pageId: 'jgame-playtime-shop' },
+  { path: 'cho-ve/ve/:ticketId', element: <TicketDetailPage />, pageId: 'jgame-playtime-ticket-detail' },
+  { path: 've-da-mua', element: <MyPlaytimeOrdersPage />, pageId: 'jgame-playtime-my-orders', requireAuth: true },
+  { path: 'danh-gia-cua-toi', element: <MyPlaytimeReviewsPage />, pageId: 'jgame-playtime-my-reviews', requireAuth: true },
   { path: 'cho-ve/xac-nhan-dat-ve', element: <TicketConfirmPage />, pageId: 'jgame-playtime-confirm' },
   { path: 'cho-ve/thanh-toan/:orderId', element: <PlaytimePaymentQrPage />, pageId: 'jgame-playtime-payment', requireAuth: true },
   { path: 'cho-ve/ket-qua/:orderId', element: <PlaytimeOrderResultPage />, pageId: 'jgame-playtime-result', requireAuth: true },
@@ -140,6 +151,8 @@ export const routeConfig: JGameRoute[] = [
   { path: 'kenh-nguoi-ban', element: <ShopDashboardPage />, pageId: 'jgame-shop-dashboard', requireAuth: true, requireShopOwner: true },
   { path: 'kenh-nguoi-ban/zone-ve', element: <ShopZonesTicketsPage />, pageId: 'jgame-shop-zones-tickets', requireAuth: true, requireShopOwner: true },
   { path: 'kenh-nguoi-ban/dong-bo', element: <ShopSyncPage />, pageId: 'jgame-shop-sync', requireAuth: true, requireShopOwner: true },
+  { path: 'kenh-nguoi-ban/may', element: <ShopTerminalsPage />, pageId: 'jgame-shop-terminals', requireAuth: true, requireShopOwner: true },
+  { path: 'kenh-nguoi-ban/khung-gio', element: <ShopSlotsPage />, pageId: 'jgame-shop-slots', requireAuth: true, requireShopOwner: true },
   { path: 'kenh-nguoi-ban/don-hang', element: <ShopOrdersPage />, pageId: 'jgame-shop-orders', requireAuth: true, requireShopOwner: true },
   { path: 'kenh-nguoi-ban/cong-no', element: <ShopPayoutsPage />, pageId: 'jgame-shop-payouts', requireAuth: true, requireShopOwner: true },
 
@@ -158,6 +171,9 @@ export const routeConfig: JGameRoute[] = [
   // Kiếm tiền — nhiệm vụ trải nghiệm/test game, thưởng JCoin
   { path: 'kiem-tien', element: <TasksMarketplacePage />, pageId: 'jgame-tasks-marketplace' },
   { path: 'kiem-tien/nhiem-vu-cua-toi', element: <MyTasksPage />, pageId: 'jgame-my-tasks', requireAuth: true },
-  { path: 'kiem-tien/vi-jcoin', element: <JcoinWalletPage />, pageId: 'jgame-jcoin-wallet', requireAuth: true },
   { path: 'kiem-tien/:taskId', element: <TaskDetailPage />, pageId: 'jgame-task-detail' },
+
+  // Ví (VND + JCoin) — nc_vi-2-loai-tien-thanh-toan.md
+  { path: 'vi', element: <WalletPage />, pageId: 'jgame-wallet', requireAuth: true },
+  { path: 'vi/nap-tien', element: <WalletTopupPage />, pageId: 'jgame-wallet-topup', requireAuth: true },
 ]

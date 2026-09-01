@@ -6,7 +6,7 @@ import { Gamepad2, AlertCircle, Loader2, ShieldCheck, UserRound, Store, Megaphon
 import { Input } from '../../../../shared/components/ui/input'
 import { Button } from '../../../../shared/components/ui/button'
 import { useLogin } from '../hooks/useLogin.page'
-import { DEMO_ACCOUNTS, DEMO_ACCOUNT_PASSWORD } from '../../../../mocks/authUsers.store'
+import { DEMO_ACCOUNTS, DEMO_ACCOUNT_PASSWORD } from '../../../../shared/constants/demoAccounts'
 
 export const PAGE_ID = 'jgame-login'
 

@@ -16,9 +16,18 @@ export function useAuthSession() {
       setLoading(false)
       return
     }
-    const r = await AuthApiService.getCurrentUser()
-    setUser(r.success && r.data ? r.data : null)
-    setLoading(false)
+    try {
+      const r = await AuthApiService.getCurrentUser()
+      setUser(r.success && r.data ? r.data : null)
+    } catch {
+      // Token còn hạn theo claim cục bộ nhưng BE từ chối (VD: đổi JWT secret ở server,
+      // token phát trước đó không còn hợp lệ) — không được để loading treo vô hạn
+      // (GuestOnly/RequireAuth đều gate theo `loading`, xem GuestOnly.tsx).
+      TokenManager.clearTokens()
+      setUser(null)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   return { user, loading, refreshUser }

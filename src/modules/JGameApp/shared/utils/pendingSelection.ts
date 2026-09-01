@@ -6,12 +6,16 @@
  * `/jgame/*` sau khi đăng nhập — nếu SSO điều hướng sang portal mặc định khác
  * của tài khoản, cần cấu hình redirect phía SSO (ngoài phạm vi JGameApp).
  */
+import type { PaymentMethod } from '../../features/Public/wallet/types/wallet.types'
+
 const SELECTION_KEY = 'jgame_pending_selection'
 const RETURN_TO_KEY = 'jgame_return_to'
 
 export interface PendingSelection {
-  denominationId: string
-  quantity: number
+  denominationId?: string
+  quantity?: number
+  /** Phương thức thanh toán đã chọn trước khi bị chuyển sang đăng nhập (nếu có). */
+  paymentMethod?: PaymentMethod | null
 }
 
 export function savePendingSelection(selection: PendingSelection, returnToHash: string): void {
@@ -31,6 +35,13 @@ export function readPendingSelection(): PendingSelection | null {
   } catch {
     return null
   }
+}
+
+/** Đọc lựa chọn dở dang rồi xoá ngay — chỉ khôi phục được đúng 1 lần sau khi đăng nhập xong. */
+export function consumePendingSelection(): PendingSelection | null {
+  const value = readPendingSelection()
+  if (value) sessionStorage.removeItem(SELECTION_KEY)
+  return value
 }
 
 /** Lấy đường dẫn cần quay lại sau đăng nhập (nếu có) rồi xoá — chỉ dùng được 1 lần. */

@@ -4,13 +4,15 @@
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, LayoutList, RefreshCw, ClipboardList, Wallet, Store } from 'lucide-react'
+import { LayoutDashboard, LayoutList, RefreshCw, ClipboardList, Wallet, Store, Monitor, CalendarClock } from 'lucide-react'
 import { cn } from '../../../../shared/components/ui/utils'
 
 const MENU = [
   { to: '/jgame/kenh-nguoi-ban', label: 'Tổng quan', icon: LayoutDashboard },
   { to: '/jgame/kenh-nguoi-ban/zone-ve', label: 'Zone & Vé', icon: LayoutList },
   { to: '/jgame/kenh-nguoi-ban/dong-bo', label: 'Đồng bộ nền tảng', icon: RefreshCw },
+  { to: '/jgame/kenh-nguoi-ban/may', label: 'Danh sách máy', icon: Monitor },
+  { to: '/jgame/kenh-nguoi-ban/khung-gio', label: 'Khung giờ', icon: CalendarClock },
   { to: '/jgame/kenh-nguoi-ban/don-hang', label: 'Đơn hàng đã bán', icon: ClipboardList },
   { to: '/jgame/kenh-nguoi-ban/cong-no', label: 'Công nợ & Thanh toán', icon: Wallet },
 ]
