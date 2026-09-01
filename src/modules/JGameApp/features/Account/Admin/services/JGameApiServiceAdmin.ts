@@ -5,7 +5,7 @@
  * referral-partners/promotions/accessories) CHƯA có BE thật — vẫn dùng mock cục bộ
  * (`ADMIN_CRUD_MOCK_ONLY`, không phụ thuộc cờ `JGAME_USE_MOCK` toàn cục nữa).
  */
-import { apiCall, buildJGameUrl, mockApiCall, mockApiError, type ApiResponse } from '../../../../shared/services/api'
+import { apiCall, buildJGameUrl, buildJGameUrlWithParams, mockApiCall, mockApiError, type ApiResponse } from '../../../../shared/services/api'
 import {
   cardProducts, suppliers, orders, referralPartners, promotions, accessories,
 } from './jgame.mockdata'
@@ -15,12 +15,48 @@ import type {
   PromotionAdmin, PromotionFormPayload, RevenueReportRow, JGameAdminListParams,
   AccessoryAdmin, AccessoryFormPayload, AccessoryAdminListParams,
   AdminOrderStatus, AdminOrderType, AdminDashboardSummary,
+  ReferralTransactionAdmin, ReferralTransactionAdminListParams, ReferralPayoutAdmin,
+  ReferralCommissionRateAdmin, ReferralCommissionRateHistoryAdmin, ReferralCommissionCategory,
+  ReferralReportSummaryAdmin, ReferralReportFilterParams,
 } from '../types/jgame.types'
 
-// Admin CRUD (cards/suppliers/referral-partners/promotions/accessories) chưa có BE thật -
+// Admin CRUD (cards/suppliers/promotions/accessories) chưa có BE thật -
 // LUÔN dùng mock cho các method này bất kể cờ VITE_JGAME_USE_MOCK toàn cục (cờ đó giờ đã tắt
 // vĩnh viễn vì các phân hệ khác đã gọi API thật).
+// Phần "Đối tác Referral" (đọc danh sách/giao dịch/payout/tỷ lệ hoa hồng/báo cáo) đã có BE thật
+// (20260901-nc_doi-tac-tiep-thi-nang-cap.md) — KHÔNG còn phụ thuộc cờ này, xem các method
+// getReferralPartners/getReferralTransactions/*Payout*/*CommissionRate*/getReferralReportSummary.
 const ADMIN_CRUD_MOCK_ONLY = true
+
+/** Map các enum int BE (Enums/ReferralEnums.cs) sang string union FE dùng. */
+const RECONCILE_STATUS_MAP = ['pending', 'confirmed', 'reversed'] as const
+const REFERRAL_COMMISSION_CATEGORY_MAP: ReferralCommissionCategory[] = ['cardtopup', 'playtimeticket']
+const REFERRAL_PAYOUT_STATUS_MAP = ['pending', 'approved', 'rejected', 'paid'] as const
+
+function toCommissionCategoryInt(category: ReferralCommissionCategory): number {
+  const idx = REFERRAL_COMMISSION_CATEGORY_MAP.indexOf(category)
+  return idx === -1 ? 0 : idx
+}
+
+function normalizeReferralTransaction(tx: ReferralTransactionAdmin): ReferralTransactionAdmin {
+  return {
+    ...tx,
+    status: typeof tx.status === 'number' ? (RECONCILE_STATUS_MAP[tx.status as unknown as number] ?? 'pending') : tx.status,
+    category: typeof tx.category === 'number' ? (REFERRAL_COMMISSION_CATEGORY_MAP[tx.category as unknown as number] ?? 'cardtopup') : tx.category,
+  }
+}
+
+function normalizeReferralPayout(p: ReferralPayoutAdmin): ReferralPayoutAdmin {
+  return { ...p, status: typeof p.status === 'number' ? (REFERRAL_PAYOUT_STATUS_MAP[p.status as unknown as number] ?? 'pending') : p.status }
+}
+
+function normalizeCommissionRate(r: ReferralCommissionRateAdmin): ReferralCommissionRateAdmin {
+  return { ...r, category: typeof r.category === 'number' ? (REFERRAL_COMMISSION_CATEGORY_MAP[r.category as unknown as number] ?? 'cardtopup') : r.category }
+}
+
+function normalizeCommissionRateHistory(h: ReferralCommissionRateHistoryAdmin): ReferralCommissionRateHistoryAdmin {
+  return { ...h, category: typeof h.category === 'number' ? (REFERRAL_COMMISSION_CATEGORY_MAP[h.category as unknown as number] ?? 'cardtopup') : h.category }
+}
 
 /** Response thô GET /api/admin/orders (BE gộp cả 3 domain — quyet-dinh-hop-nhat-api.md #15). */
 interface AdminOrderSummaryResponseDto {
@@ -202,41 +238,126 @@ export class JGameApiServiceAdmin {
   }
 
   // ===== Đối tác Referral (quản trị TOÀN BỘ đối tác) =====
+  /** GET /api/admin/referral/partners — nối dây `AdminService.GetAllAffiliatePartnersAsync` có sẵn
+   * (20260901-nc_doi-tac-tiep-thi-nang-cap.md mục 3.3), path PHẲNG `/api/admin/referral/...`
+   * (khác `${BASE_PATH}` = `/api/admin/jgame` dùng cho các CRUD danh mục chưa có BE ở file này). */
   static async getReferralPartners(params?: JGameAdminListParams): Promise<ApiResponse<ReferralPartnerAdmin[]>> {
-    if (ADMIN_CRUD_MOCK_ONLY) return mockApiCall(() => filterByKeywordStatus(referralPartners, params, p => [p.name, p.referralCode]))
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/referral-partners`), { method: 'GET' })
-    return response.json()
+    // KHÔNG gate qua ADMIN_CRUD_MOCK_ONLY (cờ đó chỉ dành cho cards/suppliers/promotions/accessories
+    // chưa có BE) — endpoint đối tác Referral đã có BE thật, luôn gọi API. BE không hỗ trợ filter
+    // keyword/status server-side (giống pattern getOrders) → lọc phía FE sau khi nhận dữ liệu.
+    const response = await apiCall(buildJGameUrl('/api/admin/referral/partners'), { method: 'GET' })
+    const result: ApiResponse<ReferralPartnerAdmin[]> = await response.json()
+    if (!result.success || !result.data) return result
+    return { ...result, data: filterByKeywordStatus(result.data, params, p => [p.name, p.referralCode]) }
   }
 
+  /**
+   * BE (nc_ mục 3.3) CHỈ nối dây API ĐỌC danh sách đối tác (`GET /api/admin/referral/partners`) —
+   * KHÔNG có endpoint tạo/sửa/xoá đối tác từ phía Admin (AdminService chỉ có GetAllAffiliatePartnersAsync,
+   * không có Create/Update/Delete tương ứng). Giữ nguyên mock cho 3 method dưới đây — deviation có chủ đích,
+   * không suy diễn thêm endpoint ngoài tài liệu.
+   */
   static async createReferralPartner(data: ReferralPartnerFormPayload): Promise<ApiResponse<ReferralPartnerAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const created: ReferralPartnerAdmin = { id: `ref-${Date.now()}`, totalOrders: 0, refundRatePercent: 0, ...data }
-      referralPartners.unshift(created)
-      return mockApiCall(() => created)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/referral-partners`), { method: 'POST', body: JSON.stringify(data) })
-    return response.json()
+    const created: ReferralPartnerAdmin = { id: `ref-${Date.now()}`, totalOrders: 0, refundRatePercent: 0, ...data }
+    referralPartners.unshift(created)
+    return mockApiCall(() => created)
   }
 
   static async updateReferralPartner(data: ReferralPartnerFormPayload): Promise<ApiResponse<ReferralPartnerAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const found = referralPartners.find(p => p.id === data.id)
-      if (!found) return mockApiError('Không tìm thấy đối tác')
-      Object.assign(found, data)
-      return mockApiCall(() => found)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/referral-partners`), { method: 'PUT', body: JSON.stringify(data) })
-    return response.json()
+    const found = referralPartners.find(p => p.id === data.id)
+    if (!found) return mockApiError('Không tìm thấy đối tác')
+    Object.assign(found, data)
+    return mockApiCall(() => found)
   }
 
   static async deleteReferralPartner(id: string): Promise<ApiResponse<boolean>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const idx = referralPartners.findIndex(p => p.id === id)
-      if (idx === -1) return mockApiError('Không tìm thấy đối tác')
-      referralPartners.splice(idx, 1)
-      return mockApiCall(() => true)
+    const idx = referralPartners.findIndex(p => p.id === id)
+    if (idx === -1) return mockApiError('Không tìm thấy đối tác')
+    referralPartners.splice(idx, 1)
+    return mockApiCall(() => true)
+  }
+
+  /** GET /api/admin/referral/transactions — mở rộng `AdminService.GetAllReferralTransactionsAsync`
+   * nhận filter (khoảng thời gian/đối tác/loại/trạng thái). */
+  static async getReferralTransactions(params?: ReferralTransactionAdminListParams): Promise<ApiResponse<ReferralTransactionAdmin[]>> {
+    const realParams: Record<string, unknown> = {}
+    if (params?.from) realParams.from = params.from
+    if (params?.to) realParams.to = params.to
+    if (params?.partnerId) realParams.partnerId = params.partnerId
+    if (params?.category && params.category !== 'all') realParams.category = toCommissionCategoryInt(params.category)
+    if (params?.status && params.status !== 'all') realParams.status = RECONCILE_STATUS_MAP.indexOf(params.status)
+    const url = buildJGameUrlWithParams('/api/admin/referral/transactions', realParams)
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<ReferralTransactionAdmin[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizeReferralTransaction)
+    return result
+  }
+
+  // ===== Thanh toán hoa hồng (duyệt/từ chối/đánh dấu đã trả) =====
+  static async getReferralPayouts(status?: ReferralPayoutAdmin['status'] | 'all'): Promise<ApiResponse<ReferralPayoutAdmin[]>> {
+    const url = buildJGameUrlWithParams(
+      '/api/admin/referral/payouts',
+      status && status !== 'all' ? { status: REFERRAL_PAYOUT_STATUS_MAP.indexOf(status) } : undefined,
+    )
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<ReferralPayoutAdmin[]> = await response.json()
+    if (result.success && result.data) result.data = result.data.map(normalizeReferralPayout)
+    return result
+  }
+
+  static async approveReferralPayout(id: string): Promise<ApiResponse<ReferralPayoutAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/referral/payouts/${id}/approve`), { method: 'POST' })
+    const result: ApiResponse<ReferralPayoutAdmin> = await response.json()
+    if (result.success && result.data) result.data = normalizeReferralPayout(result.data)
+    return result
+  }
+
+  static async rejectReferralPayout(id: string, reason: string): Promise<ApiResponse<ReferralPayoutAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/referral/payouts/${id}/reject`), { method: 'POST', body: JSON.stringify({ reason }) })
+    const result: ApiResponse<ReferralPayoutAdmin> = await response.json()
+    if (result.success && result.data) result.data = normalizeReferralPayout(result.data)
+    return result
+  }
+
+  static async markReferralPayoutPaid(id: string): Promise<ApiResponse<ReferralPayoutAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/referral/payouts/${id}/mark-paid`), { method: 'POST' })
+    const result: ApiResponse<ReferralPayoutAdmin> = await response.json()
+    if (result.success && result.data) result.data = normalizeReferralPayout(result.data)
+    return result
+  }
+
+  // ===== Cấu hình tỷ lệ hoa hồng theo loại =====
+  static async getCommissionRates(): Promise<ApiResponse<{ rates: ReferralCommissionRateAdmin[]; history: ReferralCommissionRateHistoryAdmin[] }>> {
+    const response = await apiCall(buildJGameUrl('/api/admin/referral/commission-rates'), { method: 'GET' })
+    const result: ApiResponse<{ rates: ReferralCommissionRateAdmin[]; history: ReferralCommissionRateHistoryAdmin[] }> = await response.json()
+    if (result.success && result.data) {
+      result.data = {
+        rates: result.data.rates.map(normalizeCommissionRate),
+        history: result.data.history.map(normalizeCommissionRateHistory),
+      }
     }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/referral-partners/${id}`), { method: 'DELETE' })
+    return result
+  }
+
+  static async updateCommissionRate(category: ReferralCommissionCategory, ratePercent: number): Promise<ApiResponse<ReferralCommissionRateAdmin>> {
+    const response = await apiCall(
+      buildJGameUrl(`/api/admin/referral/commission-rates/${toCommissionCategoryInt(category)}`),
+      { method: 'PUT', body: JSON.stringify({ ratePercent }) },
+    )
+    const result: ApiResponse<ReferralCommissionRateAdmin> = await response.json()
+    if (result.success && result.data) result.data = normalizeCommissionRate(result.data)
+    return result
+  }
+
+  // ===== Báo cáo tổng hợp referral =====
+  static async getReferralReportSummary(params?: ReferralReportFilterParams): Promise<ApiResponse<ReferralReportSummaryAdmin>> {
+    const realParams: Record<string, unknown> = {}
+    if (params?.from) realParams.from = params.from
+    if (params?.to) realParams.to = params.to
+    if (params?.partnerId) realParams.partnerId = params.partnerId
+    if (params?.category && params.category !== 'all') realParams.category = toCommissionCategoryInt(params.category)
+    const url = buildJGameUrlWithParams('/api/admin/referral/reports/summary', realParams)
+    const response = await apiCall(url, { method: 'GET' })
     return response.json()
   }
 

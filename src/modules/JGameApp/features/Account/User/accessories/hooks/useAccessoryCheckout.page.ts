@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../../../../contexts/CartContext'
 import { AccessoryApiService } from '../../../../Public/accessories/services/AccessoryApiService'
+import { getActiveReferrerCode } from '../../../../../shared/hooks/useReferrerAttribution'
 import { useWalletBalance } from '../../wallet/hooks/useWalletBalance'
 import type { ShippingAddress, ShippingMethod } from '../../../../Public/accessories/types/accessory.types'
 import type { PaymentMethod } from '../../../../Public/wallet/types/wallet.types'
@@ -43,7 +44,11 @@ export function useAccessoryCheckout() {
     setSubmitting(true)
     setErrorMessage(null)
     try {
-      const r = await AccessoryApiService.createOrder({ items, shippingAddress: address, shippingMethodId, paymentMethod })
+      const referrerCode = getActiveReferrerCode()
+      const r = await AccessoryApiService.createOrder({
+        items, shippingAddress: address, shippingMethodId, paymentMethod,
+        referrerCode, referralLinkCode: referrerCode,
+      })
       if (r.success && r.data) {
         clear()
         void refetchBalance()

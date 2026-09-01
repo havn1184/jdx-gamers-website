@@ -13,6 +13,8 @@ const OrderResultPage = lazy(() => import('../features/Account/User/order/pages/
 const HistoryPage = lazy(() => import('../features/Account/User/history/pages/HistoryPage').then(m => ({ default: m.HistoryPage })))
 const ReferrerDashboardPage = lazy(() => import('../features/Account/Partner/pages/ReferrerDashboardPage').then(m => ({ default: m.ReferrerDashboardPage })))
 const AffiliateRegisterPage = lazy(() => import('../features/Account/Partner/pages/AffiliateRegisterPage').then(m => ({ default: m.AffiliateRegisterPage })))
+const ReferralLinksPage = lazy(() => import('../features/Account/Partner/pages/ReferralLinksPage').then(m => ({ default: m.ReferralLinksPage })))
+const ReferralPayoutPage = lazy(() => import('../features/Account/Partner/pages/ReferralPayoutPage').then(m => ({ default: m.ReferralPayoutPage })))
 
 // Auth (độc lập, không qua SSO)
 const LoginPage = lazy(() => import('../features/Public/auth/pages/LoginPage').then(m => ({ default: m.LoginPage })))
@@ -27,6 +29,12 @@ const AccountDashboardPage = lazy(() => import('../features/Account/User/account
 const ProfilePage = lazy(() => import('../features/Account/User/account/pages/ProfilePage').then(m => ({ default: m.ProfilePage })))
 const SecurityPage = lazy(() => import('../features/Account/User/account/pages/SecurityPage').then(m => ({ default: m.SecurityPage })))
 const ActivityHistoryPage = lazy(() => import('../features/Account/User/account/pages/ActivityHistoryPage').then(m => ({ default: m.ActivityHistoryPage })))
+
+// Đối tác (public) — Cybergame, Tiếp thị liên kết, Nhà phát triển game
+const PartnershipPage = lazy(() => import('../features/Public/partnership/pages/PartnershipPage').then(m => ({ default: m.PartnershipPage })))
+const CybergamePartnerPage = lazy(() => import('../features/Public/partnership/pages/CybergamePartnerPage').then(m => ({ default: m.CybergamePartnerPage })))
+const AffiliatePartnerPage = lazy(() => import('../features/Public/partnership/pages/AffiliatePartnerPage').then(m => ({ default: m.AffiliatePartnerPage })))
+const GameDevPartnerPage = lazy(() => import('../features/Public/partnership/pages/GameDevPartnerPage').then(m => ({ default: m.GameDevPartnerPage })))
 
 // Static / CMS
 const AboutPage = lazy(() => import('../features/Public/static-pages/pages/AboutPage').then(m => ({ default: m.AboutPage })))
@@ -67,6 +75,9 @@ const AdminCardsPage = lazy(() => import('../features/Account/Admin/cards/pages/
 const AdminSuppliersPage = lazy(() => import('../features/Account/Admin/suppliers/pages/AdminSuppliersPage').then(m => ({ default: m.AdminSuppliersPage })))
 const AdminOrdersPage = lazy(() => import('../features/Account/Admin/orders/pages/AdminOrdersPage').then(m => ({ default: m.AdminOrdersPage })))
 const AdminReferralPartnersPage = lazy(() => import('../features/Account/Admin/referral/pages/AdminReferralPartnersPage').then(m => ({ default: m.AdminReferralPartnersPage })))
+const AdminReferralPayoutsPage = lazy(() => import('../features/Account/Admin/referral/pages/AdminReferralPayoutsPage').then(m => ({ default: m.AdminReferralPayoutsPage })))
+const AdminReferralCommissionRatesPage = lazy(() => import('../features/Account/Admin/referral/pages/AdminReferralCommissionRatesPage').then(m => ({ default: m.AdminReferralCommissionRatesPage })))
+const AdminReferralReportsPage = lazy(() => import('../features/Account/Admin/referral/pages/AdminReferralReportsPage').then(m => ({ default: m.AdminReferralReportsPage })))
 const AdminPromotionsPage = lazy(() => import('../features/Account/Admin/promotions/pages/AdminPromotionsPage').then(m => ({ default: m.AdminPromotionsPage })))
 const AdminReportsPage = lazy(() => import('../features/Account/Admin/reports/pages/AdminReportsPage').then(m => ({ default: m.AdminReportsPage })))
 const AdminAccessoriesPage = lazy(() => import('../features/Account/Admin/accessories/pages/AdminAccessoriesPage').then(m => ({ default: m.AdminAccessoriesPage })))
@@ -110,6 +121,12 @@ export const routeConfig: JGameRoute[] = [
   { path: 'lich-su', element: <HistoryPage />, pageId: 'jgame-history', requireAuth: true },
   { path: 'doi-tac/dang-ky', element: <AffiliateRegisterPage />, pageId: 'jgame-affiliate-register', requireAuth: true },
   { path: 'doi-tac', element: <ReferrerDashboardPage />, pageId: 'jgame-referrer', requireAuth: true, requireAffiliate: true },
+  { path: 'doi-tac/lien-ket', element: <ReferralLinksPage />, pageId: 'jgame-referral-links', requireAuth: true, requireAffiliate: true },
+  { path: 'doi-tac/thanh-toan', element: <ReferralPayoutPage />, pageId: 'jgame-referral-payout', requireAuth: true, requireAffiliate: true },
+  { path: 'hop-tac', element: <PartnershipPage />, pageId: 'jgame-partnership' },
+  { path: 'hop-tac/cybergame', element: <CybergamePartnerPage />, pageId: 'jgame-partnership-cybergame' },
+  { path: 'hop-tac/tiep-thi-lien-ket', element: <AffiliatePartnerPage />, pageId: 'jgame-partnership-affiliate' },
+  { path: 'hop-tac/nha-phat-trien-game', element: <GameDevPartnerPage />, pageId: 'jgame-partnership-gamedev' },
 
   // Tài khoản độc lập (không qua SSO)
   { path: 'dang-nhap', element: <LoginPage />, pageId: 'jgame-login', guestOnly: true },
@@ -165,6 +182,9 @@ export const routeConfig: JGameRoute[] = [
   { path: 'quan-tri/nha-cung-cap', element: <AdminSuppliersPage />, pageId: 'jgame-admin-suppliers', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/giao-dich', element: <AdminOrdersPage />, pageId: 'jgame-admin-orders', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/doi-tac-referral', element: <AdminReferralPartnersPage />, pageId: 'jgame-admin-referral', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/doi-tac-referral/thanh-toan', element: <AdminReferralPayoutsPage />, pageId: 'jgame-admin-referral-payouts', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/doi-tac-referral/ty-le-hoa-hong', element: <AdminReferralCommissionRatesPage />, pageId: 'jgame-admin-referral-commission-rates', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/doi-tac-referral/bao-cao', element: <AdminReferralReportsPage />, pageId: 'jgame-admin-referral-reports', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/khuyen-mai', element: <AdminPromotionsPage />, pageId: 'jgame-admin-promotions', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/bao-cao', element: <AdminReportsPage />, pageId: 'jgame-admin-reports', requireAuth: true, requireAdmin: true },
 

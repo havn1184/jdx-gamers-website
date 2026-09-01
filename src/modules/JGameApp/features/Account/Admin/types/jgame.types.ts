@@ -179,3 +179,88 @@ export interface AccessoryFormPayload {
 export interface AccessoryAdminListParams extends JGameAdminListParams {
   category?: AccessoryCategoryAdmin | 'all'
 }
+
+// ===== Đối tác tiếp thị — Đa liên kết + Đối soát + Thanh toán (20260901-nc_doi-tac-tiep-thi-nang-cap.md) =====
+
+export type ReferralReconcileStatusAdmin = 'pending' | 'confirmed' | 'reversed'
+export type ReferralCommissionCategory = 'cardtopup' | 'playtimeticket'
+export type ReferralPayoutStatusAdmin = 'pending' | 'approved' | 'rejected' | 'paid'
+
+export const REFERRAL_COMMISSION_CATEGORY_LABELS: Record<ReferralCommissionCategory, string> = {
+  cardtopup: 'Thẻ nạp',
+  playtimeticket: 'Vé giờ chơi',
+}
+
+export const REFERRAL_PAYOUT_STATUS_ADMIN_LABELS: Record<ReferralPayoutStatusAdmin, string> = {
+  pending: 'Chờ duyệt',
+  approved: 'Đã duyệt',
+  rejected: 'Từ chối',
+  paid: 'Đã thanh toán',
+}
+
+/** GET /api/admin/referral/transactions — mở rộng `AdminService.GetAllReferralTransactionsAsync`. */
+export interface ReferralTransactionAdmin {
+  id: string
+  orderId: string
+  partnerId: string
+  partnerName: string
+  amount: number
+  commissionAmount: number
+  category: ReferralCommissionCategory
+  status: ReferralReconcileStatusAdmin
+  createdAt: string
+}
+
+export interface ReferralTransactionAdminListParams {
+  from?: string
+  to?: string
+  partnerId?: string
+  category?: ReferralCommissionCategory | 'all'
+  status?: ReferralReconcileStatusAdmin | 'all'
+}
+
+/** GET /api/admin/referral/payouts — danh sách yêu cầu rút hoa hồng, duyệt/từ chối/đánh dấu đã trả. */
+export interface ReferralPayoutAdmin {
+  id: string
+  partnerId: string
+  partnerName: string
+  amount: number
+  status: ReferralPayoutStatusAdmin
+  requestedAt: string
+  processedAt?: string | null
+  processedBy?: string | null
+  rejectReason?: string | null
+}
+
+/** GET/PUT /api/admin/referral/commission-rates — tỷ lệ hoa hồng hiện hành theo loại + lịch sử. */
+export interface ReferralCommissionRateAdmin {
+  category: ReferralCommissionCategory
+  ratePercent: number
+  updatedAt: string
+  updatedBy?: string | null
+}
+
+export interface ReferralCommissionRateHistoryAdmin {
+  category: ReferralCommissionCategory
+  oldRatePercent: number
+  newRatePercent: number
+  changedBy: string
+  changedAt: string
+}
+
+/** GET /api/admin/referral/reports/summary — báo cáo tổng hợp đối soát/thanh toán. */
+export interface ReferralReportSummaryAdmin {
+  totalClicks: number
+  totalOrders: number
+  totalCommission: number
+  totalCommissionByStatus: Record<ReferralReconcileStatusAdmin, number>
+  totalPaid: number
+  totalOwed: number
+}
+
+export interface ReferralReportFilterParams {
+  from?: string
+  to?: string
+  category?: ReferralCommissionCategory | 'all'
+  partnerId?: string
+}

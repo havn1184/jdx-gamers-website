@@ -4,7 +4,7 @@
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Gamepad2, Headphones, Building2, ShoppingCart, Users, Ticket, BarChart2, ShieldCheck } from 'lucide-react'
+import { LayoutDashboard, Gamepad2, Headphones, Building2, ShoppingCart, Users, Ticket, BarChart2, ShieldCheck, Banknote, Percent, FileBarChart } from 'lucide-react'
 import { cn } from '../../../../shared/components/ui/utils'
 
 const MENU = [
@@ -14,6 +14,9 @@ const MENU = [
   { to: '/jgame/quan-tri/nha-cung-cap', label: 'Nhà cung cấp', icon: Building2 },
   { to: '/jgame/quan-tri/giao-dich', label: 'Giao dịch', icon: ShoppingCart },
   { to: '/jgame/quan-tri/doi-tac-referral', label: 'Đối tác Referral', icon: Users },
+  { to: '/jgame/quan-tri/doi-tac-referral/thanh-toan', label: 'Duyệt thanh toán', icon: Banknote },
+  { to: '/jgame/quan-tri/doi-tac-referral/ty-le-hoa-hong', label: 'Cấu hình hoa hồng', icon: Percent },
+  { to: '/jgame/quan-tri/doi-tac-referral/bao-cao', label: 'Báo cáo Referral', icon: FileBarChart },
   { to: '/jgame/quan-tri/khuyen-mai', label: 'Khuyến mãi', icon: Ticket },
   { to: '/jgame/quan-tri/bao-cao', label: 'Báo cáo', icon: BarChart2 },
 ]

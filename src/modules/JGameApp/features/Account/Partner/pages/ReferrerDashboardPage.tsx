@@ -3,13 +3,14 @@
  */
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Loader2, Copy, Users, Wallet, Clock3, Inbox, Megaphone } from 'lucide-react'
+import { Loader2, Copy, Users, Wallet, Clock3, Inbox, Megaphone, Link2 } from 'lucide-react'
 import { Badge } from '../../../../shared/components/ui/badge'
 import { Button } from '../../../../shared/components/ui/button'
-import { formatCurrency, formatDateTime } from '../../../../shared/utils/FormatUtils'
+import { formatCurrency, formatDateTime, formatPercent } from '../../../../shared/utils/FormatUtils'
 import { useReferrerDashboardFetchData } from '../hooks/useReferrerDashboard.page.fetchData'
 import { cn } from '../../../../shared/components/ui/utils'
 import { PartnerLayout } from '../components/PartnerLayout'
+import { REFERRAL_CHANNEL_LABELS } from '../types/referrer.types'
 
 export const PAGE_ID = 'jgame-referrer'
 export const PAGE_FEATURES = [{ label: 'Sao chép link giới thiệu', code: 'btn-copy-link' }]
@@ -21,7 +22,7 @@ const STATUS_META: Record<string, { label: string; className: string }> = {
 }
 
 export function ReferrerDashboardPage() {
-  const { summary, transactions, loading } = useReferrerDashboardFetchData()
+  const { summary, transactions, links, loading } = useReferrerDashboardFetchData()
   const [copied, setCopied] = useState(false)
 
   if (loading) {
@@ -66,7 +67,49 @@ export function ReferrerDashboardPage() {
         <StatTile icon={<Clock3 className='h-5 w-5' />} label='Chờ đối soát' value={formatCurrency(summary.pendingCommission)} />
       </div>
 
-      <h2 className='mb-3 mt-8 text-base font-semibold text-white'>Giao dịch gần đây</h2>
+      <div className='mb-6 mt-8 flex items-center justify-between'>
+        <h2 className='text-base font-semibold text-white'>Hiệu suất theo liên kết</h2>
+        <Link to='/jgame/doi-tac/lien-ket' className='flex items-center gap-1 text-sm jgame-gradient-text font-semibold'>
+          <Link2 className='h-3.5 w-3.5' /> Quản lý liên kết
+        </Link>
+      </div>
+      {links.length === 0 ? (
+        <div className='flex flex-col items-center gap-2 py-10 text-white/60'>
+          <Link2 className='h-7 w-7' /> Chưa có liên kết nào
+        </div>
+      ) : (
+        <div className='mb-8 overflow-x-auto rounded-xl border border-white/10'>
+          <table className='w-full text-sm'>
+            <thead className='bg-white/5 text-white/60'>
+              <tr>
+                <th className='px-3 py-2 text-left font-medium'>Nhãn</th>
+                <th className='px-3 py-2 text-left font-medium'>Kênh</th>
+                <th className='px-3 py-2 text-right font-medium'>Click</th>
+                <th className='px-3 py-2 text-right font-medium'>Đơn</th>
+                <th className='px-3 py-2 text-right font-medium'>Tỷ lệ chuyển đổi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {links.map(link => (
+                <tr key={link.id} className='border-t border-white/10 text-white/80'>
+                  <td className='px-3 py-2 font-medium text-white'>{link.label}</td>
+                  <td className='px-3 py-2'>{REFERRAL_CHANNEL_LABELS[link.channel]}</td>
+                  <td className='px-3 py-2 text-right'>{link.clickCount}</td>
+                  <td className='px-3 py-2 text-right'>{link.orderCount}</td>
+                  <td className='px-3 py-2 text-right'>{formatPercent((link.conversionRate ?? 0) * 100)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <div className='mb-3 flex items-center justify-between'>
+        <h2 className='text-base font-semibold text-white'>Giao dịch gần đây</h2>
+        <Link to='/jgame/doi-tac/thanh-toan' className='flex items-center gap-1 text-sm jgame-gradient-text font-semibold'>
+          <Wallet className='h-3.5 w-3.5' /> Yêu cầu rút hoa hồng
+        </Link>
+      </div>
       {transactions.length === 0 ? (
         <div className='flex flex-col items-center gap-2 py-16 text-white/60'>
           <Inbox className='h-8 w-8' /> Chưa có giao dịch nào

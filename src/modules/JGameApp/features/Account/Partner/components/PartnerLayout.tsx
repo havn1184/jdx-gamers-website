@@ -4,11 +4,13 @@
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Megaphone, LayoutDashboard } from 'lucide-react'
+import { Megaphone, LayoutDashboard, Link2, Wallet } from 'lucide-react'
 import { cn } from '../../../../shared/components/ui/utils'
 
 const MENU = [
   { to: '/jgame/doi-tac', label: 'Tổng quan', icon: LayoutDashboard },
+  { to: '/jgame/doi-tac/lien-ket', label: 'Liên kết của tôi', icon: Link2 },
+  { to: '/jgame/doi-tac/thanh-toan', label: 'Thanh toán', icon: Wallet },
 ]
 
 export function PartnerLayout({ referralCode, children }: { referralCode?: string; children: ReactNode }) {

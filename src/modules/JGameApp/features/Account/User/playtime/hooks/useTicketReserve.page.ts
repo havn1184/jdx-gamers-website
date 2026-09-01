@@ -5,6 +5,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PlaytimeApiService } from '../../../../Public/playtime/services/PlaytimeApiService'
+import { getActiveReferrerCode } from '../../../../../shared/hooks/useReferrerAttribution'
 import { useAuth } from '../../../../../contexts/AuthContext'
 import { useWalletBalance } from '../../wallet/hooks/useWalletBalance'
 import { savePendingSelection, consumePendingSelection } from '../../../../../shared/utils/pendingSelection'
@@ -75,7 +76,14 @@ export function useTicketReserve() {
     setSubmitting(true)
     setErrorMessage(null)
     try {
-      const r = await PlaytimeApiService.createOrder({ ticketId: selection.ticket.id, quantity: selection.quantity, paymentMethod })
+      const referrerCode = getActiveReferrerCode()
+      const r = await PlaytimeApiService.createOrder({
+        ticketId: selection.ticket.id,
+        quantity: selection.quantity,
+        paymentMethod,
+        referrerCode,
+        referralLinkCode: referrerCode,
+      })
       if (r.success && r.data) {
         sessionStorage.removeItem(SELECTION_KEY)
         void refetchBalance()

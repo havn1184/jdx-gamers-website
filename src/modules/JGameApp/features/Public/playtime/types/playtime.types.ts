@@ -164,6 +164,10 @@ export interface CreateTicketOrderPayload {
   quantity: number
   /** Bắt buộc — ví VND hoặc JCoin dùng thanh toán đơn (nc_vi-2-loai-tien-thanh-toan.md). */
   paymentMethod: PaymentMethod
+  /** Mã refer hiện có trong localStorage tại thời điểm đặt vé — BE lưu vào chính đơn để trace,
+   * kể cả khi không hợp lệ/không tính hoa hồng (20260901-nc_doi-tac-tiep-thi-nang-cap.md mục 3.2). */
+  referrerCode?: string
+  referralLinkCode?: string
 }
 
 export interface RegisterShopPayload {
