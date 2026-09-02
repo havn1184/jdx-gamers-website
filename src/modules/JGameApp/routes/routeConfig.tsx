@@ -71,6 +71,7 @@ const ShopSlotsPage = lazy(() => import('../features/Account/ShopOwner/pages/Sho
 
 // Quản trị JGame (chuyển từ AdminApp về JGameApp — website độc lập)
 const AdminDashboardPage = lazy(() => import('../features/Account/Admin/dashboard/pages/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })))
+const AdminUsersPage = lazy(() => import('../features/Account/Admin/users/pages/AdminUsersPage').then(m => ({ default: m.AdminUsersPage })))
 const AdminCardsPage = lazy(() => import('../features/Account/Admin/cards/pages/AdminCardsPage').then(m => ({ default: m.AdminCardsPage })))
 const AdminSuppliersPage = lazy(() => import('../features/Account/Admin/suppliers/pages/AdminSuppliersPage').then(m => ({ default: m.AdminSuppliersPage })))
 const AdminOrdersPage = lazy(() => import('../features/Account/Admin/orders/pages/AdminOrdersPage').then(m => ({ default: m.AdminOrdersPage })))
@@ -175,6 +176,7 @@ export const routeConfig: JGameRoute[] = [
 
   // Quản trị JGame (chuyển từ AdminApp về JGameApp)
   { path: 'quan-tri', element: <AdminDashboardPage />, pageId: 'jgame-admin-dashboard', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/tai-khoan', element: <AdminUsersPage />, pageId: 'jgame-admin-users', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/danh-muc-the', element: <AdminCardsPage />, pageId: 'jgame-admin-cards', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/phu-kien', element: <AdminAccessoriesPage />, pageId: 'jgame-admin-accessories', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/phu-kien/them', element: <AdminAccessoryFormPage />, pageId: 'jgame-admin-accessory-create', requireAuth: true, requireAdmin: true },

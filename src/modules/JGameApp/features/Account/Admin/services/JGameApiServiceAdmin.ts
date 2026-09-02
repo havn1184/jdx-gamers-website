@@ -20,12 +20,15 @@ import type {
   ReferralTransactionAdmin, ReferralTransactionAdminListParams, ReferralPayoutAdmin,
   ReferralCommissionRateAdmin, ReferralCommissionRateHistoryAdmin, ReferralCommissionCategory,
   ReferralReportSummaryAdmin, ReferralReportFilterParams,
+  AdminUserItem, AdminUserListParams, AdminUserKind, PagedResult,
 } from '../types/jgame.types'
 
 /** Map các enum int BE (Enums/ReferralEnums.cs) sang string union FE dùng. */
 const RECONCILE_STATUS_MAP = ['pending', 'confirmed', 'reversed'] as const
 const REFERRAL_COMMISSION_CATEGORY_MAP: ReferralCommissionCategory[] = ['cardtopup', 'playtimeticket']
 const REFERRAL_PAYOUT_STATUS_MAP = ['pending', 'approved', 'rejected', 'paid'] as const
+/** Khớp thứ tự enum int `AdminUserKind` (Backend Enums/AdminEnums.cs: Customer=0, ShopOwner=1, Affiliate=2, Admin=3). */
+const ADMIN_USER_KIND_MAP: AdminUserKind[] = ['customer', 'shopOwner', 'affiliate', 'admin']
 
 function toCommissionCategoryInt(category: ReferralCommissionCategory): number {
   const idx = REFERRAL_COMMISSION_CATEGORY_MAP.indexOf(category)
@@ -466,6 +469,36 @@ export class JGameApiServiceAdmin {
 
   static async deleteAccessory(id: string): Promise<ApiResponse<boolean>> {
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/${id}`), { method: 'DELETE' })
+    return response.json()
+  }
+
+  // ===== Tài khoản hệ thống (20260902-nc_quan-tri-tai-khoan-he-thong.md) =====
+  /** GET /api/admin/users — path PHẲNG `/api/admin/users` (giống pattern `/api/admin/referral/*`, khác
+   * BASE_PATH `/api/admin/jgame` dùng cho CRUD danh mục). Phân trang THẬT server-side (khác các trang
+   * CRUD cũ lọc phía FE) — trả nguyên `PagedResult` để trang giữ được total/page/limit. */
+  static async getUsers(params?: AdminUserListParams): Promise<ApiResponse<PagedResult<AdminUserItem>>> {
+    const realParams: Record<string, unknown> = { page: params?.page ?? 1, limit: params?.limit ?? 20 }
+    if (params?.keyword) realParams.keyword = params.keyword
+    if (params?.kind && params.kind !== 'all') realParams.kind = ADMIN_USER_KIND_MAP.indexOf(params.kind)
+    const url = buildJGameUrlWithParams('/api/admin/users', realParams)
+    const response = await apiCall(url, { method: 'GET' })
+    return response.json()
+  }
+
+  static async lockUser(id: string): Promise<ApiResponse<boolean>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/users/${id}/lock`), { method: 'POST' })
+    return response.json()
+  }
+
+  static async unlockUser(id: string): Promise<ApiResponse<boolean>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/users/${id}/unlock`), { method: 'POST' })
+    return response.json()
+  }
+
+  /** Trả `newPassword` 1 LẦN DUY NHẤT trong response — Trang KHÔNG được lưu lại giá trị này ở đâu khác
+   * ngoài state hiển thị tạm trong inline-panel (không Dialog — quy ước UI khu Admin JGameApp). */
+  static async resetUserPassword(id: string): Promise<ApiResponse<{ newPassword: string }>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/users/${id}/reset-password`), { method: 'POST' })
     return response.json()
   }
 }

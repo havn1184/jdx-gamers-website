@@ -71,6 +71,7 @@ Toàn bộ 47 route khai báo dạng mảng phẳng `routeConfig: JGameRoute[]` 
 | Path | Trang |
 |---|---|
 | `quan-tri` | AdminDashboardPage |
+| `quan-tri/tai-khoan` | AdminUsersPage |
 | `quan-tri/danh-muc-the` | AdminCardsPage |
 | `quan-tri/phu-kien` | AdminAccessoriesPage |
 | `quan-tri/nha-cung-cap` | AdminSuppliersPage |

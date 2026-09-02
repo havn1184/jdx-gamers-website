@@ -264,3 +264,40 @@ export interface ReferralReportFilterParams {
   category?: ReferralCommissionCategory | 'all'
   partnerId?: string
 }
+
+// ===== Tài khoản hệ thống (20260902-nc_quan-tri-tai-khoan-he-thong.md) =====
+
+/** Khớp thứ tự int enum `AdminUserKind` (Backend Enums/AdminEnums.cs) — dùng để build query `kind=`. */
+export type AdminUserKind = 'customer' | 'shopOwner' | 'affiliate' | 'admin'
+
+/** GET /api/admin/users — 1 dòng trong danh sách tài khoản (field giống hệt `AdminUserResponse` Backend). */
+export interface AdminUserItem {
+  id: string
+  phone: string
+  email: string
+  name: string
+  kind: AdminUserKind
+  isBothShopOwnerAndAffiliate: boolean
+  isLocked: boolean
+  createdAt: string
+  lastLoginAt: string | null
+  vndBalance: number
+  jcoinBalance: number
+}
+
+export interface AdminUserListParams {
+  keyword?: string
+  kind?: AdminUserKind | 'all'
+  page?: number
+  limit?: number
+}
+
+/** Khớp `PagedResult<T>` (Backend `Core/Responses/ApiResponse.cs`) — response của mọi endpoint phân trang
+ * server-side thật (khác các trang CRUD danh mục cũ lọc phía FE, không có total/page/limit). */
+export interface PagedResult<T> {
+  items: T[]
+  total: number
+  page: number
+  limit: number
+  totalPages: number
+}

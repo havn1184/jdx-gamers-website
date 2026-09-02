@@ -13,6 +13,7 @@ URD gốc mục 17.2/18.6 giả định backoffice dùng chung hạ tầng Admin
 | Trang | Route | Chức năng |
 |---|---|---|
 | Tổng quan | `/jgame/quan-tri` | Dashboard admin |
+| Tài khoản hệ thống | `/jgame/quan-tri/tai-khoan` | Danh sách phân trang toàn bộ tài khoản (4 nhóm nghiệp vụ), khóa/mở khóa đăng nhập, reset mật khẩu, xem số dư ví (20260902-nc_quan-tri-tai-khoan-he-thong.md) |
 | Danh mục thẻ & mệnh giá | `/jgame/quan-tri/danh-muc-the` | CRUD loại thẻ, mệnh giá, giá bán, NCC gắn kèm, bật/tắt bán |
 | Phụ kiện | `/jgame/quan-tri/phu-kien` | CRUD sản phẩm phụ kiện (GĐ3) |
 | Nhà cung cấp | `/jgame/quan-tri/nha-cung-cap` | CRUD NCC + cấu hình routing khi nhiều NCC cùng loại thẻ |
