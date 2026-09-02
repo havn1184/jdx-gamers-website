@@ -24,8 +24,32 @@ const STATUS_META: Record<PlaytimeOrderStatus, { label: string; tone: string }> 
   EXPIRED: { label: 'Đã hết hạn', tone: 'text-white/50 bg-white/5' },
 }
 
+const REVIEW_CRITERIA = [
+  { key: 'ratingHygiene', label: 'Vệ sinh' },
+  { key: 'ratingFood', label: 'Đồ ăn' },
+  { key: 'ratingService', label: 'Thái độ phục vụ' },
+  { key: 'ratingEquipment', label: 'Cấu hình máy tính' },
+] as const
+
+function CriteriaStarPicker({ label, value, onChange, dataQaPrefix }: { label: string; value: number; onChange: (v: number) => void; dataQaPrefix: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-sm text-white/70">{label}</span>
+      <div className="flex gap-1">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <button key={i} type="button" onClick={() => onChange(i + 1)} data-qa={`${dataQaPrefix}_${i + 1}`}>
+            <Star className={cn('h-5 w-5', i < value ? 'fill-amber-400 text-amber-400' : 'text-white/20')} />
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function ReviewForm({ order, onDone }: { order: PlaytimeOrder; onDone: () => void }) {
-  const [rating, setRating] = useState(5)
+  const [ratings, setRatings] = useState<Record<(typeof REVIEW_CRITERIA)[number]['key'], number>>({
+    ratingHygiene: 5, ratingFood: 5, ratingService: 5, ratingEquipment: 5,
+  })
   const [comment, setComment] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -33,7 +57,7 @@ function ReviewForm({ order, onDone }: { order: PlaytimeOrder; onDone: () => voi
   const handleSubmit = async () => {
     setSubmitting(true)
     setError(null)
-    const r = await PlaytimeApiService.createReview(order.id, rating, comment.trim() || undefined)
+    const r = await PlaytimeApiService.createReview(order.id, { ...ratings, comment: comment.trim() || undefined })
     setSubmitting(false)
     if (r.success) onDone()
     else setError(r.message || 'Gửi đánh giá thất bại')
@@ -42,11 +66,13 @@ function ReviewForm({ order, onDone }: { order: PlaytimeOrder; onDone: () => voi
   return (
     <div className="mt-3 rounded-lg border border-white/10 bg-white/5 p-4">
       <p className="mb-2 text-sm font-semibold text-white">Đánh giá chất lượng</p>
-      <div className="flex gap-1">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <button key={i} type="button" onClick={() => setRating(i + 1)} data-qa={`btn_star_${i + 1}`}>
-            <Star className={cn('h-6 w-6', i < rating ? 'fill-amber-400 text-amber-400' : 'text-white/20')} />
-          </button>
+      <div className="space-y-2">
+        {REVIEW_CRITERIA.map(c => (
+          <CriteriaStarPicker
+            key={c.key} label={c.label} value={ratings[c.key]}
+            onChange={v => setRatings(prev => ({ ...prev, [c.key]: v }))}
+            dataQaPrefix={`btn_star_${c.key}`}
+          />
         ))}
       </div>
       <textarea

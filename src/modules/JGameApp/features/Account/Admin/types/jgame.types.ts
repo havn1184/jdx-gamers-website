@@ -3,6 +3,7 @@
  * tài liệu `nc-jgame-chuyen-admin-ve-jgameapp-va-role`) — theo URD mục 19 (Data Dictionary) + mục 17.2 (SC-A2..A7).
  * Field FE dùng camelCase, giữ nguyên ý nghĩa gợi ý snake_case trong URD (BE thật chưa có — xem shared/services/api/mockGate.ts).
  */
+import type { PlaytimeReviewCriteriaAverage } from '../../../Public/playtime/types/playtime.types'
 
 export type EntityStatus = 'active' | 'inactive'
 
@@ -300,4 +301,13 @@ export interface PagedResult<T> {
   page: number
   limit: number
   totalPages: number
+}
+
+// ===== Đánh giá phòng game (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) =====
+
+/** GET /api/admin/reviews/summary — 1 dòng/shop, sắp xếp tăng dần theo Averages.overall (BE trả sẵn thứ tự). */
+export interface AdminReviewShopSummary {
+  shopId: string
+  shopName: string
+  averages: PlaytimeReviewCriteriaAverage
 }

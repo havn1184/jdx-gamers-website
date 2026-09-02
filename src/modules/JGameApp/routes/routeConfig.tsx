@@ -66,12 +66,14 @@ const ShopZonesTicketsPage = lazy(() => import('../features/Account/ShopOwner/pa
 const ShopSyncPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopSyncPage').then(m => ({ default: m.ShopSyncPage })))
 const ShopOrdersPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopOrdersPage').then(m => ({ default: m.ShopOrdersPage })))
 const ShopPayoutsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopPayoutsPage').then(m => ({ default: m.ShopPayoutsPage })))
+const ShopReviewsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopReviewsPage').then(m => ({ default: m.ShopReviewsPage })))
 const ShopTerminalsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopTerminalsPage').then(m => ({ default: m.ShopTerminalsPage })))
 const ShopSlotsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopSlotsPage').then(m => ({ default: m.ShopSlotsPage })))
 
 // Quản trị JGame (chuyển từ AdminApp về JGameApp — website độc lập)
 const AdminDashboardPage = lazy(() => import('../features/Account/Admin/dashboard/pages/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })))
 const AdminUsersPage = lazy(() => import('../features/Account/Admin/users/pages/AdminUsersPage').then(m => ({ default: m.AdminUsersPage })))
+const AdminReviewsPage = lazy(() => import('../features/Account/Admin/reviews/pages/AdminReviewsPage').then(m => ({ default: m.AdminReviewsPage })))
 const AdminCardsPage = lazy(() => import('../features/Account/Admin/cards/pages/AdminCardsPage').then(m => ({ default: m.AdminCardsPage })))
 const AdminSuppliersPage = lazy(() => import('../features/Account/Admin/suppliers/pages/AdminSuppliersPage').then(m => ({ default: m.AdminSuppliersPage })))
 const AdminOrdersPage = lazy(() => import('../features/Account/Admin/orders/pages/AdminOrdersPage').then(m => ({ default: m.AdminOrdersPage })))
@@ -173,10 +175,12 @@ export const routeConfig: JGameRoute[] = [
   { path: 'chu-cybergame/khung-gio', element: <ShopSlotsPage />, pageId: 'jgame-shop-slots', requireAuth: true, requireShopOwner: true },
   { path: 'chu-cybergame/don-hang', element: <ShopOrdersPage />, pageId: 'jgame-shop-orders', requireAuth: true, requireShopOwner: true },
   { path: 'chu-cybergame/cong-no', element: <ShopPayoutsPage />, pageId: 'jgame-shop-payouts', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/danh-gia', element: <ShopReviewsPage />, pageId: 'jgame-shop-reviews', requireAuth: true, requireShopOwner: true },
 
   // Quản trị JGame (chuyển từ AdminApp về JGameApp)
   { path: 'quan-tri', element: <AdminDashboardPage />, pageId: 'jgame-admin-dashboard', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/tai-khoan', element: <AdminUsersPage />, pageId: 'jgame-admin-users', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/danh-gia', element: <AdminReviewsPage />, pageId: 'jgame-admin-reviews', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/danh-muc-the', element: <AdminCardsPage />, pageId: 'jgame-admin-cards', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/phu-kien', element: <AdminAccessoriesPage />, pageId: 'jgame-admin-accessories', requireAuth: true, requireAdmin: true },
   { path: 'quan-tri/phu-kien/them', element: <AdminAccessoryFormPage />, pageId: 'jgame-admin-accessory-create', requireAuth: true, requireAdmin: true },

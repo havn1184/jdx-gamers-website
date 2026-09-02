@@ -10,6 +10,7 @@ import { formatCurrency } from '../../../../shared/utils/FormatUtils'
 import { cn } from '../../../../shared/components/ui/utils'
 import { useTicketDetailFetchData } from '../hooks/useTicketDetail.page.fetchData'
 import { saveTicketSelection } from '../../../Account/User/playtime/hooks/useTicketReserve.page'
+import { ReviewCriteriaBreakdown } from '../components/ReviewCriteriaBreakdown'
 import type { PlaytimeTicketView } from '../types/playtime.types'
 
 export const PAGE_ID = 'jgame-playtime-ticket-detail'
@@ -136,6 +137,7 @@ export function TicketDetailPage() {
                       <Star key={i} className={cn('h-3.5 w-3.5', i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-white/20')} />
                     ))}
                   </div>
+                  <ReviewCriteriaBreakdown review={review} />
                   {review.comment && <p className="mt-1.5 text-sm text-white/70">{review.comment}</p>}
                 </div>
               </div>

@@ -7,12 +7,13 @@
  * getTickets/upsertTicket/deleteTicket) — không còn method nào giữ gate `JGAME_USE_MOCK`
  * (20260901-nc_shop-owner-zone-ve-crud.md, trước đó nhóm zone/ticket/sync CHƯA có endpoint BE).
  */
-import { apiCall, buildJGameUrl, type ApiResponse } from '../../../../shared/services/api'
+import { apiCall, buildJGameUrl, buildJGameUrlWithParams, type ApiResponse, type PagingInfo } from '../../../../shared/services/api'
 import type {
   CybergameShop, PlaytimeZone, PlaytimeTicket, ZoneType, TicketStatus, ShopSyncMode, RegisterShopPayload, UpdateShopProfilePayload,
   UpsertZonePayload, UpsertTicketPayload, PlaytimeOrder, PlaytimeOrderStatus, ShopPayoutPeriod, ShopDashboardSummary,
 } from '../types/shop-owner.types'
 import type { PlaytimeTerminal } from '../types/netbarbox.types'
+import type { PlaytimeReview, PlaytimeReviewCriteriaAverage } from '../../../Public/playtime/types/playtime.types'
 
 // BE serialize enum về int (Program.cs không dùng JsonStringEnumConverter) — map đúng thứ tự khai
 // báo trong Enums/*.cs của JGameApi sang string union Website đang dùng.
@@ -202,6 +203,19 @@ export class ShopOwnerApiService {
 
   static async deleteTerminal(terminalId: string): Promise<ApiResponse<null>> {
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/terminals/${terminalId}`), { method: 'DELETE' })
+    return response.json()
+  }
+
+  // ===== Đánh giá khách hàng (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) =====
+  /** Danh sách phân trang đánh giá của ĐÚNG gian hàng đang đăng nhập (BE tự resolve theo ownerId). */
+  static async getShopReviews(page = 1, limit = 20): Promise<ApiResponse<PagingInfo<PlaytimeReview>>> {
+    const url = buildJGameUrlWithParams(`${this.BASE_PATH}/shop/reviews`, { page, limit })
+    const response = await apiCall(url, { method: 'GET' })
+    return response.json()
+  }
+
+  static async getShopReviewSummary(): Promise<ApiResponse<PlaytimeReviewCriteriaAverage>> {
+    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/shop/reviews/summary`), { method: 'GET' })
     return response.json()
   }
 }

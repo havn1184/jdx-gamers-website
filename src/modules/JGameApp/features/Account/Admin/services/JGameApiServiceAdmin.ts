@@ -21,7 +21,9 @@ import type {
   ReferralCommissionRateAdmin, ReferralCommissionRateHistoryAdmin, ReferralCommissionCategory,
   ReferralReportSummaryAdmin, ReferralReportFilterParams,
   AdminUserItem, AdminUserListParams, AdminUserKind, PagedResult,
+  AdminReviewShopSummary,
 } from '../types/jgame.types'
+import type { PlaytimeReview } from '../../../Public/playtime/types/playtime.types'
 
 /** Map các enum int BE (Enums/ReferralEnums.cs) sang string union FE dùng. */
 const RECONCILE_STATUS_MAP = ['pending', 'confirmed', 'reversed'] as const
@@ -499,6 +501,22 @@ export class JGameApiServiceAdmin {
    * ngoài state hiển thị tạm trong inline-panel (không Dialog — quy ước UI khu Admin JGameApp). */
   static async resetUserPassword(id: string): Promise<ApiResponse<{ newPassword: string }>> {
     const response = await apiCall(buildJGameUrl(`/api/admin/users/${id}/reset-password`), { method: 'POST' })
+    return response.json()
+  }
+
+  // ===== Đánh giá phòng game (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) =====
+  /** Danh sách phân trang toàn bộ đánh giá, lọc tuỳ chọn theo 1 shop (drill-down từ bảng summary). */
+  static async getReviews(shopId?: string, page = 1, limit = 20): Promise<ApiResponse<PagedResult<PlaytimeReview>>> {
+    const realParams: Record<string, unknown> = { page, limit }
+    if (shopId) realParams.shopId = shopId
+    const url = buildJGameUrlWithParams('/api/admin/reviews', realParams)
+    const response = await apiCall(url, { method: 'GET' })
+    return response.json()
+  }
+
+  /** Trung bình 4 tiêu chí + tổng thể theo TỪNG shop, BE trả sẵn sắp xếp tăng dần theo điểm tổng thể. */
+  static async getReviewShopSummary(): Promise<ApiResponse<AdminReviewShopSummary[]>> {
+    const response = await apiCall(buildJGameUrl('/api/admin/reviews/summary'), { method: 'GET' })
     return response.json()
   }
 }

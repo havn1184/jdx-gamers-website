@@ -65,6 +65,7 @@ Toàn bộ 47 route khai báo dạng mảng phẳng `routeConfig: JGameRoute[]` 
 | `chu-cybergame/dong-bo` | ShopSyncPage |
 | `chu-cybergame/don-hang` | ShopOrdersPage |
 | `chu-cybergame/cong-no` | ShopPayoutsPage |
+| `chu-cybergame/danh-gia` | ShopReviewsPage |
 
 ### Account/Admin — `requireAuth + requireAdmin`
 
@@ -79,6 +80,7 @@ Toàn bộ 47 route khai báo dạng mảng phẳng `routeConfig: JGameRoute[]` 
 | `quan-tri/doi-tac-referral` | AdminReferralPartnersPage |
 | `quan-tri/khuyen-mai` | AdminPromotionsPage |
 | `quan-tri/bao-cao` | AdminReportsPage |
+| `quan-tri/danh-gia` | AdminReviewsPage |
 
 ## Điều hướng sau đăng nhập theo vai trò (`useLogin.page.ts`)
 

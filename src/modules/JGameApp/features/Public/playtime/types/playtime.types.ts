@@ -128,10 +128,33 @@ export interface PlaytimeReview {
   zoneName: string
   userId: string
   reviewerName: string
-  /** 1–5 sao */
+  /** Tổng thể 1-5 sao — BE tính từ 4 tiêu chí dưới, luôn có giá trị kể cả đánh giá trước nâng cấp. */
   rating: number
+  /** 4 tiêu chí (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) — null với đánh giá tạo TRƯỚC nâng cấp. */
+  ratingHygiene: number | null
+  ratingFood: number | null
+  ratingService: number | null
+  ratingEquipment: number | null
   comment?: string
   createdAt: string
+}
+
+export interface CreatePlaytimeReviewPayload {
+  ratingHygiene: number
+  ratingFood: number
+  ratingService: number
+  ratingEquipment: number
+  comment?: string
+}
+
+/** GET shop-owner/shop/reviews/summary, admin/reviews/summary — trung bình 4 tiêu chí + tổng thể. */
+export interface PlaytimeReviewCriteriaAverage {
+  overall: number
+  hygiene: number | null
+  food: number | null
+  service: number | null
+  equipment: number | null
+  reviewCount: number
 }
 
 export interface ShopPayoutPeriod {

@@ -4,7 +4,7 @@
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, LayoutList, RefreshCw, ClipboardList, Wallet, Store, Monitor, CalendarClock } from 'lucide-react'
+import { LayoutDashboard, LayoutList, RefreshCw, ClipboardList, Wallet, Store, Monitor, CalendarClock, Star } from 'lucide-react'
 import { cn } from '../../../../shared/components/ui/utils'
 
 const MENU = [
@@ -15,6 +15,7 @@ const MENU = [
   { to: '/jgame/chu-cybergame/khung-gio', label: 'Khung giờ', icon: CalendarClock },
   { to: '/jgame/chu-cybergame/don-hang', label: 'Đơn hàng đã bán', icon: ClipboardList },
   { to: '/jgame/chu-cybergame/cong-no', label: 'Công nợ & Thanh toán', icon: Wallet },
+  { to: '/jgame/chu-cybergame/danh-gia', label: 'Đánh giá khách hàng', icon: Star },
 ]
 
 export function ShopOwnerLayout({ shopName, children }: { shopName?: string; children: ReactNode }) {

@@ -47,12 +47,21 @@ Layout riêng, tách hẳn khỏi trải nghiệm mua hàng (sidebar dashboard t
 | Đồng bộ nền tảng | `/jgame/chu-cybergame/dong-bo` | Chọn chế độ Thủ công / NetBarBox / DoDoNew; nút "Đồng bộ ngay" — **mock, chưa gọi API thật tới nền tảng nào** |
 | Đơn hàng đã bán | `/jgame/chu-cybergame/don-hang` | Danh sách đơn, nút "Xác nhận khách đã dùng vé" (`CONFIRMED` → `USED`) |
 | Công nợ & Lịch sử thanh toán | `/jgame/chu-cybergame/cong-no` | Kỳ hiện tại (JGame sẽ trả) + lịch sử các kỳ đã trả — **chỉ dạng xem (read-only)**, không có thao tác Admin xác nhận trả tiền ở bản hiện tại |
+| Đánh giá khách hàng | `/jgame/chu-cybergame/danh-gia` | Xem đánh giá + trung bình 4 tiêu chí của ĐÚNG gian hàng mình sở hữu — chỉ xem, không sửa/xoá (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) |
 
 Guard: mọi trang trừ đăng ký đều yêu cầu `RequireAuth` + `RequireShopOwner` (chưa có gian hàng → tự điều hướng sang trang đăng ký).
 
 ### Công nợ (Payout)
 
 JGame giữ tiền khách trả trước, định kỳ đối soát trả lại gian hàng (trừ hoa hồng). Mỗi đơn `USED` cộng vào kỳ công nợ hiện tại (`ShopPayout.status: PENDING`); mock tự chuyển 1 kỳ cũ sang `PAID` để có dữ liệu lịch sử minh hoạ.
+
+## Đánh giá chất lượng phòng game (20260902-nc_danh-gia-phong-game-da-tieu-chi.md)
+
+Sau khi dùng vé (đơn ở trạng thái Paid/Confirmed/Used, trong vòng 3 ngày kể từ thanh toán, mỗi đơn 1 lần — điều kiện giữ nguyên, không đổi), gamer đánh giá **4 tiêu chí bắt buộc** (mỗi tiêu chí 1-5 sao): **Vệ sinh, Đồ ăn, Thái độ phục vụ, Cấu hình máy tính**. Điểm "tổng thể" do Backend TỰ TÍNH = làm tròn trung bình 4 tiêu chí (`ReviewForm` ở `MyPlaytimeOrdersPage.tsx`, route `ve-da-mua`), FE không tự gửi điểm tổng thể.
+
+Đánh giá tạo TRƯỚC nâng cấp này chỉ có điểm tổng thể (không có breakdown 4 tiêu chí) — UI (`ReviewCriteriaBreakdown` dùng chung ở `features/Public/playtime/components/`) tự ẩn phần breakdown khi cả 4 field đều `null`, không migrate dữ liệu cũ.
+
+Rating trung bình hiển thị công khai (marketplace, chi tiết vé) và rating chủ shop tự xem ở trang "Đánh giá khách hàng" đều tính LIVE từ cùng 1 nguồn `playtime_reviews` (trước đây 2 nơi tính khác cách nhau, đã thống nhất lại).
 
 ## Lịch sử giao dịch (nâng cấp liên đới)
 

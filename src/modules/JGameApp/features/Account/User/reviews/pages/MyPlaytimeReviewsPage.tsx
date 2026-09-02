@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Loader2, Star } from 'lucide-react'
 import { cn } from '../../../../../shared/components/ui/utils'
 import { PlaytimeApiService } from '../../../../Public/playtime/services/PlaytimeApiService'
+import { ReviewCriteriaBreakdown } from '../../../../Public/playtime/components/ReviewCriteriaBreakdown'
 import type { PlaytimeReview } from '../../../../Public/playtime/types/playtime.types'
 
 export const PAGE_ID = 'jgame-playtime-my-reviews'
@@ -43,6 +44,7 @@ export function MyPlaytimeReviewsPage() {
                   <Star key={i} className={cn('h-4 w-4', i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-white/20')} />
                 ))}
               </div>
+              <ReviewCriteriaBreakdown review={review} />
               {review.comment && <p className="mt-2 text-sm text-white/70">{review.comment}</p>}
             </div>
           ))}

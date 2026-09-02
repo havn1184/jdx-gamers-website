@@ -21,6 +21,7 @@ URD gốc mục 17.2/18.6 giả định backoffice dùng chung hạ tầng Admin
 | Đối tác Referral | `/jgame/quan-tri/doi-tac-referral` | Quản trị TOÀN BỘ đối tác (khác dashboard 1 đối tác ở `/jgame/doi-tac`) |
 | Khuyến mãi | `/jgame/quan-tri/khuyen-mai` | CRUD voucher/chương trình giảm giá |
 | Báo cáo | `/jgame/quan-tri/bao-cao` | `getRevenueReport()` — báo cáo doanh thu đơn giản |
+| Đánh giá phòng game | `/jgame/quan-tri/danh-gia` | Bảng trung bình 4 tiêu chí (Vệ sinh/Đồ ăn/Thái độ/Cấu hình) theo TỪNG shop, sắp xếp tăng dần theo điểm tổng thể (shop điểm thấp nhất lên đầu) + drill-down xem chi tiết đánh giá 1 shop (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) |
 
 ## Quy ước UI riêng của khu Admin trong JGameApp
 

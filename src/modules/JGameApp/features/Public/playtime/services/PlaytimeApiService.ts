@@ -5,6 +5,7 @@ import { apiCall, buildJGameUrl, buildJGameUrlWithParams, type ApiResponse } fro
 import type {
   CybergameShop, PlaytimeZone, ShopListParams, ShopDetailResult, PlaytimeTicketView, MarketplaceSections,
   CreateTicketOrderPayload, PlaytimeOrder, PlaytimeOrderStatus, PlaytimeReview, ZoneType, ShopStatus, ShopSyncMode, MockShopArt,
+  CreatePlaytimeReviewPayload,
 } from '../types/playtime.types'
 
 /**
@@ -192,11 +193,12 @@ export class PlaytimeApiService {
     return result
   }
 
-  /** Đánh giá 1 đơn đã thanh toán — chỉ được trong vòng 3 ngày kể từ lúc thanh toán, mỗi đơn 1 lần. */
-  static async createReview(orderId: string, rating: number, comment?: string): Promise<ApiResponse<PlaytimeReview>> {
+  /** Đánh giá 1 đơn đã thanh toán — chỉ được trong vòng 3 ngày kể từ lúc thanh toán, mỗi đơn 1 lần.
+   * 4 tiêu chí bắt buộc (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) — BE tự tính rating tổng thể. */
+  static async createReview(orderId: string, payload: CreatePlaytimeReviewPayload): Promise<ApiResponse<PlaytimeReview>> {
     const response = await apiCall(buildJGameUrl(`${this.ORDERS_PATH}/${orderId}/review`), {
       method: 'POST',
-      body: JSON.stringify({ rating, comment }),
+      body: JSON.stringify(payload),
     })
     return response.json()
   }
