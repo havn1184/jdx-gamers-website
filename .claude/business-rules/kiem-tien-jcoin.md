@@ -55,7 +55,7 @@ Xem `features/Public/wallet/` và `Backend/.claude/system-architect/20260830-nc_
 
 ## Đăng ký nhiệm vụ
 
-Yêu cầu đăng nhập — **không** cần hồ sơ riêng như Chủ gian hàng/Đối tác tiếp thị. BE trả `{ registrationCode }`; FE gọi lại `/progress` để có tiến độ đầy đủ và hiện mã ngay.
+Yêu cầu đăng nhập — **không** cần hồ sơ riêng như Chủ Cybergame/Đối tác tiếp thị. BE trả `{ registrationCode }`; FE gọi lại `/progress` để có tiến độ đầy đủ và hiện mã ngay.
 
 ## Ảnh minh hoạ nhiệm vụ
 

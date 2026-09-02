@@ -30,7 +30,7 @@
 | JCoin: ví riêng (`mocks/jcoinWallet.store.ts`), 1 sổ giao dịch (earn/spend), KHÔNG liên kết cổng thanh toán thật | Đúng bản chất "không rút được tiền mặt" — chỉ là điểm số nội bộ |
 | Tích hợp JCoin vào checkout: thêm tuỳ chọn **"Dùng số dư JCoin"** ở cả 3 luồng thanh toán (Nạp thẻ, Vé giờ chơi, Phụ kiện) — trừ tối đa `min(số dư, tổng tiền)`, phần còn lại vẫn qua QR như cũ | Đúng yêu cầu "có thể dùng để mua" — làm nhất quán ở cả 3 nơi thay vì chỉ 1 nơi |
 | Trang "Kiếm tiền" độc lập, có 3 tab con: **Nhiệm vụ đang mở** / **Nhiệm vụ của tôi** / **Ví JCoin** | Tách bạch rõ 3 luồng thao tác chính, giống mô hình đã dùng ở Kênh Người Bán/Đối tác |
-| Đăng ký nhiệm vụ yêu cầu đăng nhập (`requireAuth`), không cần hồ sơ riêng như Chủ gian hàng/Đối tác | Mọi khách hàng đều có thể làm nhiệm vụ ngay, không cần "đăng ký vai trò" trước |
+| Đăng ký nhiệm vụ yêu cầu đăng nhập (`requireAuth`), không cần hồ sơ riêng như Chủ Cybergame/Đối tác | Mọi khách hàng đều có thể làm nhiệm vụ ngay, không cần "đăng ký vai trò" trước |
 
 ## 3. Danh sách màn hình
 

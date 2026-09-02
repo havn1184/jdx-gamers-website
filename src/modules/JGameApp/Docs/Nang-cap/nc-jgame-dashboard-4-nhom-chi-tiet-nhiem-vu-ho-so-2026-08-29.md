@@ -30,10 +30,10 @@
 |---|---|---|
 | Khách hàng | `/jgame/tai-khoan` (AccountDashboardPage) | ✅ Đã đẹp, đủ dữ liệu (đã nâng cấp ở tài liệu trước) — **không đổi** |
 | Đối tác tiếp thị | `/jgame/doi-tac` (ReferrerDashboardPage) | ✅ Đã đẹp, đủ dữ liệu (link giới thiệu, 3 stat tile, bảng giao dịch) — **không đổi** |
-| Chủ gian hàng | `/jgame/kenh-nguoi-ban` (ShopDashboardPage) | 🟡 UI đã tốt, nhưng **doanh thu hôm nay/7 ngày/đơn mới/vé bán chạy đều = 0** — do dữ liệu seed vé giờ chơi cho gian hàng Alpha Cyber Center chỉ có 1 đơn, cách đây 8 ngày (ngoài khung "7 ngày") |
+| Chủ Cybergame | `/jgame/kenh-nguoi-ban` (ShopDashboardPage) | 🟡 UI đã tốt, nhưng **doanh thu hôm nay/7 ngày/đơn mới/vé bán chạy đều = 0** — do dữ liệu seed vé giờ chơi cho gian hàng Alpha Cyber Center chỉ có 1 đơn, cách đây 8 ngày (ngoài khung "7 ngày") |
 | Quản trị viên | `/jgame/quan-tri` | ❌ **KHÔNG có trang tổng quan** — route `/jgame/quan-tri` hiện trỏ thẳng vào `AdminCardsPage` (danh sách CRUD thẻ game), không phải dashboard |
 
-→ Việc "khi login vào sẽ nhìn được dashboard đẹp, tổng quan nhất" áp dụng cho **2/4 nhóm cần làm**: bổ sung dữ liệu cho Chủ gian hàng, **tạo mới** trang Tổng quan cho Quản trị viên.
+→ Việc "khi login vào sẽ nhìn được dashboard đẹp, tổng quan nhất" áp dụng cho **2/4 nhóm cần làm**: bổ sung dữ liệu cho Chủ Cybergame, **tạo mới** trang Tổng quan cho Quản trị viên.
 
 ### 1.3 Chi tiết nhiệm vụ (`/jgame/kiem-tien/nhiem-vu-cua-toi` → bấm vào 1 nhiệm vụ)
 

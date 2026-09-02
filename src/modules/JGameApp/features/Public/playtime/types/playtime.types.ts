@@ -7,7 +7,7 @@ export type ZoneType = 'standard' | 'vip' | 'highend'
 export type ShopSyncMode = 'manual' | 'netbarbox' | 'dodonew'
 export type ShopStatus = 'active' | 'inactive'
 
-/** Nguồn gốc 1 gói vé — Manual (chủ gian hàng tự nhập) hay đồng bộ từ nền tảng ngoài (Netbarbox/DoDoNew). */
+/** Nguồn gốc 1 gói vé — Manual (chủ Cybergame tự nhập) hay đồng bộ từ nền tảng ngoài (Netbarbox/DoDoNew). */
 export const PlaytimeTicketSourcePlatform = {
   Manual: 0,
   Netbarbox: 1,

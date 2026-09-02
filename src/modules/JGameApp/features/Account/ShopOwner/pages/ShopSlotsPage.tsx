@@ -1,6 +1,6 @@
 /**
  * ShopSlotsPage — Xem khung giờ (đọc) theo 1 khu vực cụ thể, phục vụ hình thức "Đặt trước theo khung giờ".
- * Khung giờ tự sinh khi truy vấn lần đầu — chủ gian hàng không cần tạo tay, chỉ xem tình hình đặt chỗ.
+ * Khung giờ tự sinh khi truy vấn lần đầu — chủ Cybergame không cần tạo tay, chỉ xem tình hình đặt chỗ.
  */
 import { Loader2, CalendarClock, AlertCircle } from 'lucide-react'
 import { formatDate } from '../../../../shared/utils/FormatUtils'

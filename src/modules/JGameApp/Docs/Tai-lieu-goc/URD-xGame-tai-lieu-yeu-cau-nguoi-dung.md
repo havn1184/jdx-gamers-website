@@ -39,12 +39,12 @@ Khác mô hình RBAC nhiều vai trò cứng của URD gốc (mục 20). Thực 
 |---|---|---|
 | Khách hàng (Member) | Mọi tài khoản đăng ký, mặc định `role='customer'` | — |
 | Quản trị viên (Admin) | `role='admin'` — gate cứng qua `RequireAdmin` | Có — 1 tài khoản chỉ có 1 role |
-| **Chủ gian hàng (Cybergame Owner)** — actor mới GĐ2 | Có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua "Kênh Người Bán") | **Không** — 1 Member vừa mua vừa mở gian hàng được (giống mô hình Shopee) |
+| **Chủ Cybergame (Cybergame Owner)** — actor mới GĐ2 | Có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua "Kênh Người Bán") | **Không** — 1 Member vừa mua vừa mở gian hàng được (giống mô hình Shopee) |
 | **Đối tác tiếp thị liên kết (Referrer/CTV)** | Có bản ghi `AffiliatePartner.userId = userId` (đăng ký qua "Trở thành đối tác") | **Không** — 1 Member có thể đồng thời là đối tác |
 
-→ Điều này **trả lời thẳng câu hỏi mở ở mục 20 URD gốc** ("1 User có thể vừa là ReferralPartner không?") — câu trả lời thực tế là **CÓ**, và áp dụng luôn cho vai trò Chủ gian hàng.
+→ Điều này **trả lời thẳng câu hỏi mở ở mục 20 URD gốc** ("1 User có thể vừa là ReferralPartner không?") — câu trả lời thực tế là **CÓ**, và áp dụng luôn cho vai trò Chủ Cybergame.
 
-4 tài khoản demo dựng sẵn (seed tự động khi load app lần đầu) để test nhanh từng vai trò: `khachhang@jgame.vn`, `chugianhang@jgame.vn`, `doitac@jgame.vn`, `admin@jgame.vn` (mật khẩu `Demo@123`). Đăng nhập xong tự điều hướng đúng khu vực: khách hàng → `/jgame/tai-khoan`, chủ gian hàng → `/jgame/kenh-nguoi-ban`, đối tác → `/jgame/doi-tac`, admin → `/jgame/quan-tri`.
+4 tài khoản demo dựng sẵn (seed tự động khi load app lần đầu) để test nhanh từng vai trò: `khachhang@jgame.vn`, `chugianhang@jgame.vn`, `doitac@jgame.vn`, `admin@jgame.vn` (mật khẩu `Demo@123`). Đăng nhập xong tự điều hướng đúng khu vực: khách hàng → `/jgame/tai-khoan`, chủ Cybergame → `/jgame/kenh-nguoi-ban`, đối tác → `/jgame/doi-tac`, admin → `/jgame/quan-tri`.
 
 ### 0.2.5. Khu quản trị (Admin/SC-A*) nằm TRONG JGameApp, không phải AdminApp
 
@@ -56,7 +56,7 @@ Không còn cấu trúc phẳng theo domain (`features/catalog`, `features/order
 
 ### 0.2.7. Giai đoạn 2 — Chợ vé giờ chơi Cybergame: đã triển khai đầy đủ (khác mô hình URD gốc)
 
-URD gốc mục 7 chỉ đặc tả mức khung "đặt vé 0đ/săn vé". Thực tế đã xây thành **marketplace nhiều gian hàng kiểu Shopee** — mỗi phòng cybergame là 1 "gian hàng" (`CybergameShop`) có nhiều Zone (thường/VIP/cấu hình cao) và nhiều loại vé (`PlaytimeTicket`) theo số giờ, có flash-sale giảm sâu 70-90%, slot trống realtime (mock timer giảm dần). Kèm khu **Kênh Người Bán** đầy đủ cho Chủ gian hàng: đăng ký gian hàng, quản lý Zone/Vé, đồng bộ NetBarBox/DoDoNew (mock), quản lý đơn đã bán, đối soát công nợ. Đặc tả đầy đủ: `Website/.claude/business-rules/cho-ve-cybergame.md`.
+URD gốc mục 7 chỉ đặc tả mức khung "đặt vé 0đ/săn vé". Thực tế đã xây thành **marketplace nhiều gian hàng kiểu Shopee** — mỗi phòng cybergame là 1 "gian hàng" (`CybergameShop`) có nhiều Zone (thường/VIP/cấu hình cao) và nhiều loại vé (`PlaytimeTicket`) theo số giờ, có flash-sale giảm sâu 70-90%, slot trống realtime (mock timer giảm dần). Kèm khu **Kênh Người Bán** đầy đủ cho Chủ Cybergame: đăng ký gian hàng, quản lý Zone/Vé, đồng bộ NetBarBox/DoDoNew (mock), quản lý đơn đã bán, đối soát công nợ. Đặc tả đầy đủ: `Website/.claude/business-rules/cho-ve-cybergame.md`.
 
 ### 0.2.8. Giai đoạn 3 — Kho phụ kiện Gamer: đã triển khai đầy đủ
 

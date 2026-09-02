@@ -12,7 +12,7 @@ export interface AuthUser {
   avatarUrl?: string
   dob?: string
   /** Vai trò hệ thống — chỉ 'admin' là loại trừ, cần gate cứng (RequireAdmin).
-   * Chủ gian hàng/Đối tác tiếp thị liên kết KHÔNG phải role riêng — xác định qua
+   * Chủ Cybergame/Đối tác tiếp thị liên kết KHÔNG phải role riêng — xác định qua
    * việc đã có hồ sơ đăng ký (CybergameShop/AffiliatePartner) hay chưa. */
   role: UserRole
   emailVerified: boolean

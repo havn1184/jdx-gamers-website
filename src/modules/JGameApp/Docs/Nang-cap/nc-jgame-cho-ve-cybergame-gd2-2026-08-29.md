@@ -6,13 +6,13 @@
 
 ## 0. Prompt gốc (nguyên văn)
 
-> "giờ tiếp tục dùng ppt-nc-toan-trinh để hoàn thiện giai đoạn 2 là xây dựng chợ vé giờ chơi cho các cyber game. mỗi cyber game là 1 gian hàng, họ có các loại loại vé nạp chơi theo số lượng giờ tại các zone khác nhau như zone thường, vip, máy cấu hình cao,.. đặc biệt mỗi gybergame có số lượng chỗ trống liên tục đc cập nhật, người dùng có thể nhanh tay đặt được giờ chơi giá 0 đồng hoặc discount rất tốt tới 70,80,90%. như vậy trang tổng quan của chợ vé phải rất sôi động, chia làm nhiều vùng hiển thị. có thể học hỏi cách thể hiện gian hàng của shopee. các quy trình đặt giỏ hàng và thanh toán thì kế thừa jgameapp đã có. tác features ngay trong jgameapp vùng giao diện của chủ gian hàng. họ có thể nhập dữ liệu bán giờ chơi thủ công hoặc đồng bộ trực tiếp từ nền tảng netbarbox, dodonew. gian hàng cần có các chức năng theo dõi đơn hàng đã mua và công nợ mà jgame phải trả, lịch sử thành toán."
+> "giờ tiếp tục dùng ppt-nc-toan-trinh để hoàn thiện giai đoạn 2 là xây dựng chợ vé giờ chơi cho các cyber game. mỗi cyber game là 1 gian hàng, họ có các loại loại vé nạp chơi theo số lượng giờ tại các zone khác nhau như zone thường, vip, máy cấu hình cao,.. đặc biệt mỗi gybergame có số lượng chỗ trống liên tục đc cập nhật, người dùng có thể nhanh tay đặt được giờ chơi giá 0 đồng hoặc discount rất tốt tới 70,80,90%. như vậy trang tổng quan của chợ vé phải rất sôi động, chia làm nhiều vùng hiển thị. có thể học hỏi cách thể hiện gian hàng của shopee. các quy trình đặt giỏ hàng và thanh toán thì kế thừa jgameapp đã có. tác features ngay trong jgameapp vùng giao diện của chủ Cybergame. họ có thể nhập dữ liệu bán giờ chơi thủ công hoặc đồng bộ trực tiếp từ nền tảng netbarbox, dodonew. gian hàng cần có các chức năng theo dõi đơn hàng đã mua và công nợ mà jgame phải trả, lịch sử thành toán."
 
 ## 1. Tổng Quan
 
 - **Mục tiêu:** Triển khai URD Giai đoạn 2 (mục 7 — hiện chỉ có đặc tả khung) thành marketplace chạy được: chợ vé giờ chơi kiểu Shopee (nhiều gian hàng = nhiều phòng cybergame), vé theo zone, slot trống realtime (mock), flash-sale vé 0đ/giảm sâu, **và** khu vực Kênh Người Bán (Shop Owner Dashboard) ngay trong JGameApp để chủ phòng game tự quản lý.
 - **shortName mới:** `playtime` (marketplace khách hàng), `shop-owner` (kênh người bán).
-- **Actor mới:** **Chủ gian hàng (Cybergame Owner)** — là 1 Member JGame đăng ký thêm vai trò gian hàng (giống mô hình Shopee: 1 tài khoản có thể vừa mua vừa bán), không tạo hệ xác thực riêng.
+- **Actor mới:** **Chủ Cybergame (Cybergame Owner)** — là 1 Member JGame đăng ký thêm vai trò gian hàng (giống mô hình Shopee: 1 tài khoản có thể vừa mua vừa bán), không tạo hệ xác thực riêng.
 - **Vẫn giữ nguyên:** toàn bộ GĐ1 (thẻ game) và Kho phụ kiện GĐ3 không đổi.
 
 ### 1.1. Quyết định thiết kế quan trọng (tự tư duy — nêu rõ lý do)
@@ -24,7 +24,7 @@
 | **Slot trống "liên tục cập nhật"** = mock timer nền giảm ngẫu nhiên 1 slot mỗi ~5s cho vài vé đang hiển thị + polling ở FE mỗi 3s | Mô phỏng đúng URD FR-7.2.2 (đẩy sự kiện realtime) mà không cần WebSocket thật (ngoài phạm vi mock). |
 | **Giới hạn 1 vé 0đ/người dùng/tuần (FR-7.2.5)** | Lưu localStorage theo tuần ISO, chặn claim vé 0đ thứ 2 trong tuần. |
 | **Reservation lock khi đặt vé (FR-7.2.4)** | Giảm `availableSlots` ngay khi tạo đơn `PENDING`; nếu hết hạn QR (không thanh toán) → hoàn slot lại. |
-| **Chủ gian hàng: đăng ký ngay trong JGameApp, không qua AdminApp** | Đúng yêu cầu "tạo features ngay trong jgameapp". Không làm khâu duyệt/kiểm duyệt của Admin ở lần này (ngoài phạm vi yêu cầu) — gian hàng đăng ký xong `active` luôn (mock). |
+| **Chủ Cybergame: đăng ký ngay trong JGameApp, không qua AdminApp** | Đúng yêu cầu "tạo features ngay trong jgameapp". Không làm khâu duyệt/kiểm duyệt của Admin ở lần này (ngoài phạm vi yêu cầu) — gian hàng đăng ký xong `active` luôn (mock). |
 | **Đồng bộ NetBarBox/DoDoNew** | Theo đúng nguyên tắc Adapter (URD mục 3.1/7.2.6) nhưng ở mức mock: mỗi gian hàng chọn `syncMode`, nút "Đồng bộ ngay" mô phỏng cập nhật `availableSlots` ngẫu nhiên (không gọi API thật vì các nền tảng này không tồn tại). |
 | **Công nợ (Payout):** JGame giữ tiền khách trả → định kỳ đối soát trả lại gian hàng (trừ hoa hồng) | Mock: mỗi đơn `USED` được cộng vào kỳ công nợ hiện tại (`PENDING`); có nút "admin xác nhận đã trả" ở phía... **thực ra JGame tự thanh toán, không cần thao tác thủ công phía Admin ở bản này** — trang Công nợ của Shop Owner chỉ ở dạng xem (read-only), mock tự chuyển 1 kỳ cũ sang `PAID` để có dữ liệu lịch sử minh hoạ. |
 | **Sửa 1 tồn đọng từ trước:** `HistoryPage` (Lịch sử giao dịch) hiện chỉ hiển thị đơn thẻ game, chưa có tab cho đơn phụ kiện (thiếu sót từ GĐ3). Nhân dịp thêm loại đơn thứ 3 (vé giờ chơi), sẽ nâng cấp `HistoryPage` thành 3 tab: Thẻ game / Phụ kiện / Vé giờ chơi. | Đây là phần mở rộng tự nhiên của "lịch sử giao dịch", không phải mở rộng phạm vi ngoài yêu cầu. |

@@ -29,7 +29,7 @@ URD gốc mục 17.2/18.6 giả định backoffice dùng chung hạ tầng Admin
 
 ## Mô hình role
 
-Chỉ có 1 field `role: 'customer' | 'admin'` trên `AuthUser` — admin là vai trò **loại trừ** (1 tài khoản chỉ mang 1 role, khác Chủ gian hàng/Đối tác không loại trừ). Chưa có phân quyền chi tiết theo Role như URD mục 20 mô tả (Admin/Finance/Support riêng biệt) — hiện chỉ có 1 mức "admin" duy nhất, so sánh chuỗi đơn giản ở tầng route guard, chưa có permission theo từng hành động.
+Chỉ có 1 field `role: 'customer' | 'admin'` trên `AuthUser` — admin là vai trò **loại trừ** (1 tài khoản chỉ mang 1 role, khác Chủ Cybergame/Đối tác không loại trừ). Chưa có phân quyền chi tiết theo Role như URD mục 20 mô tả (Admin/Finance/Support riêng biệt) — hiện chỉ có 1 mức "admin" duy nhất, so sánh chuỗi đơn giản ở tầng route guard, chưa có permission theo từng hành động.
 
 ## Chưa triển khai
 

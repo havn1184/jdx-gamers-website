@@ -13,7 +13,7 @@ export function useNetbarboxConnection() {
   const [connectionSecret, setConnectionSecret] = useState('')
   const [connecting, setConnecting] = useState(false)
   const [connectError, setConnectError] = useState<string | null>(null)
-  /** Tên quán vừa xác thực xong, chờ chủ gian hàng xác nhận đúng quán trước khi coi là hoàn tất (bắt buộc bảo mật — nc_ mục 3.6.1 bước 4). */
+  /** Tên quán vừa xác thực xong, chờ chủ Cybergame xác nhận đúng quán trước khi coi là hoàn tất (bắt buộc bảo mật — nc_ mục 3.6.1 bước 4). */
   const [pendingConfirmName, setPendingConfirmName] = useState<string | null>(null)
 
   const [confirmingDisconnect, setConfirmingDisconnect] = useState(false)
@@ -63,7 +63,7 @@ export function useNetbarboxConnection() {
     }
   }, [connectionSecret, fetchHistory])
 
-  /** Chủ gian hàng bấm xác nhận đúng tên quán — chỉ tắt banner cảnh báo, không gọi thêm API nào
+  /** Chủ Cybergame bấm xác nhận đúng tên quán — chỉ tắt banner cảnh báo, không gọi thêm API nào
    * (BE đã lưu kết nối ngay trong lượt gọi `connect` — xem nc_ mục 3.6.1 bước 4: 1 thao tác duy nhất). */
   const acknowledgeConnected = useCallback(() => setPendingConfirmName(null), [])
 

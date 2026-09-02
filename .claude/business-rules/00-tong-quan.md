@@ -27,7 +27,7 @@ Cộng thêm 2 phân hệ nền tảng dùng chung:
 
 1 tài khoản (`AuthUser`) có `role: 'customer' | 'admin'` — **chỉ `admin` là vai trò loại trừ** (gate cứng qua `RequireAdmin`, 1 tài khoản chỉ mang 1 role). Hai "hồ sơ" còn lại **không loại trừ** — xác định bằng việc đã có bản ghi đăng ký hay chưa, không phải field role:
 
-- **Chủ gian hàng (Cybergame Owner)** — có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua Kênh Người Bán). 1 khách hàng vừa mua vừa mở gian hàng được (mô hình giống Shopee).
+- **Chủ Cybergame (Cybergame Owner)** — có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua Kênh Người Bán). 1 khách hàng vừa mua vừa mở gian hàng được (mô hình giống Shopee).
 - **Đối tác tiếp thị liên kết (Referrer/CTV)** — có bản ghi `AffiliatePartner.userId = userId` (đăng ký qua "Trở thành đối tác"). 1 khách hàng có thể vừa mua vừa làm đối tác.
 
 Guest (chưa đăng nhập) xem được toàn bộ nội dung public (catalog, chợ vé, phụ kiện, nhiệm vụ, trang tĩnh) — chỉ bị chặn ở bước xác nhận đơn hàng/thanh toán, lúc đó mới bắt đăng nhập (giữ nguyên lựa chọn đã chọn, không mất context).
@@ -37,7 +37,7 @@ Guest (chưa đăng nhập) xem được toàn bộ nội dung public (catalog, 
 | Vai trò | Định danh đăng nhập (SĐT) |
 |---|---|
 | Khách hàng | tài khoản `khachhang@jgame.vn` |
-| Chủ gian hàng (gắn sẵn gian hàng "Alpha Cyber Center") | `chugianhang@jgame.vn` |
+| Chủ Cybergame (gắn sẵn gian hàng "Alpha Cyber Center") | `chugianhang@jgame.vn` |
 | Đối tác tiếp thị | `doitac@jgame.vn` |
 | Quản trị viên | `admin@jgame.vn` |
 

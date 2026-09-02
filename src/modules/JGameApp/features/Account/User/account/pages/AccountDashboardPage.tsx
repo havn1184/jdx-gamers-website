@@ -44,7 +44,7 @@ export function AccountDashboardPage() {
                 <Link to='/jgame/kenh-nguoi-ban/dang-ky' className='jgame-card-hover flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4'>
                   <span className='jgame-gradient-brand flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-white'><Store className='h-5 w-5' /></span>
                   <div>
-                    <p className='font-semibold text-white'>Trở thành chủ gian hàng</p>
+                    <p className='font-semibold text-white'>Trở thành chủ Cybergame</p>
                     <p className='text-xs text-white/50'>Đăng ký Kênh Người Bán, bán vé giờ chơi cybergame</p>
                   </div>
                 </Link>

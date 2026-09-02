@@ -6,14 +6,14 @@
 > Tương tự style này làm cho tài khoản là chủ cybergame, đối tác tiếp thị.
 > Chuẩn hóa giao diện cho đẹp, thao tác thuận tiện.
 
-> (Trao đổi bổ sung) Đồng ý phân luồng đăng nhập theo loại tài khoản (khách hàng → `/jgame/tai-khoan`, chủ gian hàng đã đăng ký → thẳng `/jgame/kenh-nguoi-ban`, đối tác tiếp thị đã đăng ký → thẳng `/jgame/doi-tac`, admin → `/jgame/quan-tri`). Và cần tái sắp xếp cấu trúc trong `src\modules\JGameApp\features`, chia làm 2 vùng: **Public** và **Account**, trong **Account** lại chia thành từng nhóm đối tượng người dùng: **User, Admin, Shop-owner, Đối tác tiếp thị liên kết**. Nguyên tắc: file giao diện thiết kế của mỗi đối tượng là **độc lập, không dùng chung** (khó maintain/phát triển nếu dùng chung).
+> (Trao đổi bổ sung) Đồng ý phân luồng đăng nhập theo loại tài khoản (khách hàng → `/jgame/tai-khoan`, chủ Cybergame đã đăng ký → thẳng `/jgame/kenh-nguoi-ban`, đối tác tiếp thị đã đăng ký → thẳng `/jgame/doi-tac`, admin → `/jgame/quan-tri`). Và cần tái sắp xếp cấu trúc trong `src\modules\JGameApp\features`, chia làm 2 vùng: **Public** và **Account**, trong **Account** lại chia thành từng nhóm đối tượng người dùng: **User, Admin, Shop-owner, Đối tác tiếp thị liên kết**. Nguyên tắc: file giao diện thiết kế của mỗi đối tượng là **độc lập, không dùng chung** (khó maintain/phát triển nếu dùng chung).
 
 > (Trao đổi bổ sung 2) Với các feature trộn cả trang công khai lẫn trang cần đăng nhập (`playtime`, `accessories`, `order`) → **tách triệt để theo trang (pages) vào đúng vùng**, cho phép dùng chung `types/services/hooks` qua import chéo giữa Public và Account/User của cùng 1 domain (không bắt buộc nhân bản business logic — chỉ **UI layout của 4 nhóm tài khoản** là phải độc lập, không dùng chung).
 
 ## 1. Tổng quan
 
 - **Mục tiêu kép:**
-  1. Mỗi nhóm tài khoản (Khách hàng / Admin / Chủ gian hàng / Đối tác tiếp thị) có **1 khung NavMenu sidebar riêng, độc lập hoàn toàn về code UI** (không 1 component layout dùng chung cho nhiều nhóm) — tập trung toàn bộ chức năng của nhóm đó, dễ thao tác, dễ maintain riêng từng nhóm về sau.
+  1. Mỗi nhóm tài khoản (Khách hàng / Admin / Chủ Cybergame / Đối tác tiếp thị) có **1 khung NavMenu sidebar riêng, độc lập hoàn toàn về code UI** (không 1 component layout dùng chung cho nhiều nhóm) — tập trung toàn bộ chức năng của nhóm đó, dễ thao tác, dễ maintain riêng từng nhóm về sau.
   2. Đăng nhập xong → điều hướng thẳng vào dashboard đúng nhóm tài khoản (không qua trang chủ storefront).
   3. Tái cấu trúc thư mục `features/` thành 2 vùng **Public** (nội dung/thao tác không cần đăng nhập) và **Account** (chia 4 nhóm con: `User`, `Admin`, `ShopOwner`, `Partner`), để ranh giới trách nhiệm rõ ràng, đúng như yêu cầu.
 - **Portal:** JGameApp (website độc lập). **Thư mục:** `src/modules/JGameApp/`
@@ -74,7 +74,7 @@ features/
 |---|---|---|
 | `features/Account/User/account/components/CustomerLayout.tsx` | Khách hàng | Tổng quan · Hồ sơ · Bảo mật · Lịch sử hoạt động · Đơn hàng của tôi · Nhiệm vụ của tôi · Ví JCoin · CTA Kênh Người Bán/Đối tác nếu chưa đăng ký |
 | `features/Account/Admin/components/AdminLayout.tsx` | Admin | Giữ nguyên menu hiện có (di chuyển thư mục, viết lại độc lập — không còn phụ thuộc file dùng chung nào) |
-| `features/Account/ShopOwner/components/ShopOwnerLayout.tsx` | Chủ gian hàng | Giữ nguyên menu hiện có (di chuyển thư mục) |
+| `features/Account/ShopOwner/components/ShopOwnerLayout.tsx` | Chủ Cybergame | Giữ nguyên menu hiện có (di chuyển thư mục) |
 | `features/Account/Partner/components/PartnerLayout.tsx` | Đối tác tiếp thị | Tổng quan (nội dung `ReferrerDashboardPage` hiện tại) · Hồ sơ đối tác |
 
 Mỗi file tự viết phần khung (badge brand, `<nav>` NavLink, responsive) — được phép **trùng lặp code** giữa 4 file này, đúng nguyên tắc độc lập.
@@ -121,7 +121,7 @@ Không áp dụng — không đổi field/DTO, chỉ đổi vị trí file + cá
   1. Dùng `git mv` cho từng file (giữ lịch sử), theo đúng bảng mục 3.
   2. Sau mỗi nhóm feature di chuyển xong → sửa lại `import` tương đối trong chính các file đó + mọi nơi import ngược vào (`routeConfig.tsx`, các cross-import Account↔Public).
   3. Chạy `npx tsc --noEmit` sau mỗi nhóm — có lỗi thì sửa ngay trước khi sang nhóm tiếp theo (không dồn lỗi).
-  4. Sau khi xong toàn bộ: chạy `check-for-skill/check-all.cjs` trên `src/modules/JGameApp`, và Playwright duyệt lại toàn bộ route trong `routeConfig.tsx` (đăng nhập từng loại tài khoản demo: khách hàng thường, chủ gian hàng, đối tác, admin) để đảm bảo không có route nào vỡ.
+  4. Sau khi xong toàn bộ: chạy `check-for-skill/check-all.cjs` trên `src/modules/JGameApp`, và Playwright duyệt lại toàn bộ route trong `routeConfig.tsx` (đăng nhập từng loại tài khoản demo: khách hàng thường, chủ Cybergame, đối tác, admin) để đảm bảo không có route nào vỡ.
 - **Rủi ro chính:** sai sót cross-import giữa Public/Account của cùng domain (playtime/accessories/order/tasks) gây vòng lặp import hoặc sai đường dẫn — giảm thiểu bằng cách sửa xong 1 domain là `tsc` ngay, không gộp nhiều domain rồi mới kiểm tra.
 - **Không đổi:** không đổi bất kỳ hành vi nghiệp vụ, mock store, hay URL path nào trong lần nâng cấp này.
 

@@ -12,7 +12,7 @@ export const PAGE_ID = 'jgame-login'
 
 const DEMO_LIST = [
   { key: 'customer', label: 'Khách hàng', icon: UserRound, phone: DEMO_ACCOUNTS.customer.phone },
-  { key: 'shopOwner', label: 'Chủ gian hàng', icon: Store, phone: DEMO_ACCOUNTS.shopOwner.phone },
+  { key: 'shopOwner', label: 'Chủ Cybergame', icon: Store, phone: DEMO_ACCOUNTS.shopOwner.phone },
   { key: 'affiliate', label: 'Đối tác tiếp thị', icon: Megaphone, phone: DEMO_ACCOUNTS.affiliate.phone },
   { key: 'admin', label: 'Quản trị viên', icon: ShieldAlert, phone: DEMO_ACCOUNTS.admin.phone },
 ] as const

@@ -8,7 +8,7 @@
 
 ## Mô hình vai trò
 
-**Không phải role loại trừ** — là 1 "hồ sơ" gắn thêm vào tài khoản Member đã có, xác định bằng bản ghi `AffiliatePartner.userId = userId`. 1 khách hàng có thể vừa mua hàng vừa là đối tác (giống mô hình Chủ gian hàng ở Chợ vé GĐ2).
+**Không phải role loại trừ** — là 1 "hồ sơ" gắn thêm vào tài khoản Member đã có, xác định bằng bản ghi `AffiliatePartner.userId = userId`. 1 khách hàng có thể vừa mua hàng vừa là đối tác (giống mô hình Chủ Cybergame ở Chợ vé GĐ2).
 
 ## Đăng ký làm đối tác
 

@@ -38,7 +38,7 @@ JGameApp/
     └── Account/
         ├── User/         # hành trình giao dịch/quản lý tài khoản của khách hàng thường
         ├── Admin/         # quản trị JGame (role=admin)
-        ├── ShopOwner/     # Kênh Người Bán (Chủ gian hàng — Chợ vé GĐ2)
+        ├── ShopOwner/     # Kênh Người Bán (Chủ Cybergame — Chợ vé GĐ2)
         └── Partner/       # Đối tác tiếp thị liên kết (Referrer/CTV)
 ```
 
@@ -62,7 +62,7 @@ Mỗi 1 trong 4 nhóm tài khoản (User/Admin/ShopOwner/Partner) có **1 file l
 |---|---|---|
 | `Account/User/account/components/CustomerLayout.tsx` | Khách hàng | Tổng quan · Hồ sơ · Bảo mật · Lịch sử hoạt động · Đơn hàng của tôi · Nhiệm vụ · Ví JCoin · CTA đăng ký ShopOwner/Partner nếu chưa có |
 | `Account/Admin/components/AdminLayout.tsx` | Admin | Nhãn "Quản trị JGame" đầu sidebar |
-| `Account/ShopOwner/components/ShopOwnerLayout.tsx` | Chủ gian hàng | Sidebar dashboard tối, tách hẳn header storefront công khai |
+| `Account/ShopOwner/components/ShopOwnerLayout.tsx` | Chủ Cybergame | Sidebar dashboard tối, tách hẳn header storefront công khai |
 | `Account/Partner/components/PartnerLayout.tsx` | Đối tác tiếp thị | Icon Megaphone, hiện mã giới thiệu |
 
 **Lý do:** sửa 1 nhóm không được phép ảnh hưởng 3 nhóm còn lại — ưu tiên dễ maintain độc lập hơn là tránh trùng lặp code UI. Nguyên tắc này **không** áp dụng cho `mocks/` (tầng data mock dùng chung toàn app, giữ nguyên vị trí `src/modules/JGameApp/mocks/`, không tách theo Public/Account) và **không** áp dụng cho types/services/hooks nghiệp vụ bị cross-import giữa Public/Account của cùng 1 domain (mục trên).

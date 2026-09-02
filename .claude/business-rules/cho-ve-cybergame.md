@@ -29,7 +29,7 @@ PENDING → EXPIRED                            (hết hạn giữ chỗ 5 phút,
 PAID → SUPPLY_FAILED → REFUND_PROCESSING → REFUNDED
 ```
 
-`CONFIRMED → USED` được Chủ gian hàng xác nhận thủ công tại trang "Đơn hàng đã bán" khi khách đã dùng vé tại quầy.
+`CONFIRMED → USED` được Chủ Cybergame xác nhận thủ công tại trang "Đơn hàng đã bán" khi khách đã dùng vé tại quầy.
 
 ## Giới hạn 1 vé 0đ/người dùng/tuần (FR-7.2.5)
 

@@ -24,7 +24,7 @@ export const PAGE_FEATURES = [
 ]
 
 const MODE_OPTIONS: { key: ShopSyncMode; label: string; desc: string }[] = [
-  { key: 'manual', label: 'Thủ công', desc: 'Chủ gian hàng tự nhập dữ liệu vé và số chỗ trống ở trang Zone & Vé.' },
+  { key: 'manual', label: 'Thủ công', desc: 'Chủ Cybergame tự nhập dữ liệu vé và số chỗ trống ở trang Zone & Vé.' },
   { key: 'netbarbox', label: 'NetBarBox', desc: 'Đồng bộ trực tiếp số chỗ trống từ nền tảng quản lý phòng máy NetBarBox.' },
   { key: 'dodonew', label: 'DoDoNew', desc: 'Đồng bộ trực tiếp số chỗ trống từ nền tảng quản lý phòng máy DoDoNew.' },
 ]

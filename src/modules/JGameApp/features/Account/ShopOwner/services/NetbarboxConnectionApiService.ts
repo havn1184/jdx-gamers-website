@@ -1,6 +1,6 @@
 /**
  * NetbarboxConnectionApiService — Kết nối 2 chiều Netbarbox <-> JGame + đồng bộ danh mục dịch vụ
- * cho Chủ gian hàng (xem nc_ mục 3.6). BE thật đã có sẵn — không dùng mock gate.
+ * cho Chủ Cybergame (xem nc_ mục 3.6). BE thật đã có sẵn — không dùng mock gate.
  */
 import { apiCall, buildJGameUrl, type ApiResponse } from '../../../../shared/services/api'
 import type {

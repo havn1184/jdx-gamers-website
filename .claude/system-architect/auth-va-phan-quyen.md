@@ -38,7 +38,7 @@ export interface AuthUser {
 }
 ```
 
-**Chủ gian hàng và Đối tác tiếp thị KHÔNG phải field role riêng** — xác định qua việc đã có bản ghi đăng ký hay chưa (`CybergameShop.ownerId`, `AffiliatePartner.userId`). Quyết định thiết kế: role chỉ dùng cho vai trò thật sự loại trừ; 2 "hồ sơ" kia không loại trừ (1 tài khoản có thể vừa mua vừa bán vừa làm đối tác), nên không hợp lý nếu ép vào cùng 1 field role.
+**Chủ Cybergame và Đối tác tiếp thị KHÔNG phải field role riêng** — xác định qua việc đã có bản ghi đăng ký hay chưa (`CybergameShop.ownerId`, `AffiliatePartner.userId`). Quyết định thiết kế: role chỉ dùng cho vai trò thật sự loại trừ; 2 "hồ sơ" kia không loại trừ (1 tài khoản có thể vừa mua vừa bán vừa làm đối tác), nên không hợp lý nếu ép vào cùng 1 field role.
 
 ## 5 route guard trong `layout/`
 
