@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import {
   Gamepad2, Menu, X, History, Users, LogOut, UserCircle2, ShoppingCart,
   UserRound, ShieldCheck, ChevronDown, Package, Store, Megaphone, Coins, LayoutDashboard,
+  type LucideIcon,
 } from 'lucide-react'
 import { Button } from '../shared/components/ui/button'
 import { useAuth } from '../contexts/AuthContext'
@@ -14,6 +15,22 @@ import { useWalletBalance } from '../features/Account/User/wallet/hooks/useWalle
 import { useMyShop } from '../features/Account/ShopOwner/hooks/useMyShop'
 import { useMyAffiliate } from '../features/Account/Partner/hooks/useMyAffiliate'
 import { formatNumber } from '../shared/utils/FormatUtils'
+
+/**
+ * Ngữ cảnh "trang chủ" của tài khoản trong dropdown avatar — CHỈ 1 trong 4, theo đúng thứ tự ưu
+ * tiên đã dùng khi điều hướng sau đăng nhập (useLogin.page.ts: admin > Chủ Cybergame > đối tác >
+ * khách hàng). Trước đây dropdown luôn hiện "Tài khoản của tôi" + mọi mục mua sắm của khách hàng
+ * thường (Đơn hàng của tôi/Nhiệm vụ của tôi) dù đang đăng nhập bằng tài khoản Chủ Cybergame/Đối
+ * tác/Admin — sai ngữ cảnh so với sidebar riêng của từng khu (đã đúng).
+ */
+type AccountRole = 'admin' | 'shopOwner' | 'affiliate' | 'customer'
+
+const PRIMARY_ENTRY: Record<AccountRole, { label: string; to: string; icon: LucideIcon; dataQa: string }> = {
+  admin: { label: 'Quản trị hệ thống', to: '/jgame/quan-tri', icon: ShieldCheck, dataQa: 'btn_quan_tri_he_thong' },
+  shopOwner: { label: 'Chủ Cybergame', to: '/jgame/chu-cybergame', icon: Store, dataQa: 'btn_chu_cybergame' },
+  affiliate: { label: 'Kênh đối tác', to: '/jgame/doi-tac', icon: Megaphone, dataQa: 'btn_kenh_doi_tac' },
+  customer: { label: 'Tài khoản của tôi', to: '/jgame/tai-khoan', icon: LayoutDashboard, dataQa: 'btn_tai_khoan_cua_toi' },
+}
 
 const NAV_ITEMS: { label: string; to: string; soon?: boolean }[] = [
   { label: 'Trang chủ', to: '/jgame' },
@@ -33,6 +50,9 @@ export function StorefrontHeader() {
   const { shop, refetch: refetchShop } = useMyShop()
   const { isAffiliate, refetch: refetchAffiliate } = useMyAffiliate()
   const isShopOwner = Boolean(shop)
+  const isAdmin = user?.role === 'admin'
+  const accountRole: AccountRole = isAdmin ? 'admin' : isShopOwner ? 'shopOwner' : isAffiliate ? 'affiliate' : 'customer'
+  const primaryEntry = PRIMARY_ENTRY[accountRole]
   const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [avatarOpen, setAvatarOpen] = useState(false)
@@ -111,9 +131,9 @@ export function StorefrontHeader() {
               </button>
 
               {avatarOpen && (
-                <div className='absolute right-0 top-full mt-2 w-52 rounded-xl border border-white/10 bg-[#1a0d33] py-1.5 shadow-xl'>
-                  <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/tai-khoan')} data-qa='btn_tai_khoan_cua_toi'>
-                    <LayoutDashboard className='h-4 w-4' /> Tài khoản của tôi
+                <div className='absolute right-0 top-full mt-2 w-56 rounded-xl border border-white/10 bg-[#1a0d33] py-1.5 shadow-xl'>
+                  <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10' onClick={() => goTo(primaryEntry.to)} data-qa={primaryEntry.dataQa}>
+                    <primaryEntry.icon className='h-4 w-4' /> {primaryEntry.label}
                   </button>
                   <div className='my-1 border-t border-white/10' />
                   <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/ho-so')}>
@@ -125,26 +145,15 @@ export function StorefrontHeader() {
                   <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/lich-su-hoat-dong')}>
                     <History className='h-4 w-4' /> Lịch sử hoạt động
                   </button>
-                  <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/lich-su')}>
-                    <Package className='h-4 w-4' /> Đơn hàng của tôi
-                  </button>
-                  {isShopOwner && (
-                    <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/chu-cybergame')} data-qa='btn_chu_cybergame'>
-                      <Store className='h-4 w-4' /> Chủ Cybergame
-                    </button>
-                  )}
-                  {isAffiliate && (
-                    <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/doi-tac')} data-qa='btn_kenh_doi_tac'>
-                      <Megaphone className='h-4 w-4' /> Kênh đối tác
-                    </button>
-                  )}
-                  <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/kiem-tien/nhiem-vu-cua-toi')} data-qa='btn_nhiem_vu_cua_toi_header'>
-                    <Coins className='h-4 w-4' /> Nhiệm vụ của tôi
-                  </button>
-                  {user.role === 'admin' && (
-                    <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/quan-tri')} data-qa='btn_quan_tri_he_thong'>
-                      <ShieldCheck className='h-4 w-4' /> Quản trị hệ thống
-                    </button>
+                  {accountRole === 'customer' && (
+                    <>
+                      <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/lich-su')}>
+                        <Package className='h-4 w-4' /> Đơn hàng của tôi
+                      </button>
+                      <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/kiem-tien/nhiem-vu-cua-toi')} data-qa='btn_nhiem_vu_cua_toi_header'>
+                        <Coins className='h-4 w-4' /> Nhiệm vụ của tôi
+                      </button>
+                    </>
                   )}
                   <div className='my-1 border-t border-white/10' />
                   <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-red-300 hover:bg-white/10' onClick={() => { setAvatarOpen(false); logout() }} data-qa='btn_dang_xuat'>
@@ -195,21 +204,16 @@ export function StorefrontHeader() {
           ))}
           {isAuthenticated ? (
             <>
-              <Link to='/jgame/tai-khoan' className='block rounded-lg px-3 py-2 text-sm font-semibold text-white' onClick={() => setMobileOpen(false)}>Tài khoản của tôi</Link>
-              {isAffiliate && (
-                <Link to='/jgame/doi-tac' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Đối tác</Link>
-              )}
-              <Link to='/jgame/lich-su' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Đơn hàng của tôi</Link>
-              {isShopOwner && (
-                <Link to='/jgame/chu-cybergame' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Chủ Cybergame</Link>
-              )}
-              <Link to='/jgame/kiem-tien/nhiem-vu-cua-toi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Nhiệm vụ của tôi</Link>
+              <Link to={primaryEntry.to} className='block rounded-lg px-3 py-2 text-sm font-semibold text-white' onClick={() => setMobileOpen(false)}>{primaryEntry.label}</Link>
               <Link to='/jgame/vi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Ví của tôi ({formatNumber(wallet.jcoinBalance)} JCoin)</Link>
               <Link to='/jgame/ho-so' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Hồ sơ cá nhân</Link>
               <Link to='/jgame/bao-mat' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Bảo mật</Link>
               <Link to='/jgame/lich-su-hoat-dong' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Lịch sử hoạt động</Link>
-              {user?.role === 'admin' && (
-                <Link to='/jgame/quan-tri' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Quản trị hệ thống</Link>
+              {accountRole === 'customer' && (
+                <>
+                  <Link to='/jgame/lich-su' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Đơn hàng của tôi</Link>
+                  <Link to='/jgame/kiem-tien/nhiem-vu-cua-toi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Nhiệm vụ của tôi</Link>
+                </>
               )}
               <button type='button' className='block w-full text-left rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={logout}>Đăng xuất</button>
             </>

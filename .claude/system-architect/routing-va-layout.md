@@ -95,7 +95,7 @@ Toàn bộ ~40 component trang trong `routeConfig.tsx` import qua `lazy(() => im
 
 ## Header/Navigation — 5 khung điều hướng độc lập, không dùng chung
 
-- `StorefrontHeader.tsx` — header cho toàn bộ trang Public (nav Trang chủ/Nạp thẻ/Chợ vé/Phụ kiện/Kiếm tiền, icon giỏ hàng, dropdown avatar khi đã đăng nhập).
+- `StorefrontHeader.tsx` — header DUY NHẤT cho toàn bộ JGameApp (bọc mọi route qua `StorefrontLayout`, kể cả các khu Account/Admin/ShopOwner/Partner) — nav Trang chủ/Nạp thẻ/Chợ vé/Phụ kiện/Kiếm tiền, icon giỏ hàng, dropdown avatar khi đã đăng nhập. Dropdown avatar theo NGỮ CẢNH TÀI KHOẢN (`AccountRole` trong chính file, ưu tiên đúng như điều hướng sau đăng nhập ở `useLogin.page.ts`: admin > Chủ Cybergame > đối tác > khách hàng) — chỉ 1 mục "trang chủ" (`PRIMARY_ENTRY`) khớp vai trò cao nhất của tài khoản, các mục mua sắm của khách hàng thường (Đơn hàng của tôi/Nhiệm vụ của tôi) CHỈ hiện khi vai trò cao nhất là khách hàng thường; Hồ sơ cá nhân/Bảo mật/Lịch sử hoạt động/Đăng xuất hiện cho mọi vai trò.
 - 4 layout sidebar riêng cho Account/{User,Admin,ShopOwner,Partner} — xem [00-tong-quan-kien-truc.md](00-tong-quan-kien-truc.md#nguyên-tắc-độc-lập-không-dùng-chung--chỉ-áp-dụng-cho-layout-navmenu-sidebar).
 
 JGameApp **không** dùng NavMenu/TopMenu chuẩn 9-portal của workspace (đây là site độc lập, không nằm trong sơ đồ chuẩn `PAGE_TO_TOP_MENU`).
