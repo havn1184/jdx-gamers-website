@@ -17,7 +17,11 @@ const ORDER_STATUS_BY_INT: Record<number, OrderStatus> = {
 const REFUND_STATUS_BY_INT: Record<number, RefundInfo['status']> = { 0: 'PROCESSING', 1: 'DONE' }
 
 function mapOrder(raw: Omit<OrderSummary, 'status'> & { status: unknown }): OrderSummary {
-  return { ...raw, status: ORDER_STATUS_BY_INT[raw.status as number] ?? raw.status as OrderStatus }
+  // Cùng quy tắc dựng art với CardApiService (danh mục) để đơn hàng hiện đúng logo/màu thương hiệu.
+  const art = raw.brandColorFrom
+    ? { gradient: [`#${raw.brandColorFrom}`, `#${raw.brandColorTo ?? raw.brandColorFrom}`] as [string, string], icon: raw.brandIcon ?? 'Gamepad2' }
+    : undefined
+  return { ...raw, art, status: ORDER_STATUS_BY_INT[raw.status as number] ?? raw.status as OrderStatus }
 }
 
 function mapRefund(raw: Omit<RefundInfo, 'status'> & { status: unknown }): RefundInfo {

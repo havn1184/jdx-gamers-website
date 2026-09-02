@@ -43,3 +43,7 @@ Nguyên tắc: **không giữ tiền khách mà không giao mã và không hoàn
 - **Tích hợp NCC thẻ game thật** — hiện chỉ là CRUD "Nhà cung cấp" mock trong Admin (`AdminSuppliersPage`), không có Adapter/API thật nào kết nối tới NCC.
 
 Khi thiết kế backend thật, đây là 2 nghiệp vụ cần đặc tả kỹ nhất vì không có gì để tham chiếu ngoài URD gốc mục 11.4, 18.7.
+
+## Nhận diện thương hiệu trên đơn (từ 02/09/2026)
+
+`OrderSummary` nhận thêm `productImageUrl`/`brandColorFrom`/`brandColorTo`/`brandIcon` (Backend denormalize lúc tạo đơn); `OrderApiService.mapOrder` dựng `art` cùng quy tắc với danh mục để Lịch sử giao dịch hiện `CardArt` đúng logo/màu.

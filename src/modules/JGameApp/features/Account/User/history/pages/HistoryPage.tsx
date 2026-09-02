@@ -8,6 +8,8 @@ import { formatCurrency, formatDateTime } from '../../../../../shared/utils/Form
 import { useHistoryFetchData, type HistoryTab } from '../hooks/useHistory.page.fetchData'
 import { cn } from '../../../../../shared/components/ui/utils'
 import { CustomerLayout } from '../../account/components/CustomerLayout'
+import { CardArt } from '../../../../../shared/components/CardArt'
+import type { MockCardArt } from '../../../../Public/catalog/types/card.types'
 import type { OrderStatus } from '../../order/types/order.types'
 import type { AccessoryOrderStatus } from '../../../../Public/accessories/types/accessory.types'
 import type { PlaytimeOrderStatus } from '../../../../Public/playtime/types/playtime.types'
@@ -61,10 +63,15 @@ function EmptyState({ ctaTo, ctaLabel }: { ctaTo: string; ctaLabel: string }) {
   )
 }
 
-function OrderRow({ to, title, meta, subtitle, amount }: { to: string; title: string; meta: { label: string; className: string }; subtitle: string; amount: number }) {
+function OrderRow({ to, title, meta, subtitle, amount, art, imageUrl, artLabel }: {
+  to: string; title: string; meta: { label: string; className: string }; subtitle: string; amount: number
+  art?: MockCardArt; imageUrl?: string | null; artLabel?: string
+}) {
+  const showArt = art !== undefined || Boolean(imageUrl)
   return (
-    <Link to={to} className='flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/10' data-qa={`row_view_${to.split('/').pop()}`}>
-      <div>
+    <Link to={to} className='flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/10' data-qa={`row_view_${to.split('/').pop()}`}>
+      {showArt && <CardArt art={art} imageUrl={imageUrl ?? undefined} label={artLabel ?? title} className='h-11 w-11 flex-shrink-0 rounded-lg' />}
+      <div className='min-w-0 flex-1'>
         <div className='flex items-center gap-2'>
           <span className='font-semibold text-white'>{title}</span>
           <Badge className={cn('border-none', meta.className)}>{meta.label}</Badge>
@@ -108,7 +115,7 @@ export function HistoryPage() {
         cardOrders.length === 0 ? <EmptyState ctaTo='/jgame/nap-the' ctaLabel='Nạp thẻ ngay' /> : (
           <div className='space-y-3'>
             {cardOrders.map(o => (
-              <OrderRow key={o.id} to={`/jgame/ket-qua/${o.id}`} title={o.productName} meta={CARD_STATUS[o.status]} subtitle={`Mã đơn ${o.id} · ${formatDateTime(o.createdAt)}`} amount={o.totalAmount} />
+              <OrderRow key={o.id} to={`/jgame/ket-qua/${o.id}`} title={o.productName} meta={CARD_STATUS[o.status]} subtitle={`Mã đơn ${o.id} · ${formatDateTime(o.createdAt)}`} amount={o.totalAmount} art={o.art} imageUrl={o.productImageUrl} artLabel={o.supplierName} />
             ))}
           </div>
         )

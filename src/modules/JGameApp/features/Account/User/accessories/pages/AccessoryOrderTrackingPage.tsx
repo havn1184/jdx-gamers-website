@@ -3,7 +3,7 @@
  */
 import { useParams } from 'react-router-dom'
 import { Loader2, CheckCircle2, Package, Truck, Home, Clock3, XCircle } from 'lucide-react'
-import { formatCurrency, formatDateTime } from '../../../../../shared/utils/FormatUtils'
+import { formatCurrency, formatDate, formatDateTime } from '../../../../../shared/utils/FormatUtils'
 import { useAccessoryTracking } from '../hooks/useAccessoryTracking.page'
 import { cn } from '../../../../../shared/components/ui/utils'
 import type { AccessoryOrderStatus } from '../../../../Public/accessories/types/accessory.types'
@@ -61,6 +61,12 @@ export function AccessoryOrderTrackingPage() {
           </div>
           {order.trackingCode && (
             <p className='mt-6 text-center text-sm text-white/60'>Mã vận đơn: <span className='font-mono text-white'>{order.trackingCode}</span></p>
+          )}
+          {order.estimatedDeliveryAt && order.status !== 'DELIVERED' && order.status !== 'CANCELLED' && order.status !== 'RETURNED' && (
+            <p className='mt-2 text-center text-sm text-white/60' data-qa='txt_du_kien_giao'>
+              Dự kiến giao: <span className='font-semibold text-white'>{formatDate(order.estimatedDeliveryAt)}</span>
+              {order.estimatedDeliveryNote ? <span className='text-white/40'> ({order.estimatedDeliveryNote})</span> : null}
+            </p>
           )}
         </div>
       )}

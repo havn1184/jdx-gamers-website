@@ -116,6 +116,9 @@ export interface AccessoryOrder {
   totalAmount: number
   status: AccessoryOrderStatus
   trackingCode?: string
+  /** Ngày giao dự kiến từ BE (GHTK thật hoặc ước tính theo phương thức giao) + ghi chú nguồn (20260902-nc_du-lieu-don-hang-va-webhook-nph.md B). */
+  estimatedDeliveryAt?: string | null
+  estimatedDeliveryNote?: string | null
   /** Chỉ có ở GET detail (BE) — null/undefined ở GET list. Tuỳ chọn hiển thị thêm, chưa bắt buộc dùng ở UI. */
   timeline?: AccessoryOrderTimelineEntry[]
   createdAt: string

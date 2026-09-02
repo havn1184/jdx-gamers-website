@@ -41,3 +41,7 @@ Gộp chung `HistoryPage` với thẻ game và vé giờ chơi (3 tab) — xem [
 
 - Quản lý đơn vị vận chuyển (carrier) — danh sách cố định trong code, chưa có trang CRUD riêng (chấp nhận được ở mức URD FR-8.4 "mức khung").
 - Chính sách đổi trả hàng vật lý chi tiết — mới dừng ở trạng thái `RETURNED` trong state machine, chưa có luồng nghiệp vụ đầy đủ (lý do trả, hoàn tiền một phần...).
+
+## Ngày giao dự kiến (từ 02/09/2026)
+
+Trang theo dõi đơn hiển thị `estimatedDeliveryAt` + `estimatedDeliveryNote` do Backend trả (GHTK thật hoặc ước tính theo phương thức giao), ẩn khi đơn đã giao/huỷ/hoàn trả. Website không tự ước tính.

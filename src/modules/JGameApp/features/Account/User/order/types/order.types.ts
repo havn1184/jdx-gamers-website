@@ -1,3 +1,4 @@
+import type { MockCardArt } from '../../../../Public/catalog/types/card.types'
 /**
  * Types cho đơn hàng / thanh toán / mã thẻ — theo URD mục 6.3 (state machine) + mục 19.
  */
@@ -34,6 +35,13 @@ export interface OrderSummary {
   totalAmount: number
   status: OrderStatus
   referrerCode?: string
+  /** Thương hiệu denormalize từ sản phẩm lúc tạo đơn (BE 20260902-nc_du-lieu-don-hang-va-webhook-nph.md A) — null với đơn quá cũ. */
+  productImageUrl?: string | null
+  brandColorFrom?: string | null
+  brandColorTo?: string | null
+  brandIcon?: string | null
+  /** Dựng từ brandColor* ở tầng service để CardArt dùng chung với danh mục. */
+  art?: MockCardArt
   createdAt: string
   updatedAt: string
 }
