@@ -1,4 +1,4 @@
-# Tài liệu giải pháp — Chợ vé giờ chơi Cybergame (Giai đoạn 2) + Kênh Người Bán
+# Tài liệu giải pháp — Chợ vé giờ chơi Cybergame (Giai đoạn 2) + Chủ Cybergame
 
 > Ngày: 2026-08-29 | Portal: **JGameApp** | Tiếp nối 2 tài liệu đã approve trước đó (GĐ1 bán thẻ + Auth độc lập/GĐ3 phụ kiện)
 
@@ -10,8 +10,8 @@
 
 ## 1. Tổng Quan
 
-- **Mục tiêu:** Triển khai URD Giai đoạn 2 (mục 7 — hiện chỉ có đặc tả khung) thành marketplace chạy được: chợ vé giờ chơi kiểu Shopee (nhiều gian hàng = nhiều phòng cybergame), vé theo zone, slot trống realtime (mock), flash-sale vé 0đ/giảm sâu, **và** khu vực Kênh Người Bán (Shop Owner Dashboard) ngay trong JGameApp để chủ phòng game tự quản lý.
-- **shortName mới:** `playtime` (marketplace khách hàng), `shop-owner` (kênh người bán).
+- **Mục tiêu:** Triển khai URD Giai đoạn 2 (mục 7 — hiện chỉ có đặc tả khung) thành marketplace chạy được: chợ vé giờ chơi kiểu Shopee (nhiều gian hàng = nhiều phòng cybergame), vé theo zone, slot trống realtime (mock), flash-sale vé 0đ/giảm sâu, **và** khu vực Chủ Cybergame (Shop Owner Dashboard) ngay trong JGameApp để chủ phòng game tự quản lý.
+- **shortName mới:** `playtime` (marketplace khách hàng), `shop-owner` (Chủ Cybergame).
 - **Actor mới:** **Chủ Cybergame (Cybergame Owner)** — là 1 Member JGame đăng ký thêm vai trò gian hàng (giống mô hình Shopee: 1 tài khoản có thể vừa mua vừa bán), không tạo hệ xác thực riêng.
 - **Vẫn giữ nguyên:** toàn bộ GĐ1 (thẻ game) và Kho phụ kiện GĐ3 không đổi.
 
@@ -42,7 +42,7 @@
 | SC-P2-05 | **Kết quả đặt vé** | Thành công: hiện mã đổi vé (redeem code) + QR code hiển thị tại quầy; Thất bại: hết chỗ do đến chậm → tự hoàn tiền |
 | SC-P2-06 | **Lịch sử giao dịch (nâng cấp)** | Thêm tab "Vé giờ chơi" bên cạnh "Thẻ game"/"Phụ kiện" |
 
-### 2.2. Kênh Người Bán (Shop Owner — trong JGameApp)
+### 2.2. Chủ Cybergame (Shop Owner — trong JGameApp)
 
 | Mã | Trang | Mô tả |
 |---|---|---|
@@ -86,13 +86,13 @@ JGameApp/
       pages/ (PlaytimeMarketplacePage, CybergameShopPage, TicketConfirmPage,
               PlaytimePaymentQrPage, PlaytimeOrderResultPage)
       index.ts
-    shop-owner/                            # Kênh Người Bán
+    shop-owner/                            # Chủ Cybergame
       types/shop-owner.types.ts (re-export payout)
       services/ShopOwnerApiService.ts
       hooks/ (useMyShop, useShopRegister.page, useShopDashboard.page.fetchData,
               useShopZonesTickets.page, useShopSync.page, useShopOrders.page.fetchData,
               useShopPayouts.page.fetchData)
-      components/ShopOwnerLayout.tsx        # sidebar riêng cho kênh người bán
+      components/ShopOwnerLayout.tsx        # sidebar riêng cho Chủ Cybergame
       layout/RequireShopOwner.tsx           # guard: có gian hàng chưa, chưa có → điều hướng đăng ký
       pages/ (ShopRegisterPage, ShopDashboardPage, ShopZonesTicketsPage,
               ShopSyncPage, ShopOrdersPage, ShopPayoutsPage)
@@ -101,7 +101,7 @@ JGameApp/
       hooks/useHistory.page.fetchData.ts    # SỬA — gộp 3 nguồn đơn hàng theo tab
       pages/HistoryPage.tsx                 # SỬA — thêm tab loại đơn
   layout/
-    StorefrontHeader.tsx     # SỬA — nav "Chợ vé" (bỏ badge SỚM), dropdown avatar thêm "Kênh người bán"
+    StorefrontHeader.tsx     # SỬA — nav "Chợ vé" (bỏ badge SỚM), dropdown avatar thêm "Chủ Cybergame"
   routes/routeConfig.tsx     # SỬA — thêm route marketplace + shop-owner, xoá route ve-gio-choi (ComingSoon)
   features/coming-soon/pages/PlaytimeComingSoonPage.tsx   # XOÁ (thay bằng marketplace thật)
 ```
@@ -110,18 +110,18 @@ JGameApp/
 
 Khách hàng (public xem, đặt vé cần đăng nhập): `cho-ve` · `cho-ve/gian-hang/:shopId` · `cho-ve/xac-nhan-dat-ve` · `cho-ve/thanh-toan/:orderId` (auth) · `cho-ve/ket-qua/:orderId` (auth)
 
-Kênh Người Bán (đều cần đăng nhập; các trang trừ đăng ký cần `RequireShopOwner`): `kenh-nguoi-ban/dang-ky` · `kenh-nguoi-ban` (dashboard) · `kenh-nguoi-ban/zone-ve` · `kenh-nguoi-ban/dong-bo` · `kenh-nguoi-ban/don-hang` · `kenh-nguoi-ban/cong-no`
+Chủ Cybergame (đều cần đăng nhập; các trang trừ đăng ký cần `RequireShopOwner`): `chu-cybergame/dang-ky` · `chu-cybergame` (dashboard) · `chu-cybergame/zone-ve` · `chu-cybergame/dong-bo` · `chu-cybergame/don-hang` · `chu-cybergame/cong-no`
 
 ## 6. Menu
 
-- Header: đổi link "Vé giờ chơi (badge SỚM)" → "Chợ vé" trỏ `/jgame/cho-ve` (bỏ badge). Dropdown avatar thêm mục "Kênh người bán" (điều hướng theo `RequireShopOwner`: có gian hàng → dashboard, chưa có → trang đăng ký).
+- Header: đổi link "Vé giờ chơi (badge SỚM)" → "Chợ vé" trỏ `/jgame/cho-ve` (bỏ badge). Dropdown avatar thêm mục "Chủ Cybergame" (điều hướng theo `RequireShopOwner`: có gian hàng → dashboard, chưa có → trang đăng ký).
 - Footer: không đổi.
 
 ## 7. Thiết Kế UI
 
 - **Trang chủ Chợ vé:** phong cách Shopee hoá theo theme JGame (nền tối, gradient tím-hồng thay cam-đỏ Shopee) — băng rôn Flash Sale nổi bật + đồng hồ đếm ngược, thanh tiến trình "đã bán X/Y" trên mỗi vé (giống progress bar Flash Sale Shopee), carousel gian hàng dạng card tròn logo + tên, badge phần trăm giảm giá to màu đỏ/cam nổi bật trên góc ảnh vé.
 - **Trang gian hàng:** giống trang Shop Shopee — cover ảnh lớn, avatar logo tròn đè lên, hàng thông tin (rating/đã bán/địa chỉ), tab theo Zone.
-- **Kênh Người Bán:** đổi hẳn sang layout dashboard (sidebar trái cố định, nền tối hơn, không dùng header storefront công khai) — tương tự phong cách "Kênh Người Bán Shopee", tách bạch rõ với trải nghiệm mua hàng.
+- **Chủ Cybergame:** đổi hẳn sang layout dashboard (sidebar trái cố định, nền tối hơn, không dùng header storefront công khai) — tương tự phong cách "Chủ Cybergame Shopee", tách bạch rõ với trải nghiệm mua hàng.
 - Vé sắp hết chỗ (`availableSlots <= 3`): viền đỏ nhấp nháy nhẹ (animate-pulse) tăng cảm giác khẩn cấp.
 
 ## 8. Checklist

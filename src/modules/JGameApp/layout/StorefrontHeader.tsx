@@ -38,7 +38,7 @@ export function StorefrontHeader() {
   const [avatarOpen, setAvatarOpen] = useState(false)
 
   // Header được mount 1 lần cho cả session (kể cả trước khi đăng nhập) — phải refetch
-  // trạng thái Kênh Người Bán/Đối tác mỗi khi tài khoản đăng nhập thay đổi, tránh hiển thị
+  // trạng thái Chủ Cybergame/Đối tác mỗi khi tài khoản đăng nhập thay đổi, tránh hiển thị
   // nhầm menu của tài khoản trước đó (đăng nhập demo khác nhau trong cùng phiên).
   useEffect(() => {
     void refetchShop()
@@ -129,8 +129,8 @@ export function StorefrontHeader() {
                     <Package className='h-4 w-4' /> Đơn hàng của tôi
                   </button>
                   {isShopOwner && (
-                    <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/kenh-nguoi-ban')} data-qa='btn_kenh_nguoi_ban'>
-                      <Store className='h-4 w-4' /> Kênh người bán
+                    <button type='button' className='flex w-full items-center gap-2 px-3 py-2 text-sm text-white/80 hover:bg-white/10' onClick={() => goTo('/jgame/chu-cybergame')} data-qa='btn_chu_cybergame'>
+                      <Store className='h-4 w-4' /> Chủ Cybergame
                     </button>
                   )}
                   {isAffiliate && (
@@ -201,7 +201,7 @@ export function StorefrontHeader() {
               )}
               <Link to='/jgame/lich-su' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Đơn hàng của tôi</Link>
               {isShopOwner && (
-                <Link to='/jgame/kenh-nguoi-ban' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Kênh người bán</Link>
+                <Link to='/jgame/chu-cybergame' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Chủ Cybergame</Link>
               )}
               <Link to='/jgame/kiem-tien/nhiem-vu-cua-toi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Nhiệm vụ của tôi</Link>
               <Link to='/jgame/vi' className='block rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10' onClick={() => setMobileOpen(false)}>Ví của tôi ({formatNumber(wallet.jcoinBalance)} JCoin)</Link>

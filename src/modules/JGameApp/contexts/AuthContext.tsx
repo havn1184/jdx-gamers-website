@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     TokenManager.clearTokens()
     // Xoá returnTo/lựa chọn dở dang còn sót lại — tránh lần đăng nhập kế tiếp (có thể là
     // tài khoản khác) bị "hijack" điều hướng sang trang của phiên trước thay vì đúng
-    // trang tổng quan theo vai trò (Kênh Người Bán/Đối tác/Quản trị/Tài khoản).
+    // trang tổng quan theo vai trò (Chủ Cybergame/Đối tác/Quản trị/Tài khoản).
     clearPendingSelection()
     // Đợi refreshUser() cập nhật xong state (user=null) rồi mới điều hướng — nếu không đợi,
     // lệnh refreshUser() này có thể "chạy đua" với refreshUser() của lượt đăng nhập kế tiếp

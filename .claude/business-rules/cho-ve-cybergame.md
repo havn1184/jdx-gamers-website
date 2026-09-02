@@ -1,12 +1,12 @@
 # Chợ vé giờ chơi Cybergame (Giai đoạn 2)
 
-> Route khách hàng: `/jgame/cho-ve`. Route Kênh Người Bán: `/jgame/kenh-nguoi-ban`.
-> Code: `features/Public/playtime/` (marketplace, public), `features/Account/User/playtime/` (đặt vé — cần đăng nhập), `features/Account/ShopOwner/` (kênh người bán), `mocks/playtimeShops.store.ts`, `mocks/playtimeOrders.store.ts`, `mocks/shopPayouts.mock.ts`, `mocks/freeTicketClaims.store.ts`.
+> Route khách hàng: `/jgame/cho-ve`. Route Chủ Cybergame: `/jgame/chu-cybergame`.
+> Code: `features/Public/playtime/` (marketplace, public), `features/Account/User/playtime/` (đặt vé — cần đăng nhập), `features/Account/ShopOwner/` (Chủ Cybergame), `mocks/playtimeShops.store.ts`, `mocks/playtimeOrders.store.ts`, `mocks/shopPayouts.mock.ts`, `mocks/freeTicketClaims.store.ts`.
 > Nguồn thiết kế: `Docs/Nang-cap/nc-jgame-cho-ve-cybergame-gd2-2026-08-29.md` (✅ APPROVED). URD gốc mục 7 chỉ đặc tả mức khung — mục này đã vượt xa mức khung đó, đọc tài liệu này thay vì URD mục 7 khi có mâu thuẫn.
 
 ## Mô hình nghiệp vụ: marketplace nhiều gian hàng kiểu Shopee
 
-- Mỗi phòng cybergame là **1 gian hàng** (`CybergameShop`), thuộc sở hữu 1 Member (`ownerId`) đã đăng ký qua Kênh Người Bán.
+- Mỗi phòng cybergame là **1 gian hàng** (`CybergameShop`), thuộc sở hữu 1 Member (`ownerId`) đã đăng ký qua Chủ Cybergame.
 - Mỗi gian hàng có nhiều **Zone** (`PlaytimeZone`: thường/VIP/cấu hình cao — `zoneType: standard|vip|highend`), mỗi Zone có nhiều **loại vé** (`PlaytimeTicket`) theo số giờ chơi, có giá gốc/giá bán/% giảm, số chỗ trống (`availableSlots`/`totalSlots`).
 - **Flash-sale**: vé 0đ hoặc giảm sâu 70-90% (`isFlashSale`, `flashSaleEndsAt`), hiển thị nổi bật ở trang chủ chợ vé.
 - **Slot trống "liên tục cập nhật"**: mock timer nền (mỗi 4-6 giây) giảm ngẫu nhiên 1 slot ở vài vé đang active, FE poll lại mỗi 3 giây — mô phỏng URD FR-7.2.2 (đẩy sự kiện realtime) mà không cần WebSocket thật.
@@ -35,18 +35,18 @@ PAID → SUPPLY_FAILED → REFUND_PROCESSING → REFUNDED
 
 Chống lạm dụng bot/tài khoản ảo — lưu `localStorage` theo tuần ISO (`mocks/freeTicketClaims.store.ts`), chặn claim vé 0đ thứ 2 trong cùng 1 tuần của cùng 1 người dùng.
 
-## Kênh Người Bán (Shop Owner Channel)
+## Chủ Cybergame (Shop Owner Channel)
 
 Layout riêng, tách hẳn khỏi trải nghiệm mua hàng (sidebar dashboard tối, không dùng header storefront công khai).
 
 | Trang | Route | Chức năng |
 |---|---|---|
-| Đăng ký gian hàng | `/jgame/kenh-nguoi-ban/dang-ky` | Member chưa có gian hàng → điền tên/địa chỉ/mô tả → `active` ngay (không có khâu Admin duyệt ở bản hiện tại) |
-| Tổng quan | `/jgame/kenh-nguoi-ban` | Doanh thu hôm nay/tuần, đơn mới, top vé bán chạy, cảnh báo vé sắp hết chỗ |
-| Quản lý Zone & Vé | `/jgame/kenh-nguoi-ban/zone-ve` | CRUD Zone + CRUD Vé — **nhập thủ công** |
-| Đồng bộ nền tảng | `/jgame/kenh-nguoi-ban/dong-bo` | Chọn chế độ Thủ công / NetBarBox / DoDoNew; nút "Đồng bộ ngay" — **mock, chưa gọi API thật tới nền tảng nào** |
-| Đơn hàng đã bán | `/jgame/kenh-nguoi-ban/don-hang` | Danh sách đơn, nút "Xác nhận khách đã dùng vé" (`CONFIRMED` → `USED`) |
-| Công nợ & Lịch sử thanh toán | `/jgame/kenh-nguoi-ban/cong-no` | Kỳ hiện tại (JGame sẽ trả) + lịch sử các kỳ đã trả — **chỉ dạng xem (read-only)**, không có thao tác Admin xác nhận trả tiền ở bản hiện tại |
+| Đăng ký gian hàng | `/jgame/chu-cybergame/dang-ky` | Member chưa có gian hàng → điền tên/địa chỉ/mô tả → `active` ngay (không có khâu Admin duyệt ở bản hiện tại) |
+| Tổng quan | `/jgame/chu-cybergame` | Doanh thu hôm nay/tuần, đơn mới, top vé bán chạy, cảnh báo vé sắp hết chỗ |
+| Quản lý Zone & Vé | `/jgame/chu-cybergame/zone-ve` | CRUD Zone + CRUD Vé — **nhập thủ công** |
+| Đồng bộ nền tảng | `/jgame/chu-cybergame/dong-bo` | Chọn chế độ Thủ công / NetBarBox / DoDoNew; nút "Đồng bộ ngay" — **mock, chưa gọi API thật tới nền tảng nào** |
+| Đơn hàng đã bán | `/jgame/chu-cybergame/don-hang` | Danh sách đơn, nút "Xác nhận khách đã dùng vé" (`CONFIRMED` → `USED`) |
+| Công nợ & Lịch sử thanh toán | `/jgame/chu-cybergame/cong-no` | Kỳ hiện tại (JGame sẽ trả) + lịch sử các kỳ đã trả — **chỉ dạng xem (read-only)**, không có thao tác Admin xác nhận trả tiền ở bản hiện tại |
 
 Guard: mọi trang trừ đăng ký đều yêu cầu `RequireAuth` + `RequireShopOwner` (chưa có gian hàng → tự điều hướng sang trang đăng ký).
 

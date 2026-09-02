@@ -97,7 +97,7 @@ Không đổi nhãn "Kênh đối tác" trong avatar dropdown / mobile (dành ch
 3. Kết nối hệ thống quản lý phòng máy để đồng bộ máy trống theo thời gian thực
 4. Vé/gói hiển thị tự động trên "Chợ vé" JGame cho hàng nghìn người chơi
 5. Khách quét mã / mã vé để check-in tại quầy — không cần thao tác thủ công
-6. Đối soát doanh thu tự động, nhận thanh toán định kỳ + báo cáo trên "Kênh người bán"
+6. Đối soát doanh thu tự động, nhận thanh toán định kỳ + báo cáo trên "Chủ Cybergame"
 
 **Luồng người chơi đến cybergame — 3 hình thức bán vé:**
 - 🎁 **Săn vé 0 đồng** — Người chơi hoàn thành nhiệm vụ/mini-game trên JGame để nhận vé giờ thấp điểm miễn phí → quán có khách lấp đầy giờ trống + cơ hội biến khách dùng thử thành khách quen.

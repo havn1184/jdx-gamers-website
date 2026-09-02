@@ -1,7 +1,7 @@
 /**
  * useAccountDashboard.page.fetchData — Logic trang Tổng quan tài khoản: gộp số dư ví (VND +
  * JCoin), số nhiệm vụ đang làm, 3 đơn hàng gần nhất (cả 3 loại), trạng thái đăng ký Kênh
- * Người Bán/Đối tác.
+ * Chủ Cybergame/Đối tác.
  */
 import { useCallback, useEffect, useState } from 'react'
 import { TaskApiService } from '../../../../Public/tasks/services/TaskApiService'

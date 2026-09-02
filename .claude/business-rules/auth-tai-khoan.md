@@ -21,7 +21,7 @@ URD gốc đặc tả đăng ký/đăng nhập **chỉ bằng OTP qua Zalo ZNS**
 - **Điều hướng sau đăng nhập theo vai trò thực tế của tài khoản** (không phải điều hướng cố định về trang chủ):
   1. Có `returnTo` (bị chặn ở 1 bước nào đó, VD xác nhận đơn hàng) → quay lại đúng bước đó, giữ nguyên lựa chọn đã chọn trước khi bị chặn.
   2. `role === 'admin'` → `/jgame/quan-tri`.
-  3. Có gian hàng (`ShopOwnerApiService.getMyShop()` trả về shop) → `/jgame/kenh-nguoi-ban`.
+  3. Có gian hàng (`ShopOwnerApiService.getMyShop()` trả về shop) → `/jgame/chu-cybergame`.
   4. Là đối tác tiếp thị (`ReferrerApiService.getMyAffiliateStatus()`) → `/jgame/doi-tac`.
   5. Mặc định → `/jgame/tai-khoan` (Account Dashboard).
 
@@ -63,7 +63,7 @@ Xem chi tiết cơ chế trong `Website/.claude/system-architect/auth-va-phan-qu
 | `RequireAuth` | Chưa đăng nhập | `/jgame/dang-nhap?redirect=...` (giữ lại lựa chọn hiện tại) |
 | `GuestOnly` | Đã đăng nhập (áp cho trang đăng nhập/đăng ký) | Về trang chủ |
 | `RequireAdmin` | `user.role !== 'admin'` | `/jgame` |
-| `RequireShopOwner` | Chưa có `CybergameShop` | `/jgame/kenh-nguoi-ban/dang-ky` |
+| `RequireShopOwner` | Chưa có `CybergameShop` | `/jgame/chu-cybergame/dang-ky` |
 | `RequireAffiliate` | Chưa có `AffiliatePartner` | `/jgame/doi-tac/dang-ky` |
 
 Phân quyền hiện tại chỉ so sánh chuỗi role đơn giản ở tầng route — chưa có mô hình permission theo từng hành động (permission-based) như các module khác trong InvoiceEasy.

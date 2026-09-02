@@ -18,7 +18,7 @@
 
 **Đồng bộ**: Vì "game tự đồng bộ trạng thái về JGame", toàn bộ tiến độ (`UserTaskProgress`) được mô phỏng bằng 1 tiến trình nền (giống cơ chế slot Chợ vé GĐ2) tự cập nhật ngẫu nhiên theo thời gian + đúng dạng yêu cầu, kèm mốc "Đồng bộ lần cuối". Khi đạt đủ điều kiện → tự động chuyển trạng thái "Hoàn thành" và cộng JCoin vào ví.
 
-**Thanh toán từ NPH**: Mỗi nhiệm vụ có `publisherFundStatus` (đã cấp quỹ JCoin cho đợt nhiệm vụ này hay chưa) — hiển thị badge tin cậy cho người chơi, tương tự cơ chế Công nợ ở Kênh Người Bán GĐ2.
+**Thanh toán từ NPH**: Mỗi nhiệm vụ có `publisherFundStatus` (đã cấp quỹ JCoin cho đợt nhiệm vụ này hay chưa) — hiển thị badge tin cậy cho người chơi, tương tự cơ chế Công nợ ở Chủ Cybergame GĐ2.
 
 **Giới hạn số lượng**: mỗi nhiệm vụ có `slotLimit`/`slotUsed`, tự tăng dần mô phỏng người khác đang đăng ký (cùng cơ chế timer nền GĐ2), hết slot → không đăng ký được nữa.
 
@@ -29,7 +29,7 @@
 | Game trong nhiệm vụ dùng ảnh gradient+icon (như `CardArt` fallback), không sourcing ảnh thật | Đây là game/NPH hư cấu cho mục đích demo — khác trường hợp logo NCC thẻ thật (cần đúng thương hiệu để người dùng nhận diện); sourcing ảnh thật không cần thiết và có thể gây hiểu nhầm là game thật |
 | JCoin: ví riêng (`mocks/jcoinWallet.store.ts`), 1 sổ giao dịch (earn/spend), KHÔNG liên kết cổng thanh toán thật | Đúng bản chất "không rút được tiền mặt" — chỉ là điểm số nội bộ |
 | Tích hợp JCoin vào checkout: thêm tuỳ chọn **"Dùng số dư JCoin"** ở cả 3 luồng thanh toán (Nạp thẻ, Vé giờ chơi, Phụ kiện) — trừ tối đa `min(số dư, tổng tiền)`, phần còn lại vẫn qua QR như cũ | Đúng yêu cầu "có thể dùng để mua" — làm nhất quán ở cả 3 nơi thay vì chỉ 1 nơi |
-| Trang "Kiếm tiền" độc lập, có 3 tab con: **Nhiệm vụ đang mở** / **Nhiệm vụ của tôi** / **Ví JCoin** | Tách bạch rõ 3 luồng thao tác chính, giống mô hình đã dùng ở Kênh Người Bán/Đối tác |
+| Trang "Kiếm tiền" độc lập, có 3 tab con: **Nhiệm vụ đang mở** / **Nhiệm vụ của tôi** / **Ví JCoin** | Tách bạch rõ 3 luồng thao tác chính, giống mô hình đã dùng ở Chủ Cybergame/Đối tác |
 | Đăng ký nhiệm vụ yêu cầu đăng nhập (`requireAuth`), không cần hồ sơ riêng như Chủ Cybergame/Đối tác | Mọi khách hàng đều có thể làm nhiệm vụ ngay, không cần "đăng ký vai trò" trước |
 
 ## 3. Danh sách màn hình

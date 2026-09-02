@@ -1,6 +1,6 @@
 /**
  * AdminLayout — Khung Quản trị JGame: sidebar riêng, phong cách dashboard tối,
- * tách bạch với trải nghiệm mua hàng/kênh người bán (chuyển từ AdminApp về JGameApp).
+ * tách bạch với trải nghiệm mua hàng/Chủ Cybergame (chuyển từ AdminApp về JGameApp).
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'

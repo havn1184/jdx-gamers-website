@@ -42,7 +42,7 @@ static async getCardProducts(params: CardProductParams): Promise<ApiResponse<Car
 | `AuthApiService` | `features/Public/auth/services/` | register/login/OTP SĐT/2FA mock |
 | `AccountApiService` | `features/Account/User/account/services/` | Hồ sơ, bảo mật |
 | `ReferrerApiService` | `features/Account/Partner/services/` | getMyAffiliateStatus, register, summary, transactions |
-| `ShopOwnerApiService` | `features/Account/ShopOwner/services/` | Kênh Người Bán (Chợ vé GĐ2) |
+| `ShopOwnerApiService` | `features/Account/ShopOwner/services/` | Chủ Cybergame (Chợ vé GĐ2) |
 | `PlaytimeApiService` | `features/Public/playtime/services/` | Marketplace chợ vé |
 | `AccessoryApiService` | `features/Public/accessories/services/` | Phụ kiện (GĐ3) |
 | `TaskApiService` | `features/Public/tasks/services/` | Nhiệm vụ + ví JCoin |

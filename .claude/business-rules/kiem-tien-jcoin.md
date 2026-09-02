@@ -43,7 +43,7 @@
 
 ## Thanh toán từ nhà phát hành (publisher fund status)
 
-Mỗi nhiệm vụ có `publisherFundStatus` (đã cấp quỹ JCoin cho đợt nhiệm vụ này hay chưa) — hiển thị badge tin cậy cho người chơi trước khi đăng ký, tương tự cơ chế Công nợ ở Kênh Người Bán (Chợ vé GĐ2).
+Mỗi nhiệm vụ có `publisherFundStatus` (đã cấp quỹ JCoin cho đợt nhiệm vụ này hay chưa) — hiển thị badge tin cậy cho người chơi trước khi đăng ký, tương tự cơ chế Công nợ ở Chủ Cybergame (Chợ vé GĐ2).
 
 ## Giới hạn số lượng (slot) và thời hạn
 

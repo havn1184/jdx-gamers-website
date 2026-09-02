@@ -20,7 +20,7 @@
 
 **Đã xác minh bằng computed style thực tế** (Playwright, gõ chữ thật vào ô input): component dùng chung `shared/components/ui/input.tsx` không có `text-*`/`bg-*` hợp lệ cho theme tối JGame — text màu `oklch(0.145 0 0)` (gần đen, token `--foreground` dành cho theme sáng) trên nền `rgba(0,0,0,0)` (trong suốt, vì class `bg-input-background` không tồn tại trong CSS dự án — giống lỗi `icon-warning`/`icon-danger` đã fix trước đó). Kết quả: chữ gần như đen trên nền tím-đen của trang → **vô hình**.
 
-**Phạm vi ảnh hưởng:** MỌI input dùng component `<Input>` — đăng nhập, đăng ký, quên mật khẩu, mã 2FA, hồ sơ cá nhân, liên hệ, ô tìm kiếm Admin, form Thêm/Sửa ở Admin và Kênh Người Bán... (đã xác minh: `<textarea>`/`<select>` viết tay riêng lẻ ở 1 số trang đã tự set `text-white` nên KHÔNG bị lỗi — chỉ `<Input>` dùng chung bị).
+**Phạm vi ảnh hưởng:** MỌI input dùng component `<Input>` — đăng nhập, đăng ký, quên mật khẩu, mã 2FA, hồ sơ cá nhân, liên hệ, ô tìm kiếm Admin, form Thêm/Sửa ở Admin và Chủ Cybergame... (đã xác minh: `<textarea>`/`<select>` viết tay riêng lẻ ở 1 số trang đã tự set `text-white` nên KHÔNG bị lỗi — chỉ `<Input>` dùng chung bị).
 
 **Fix:** sửa 1 file `shared/components/ui/input.tsx` — thay các class không tồn tại/không phù hợp theme tối bằng `bg-white/5 border-white/15 text-white placeholder:text-white/40` (đúng ngôn ngữ thiết kế "dark glass" đã dùng nhất quán khắp JGameApp). Fix 1 chỗ → khỏi toàn bộ site.
 
@@ -30,7 +30,7 @@
 |---|---|---|
 | Khách hàng | `/jgame/tai-khoan` (AccountDashboardPage) | ✅ Đã đẹp, đủ dữ liệu (đã nâng cấp ở tài liệu trước) — **không đổi** |
 | Đối tác tiếp thị | `/jgame/doi-tac` (ReferrerDashboardPage) | ✅ Đã đẹp, đủ dữ liệu (link giới thiệu, 3 stat tile, bảng giao dịch) — **không đổi** |
-| Chủ Cybergame | `/jgame/kenh-nguoi-ban` (ShopDashboardPage) | 🟡 UI đã tốt, nhưng **doanh thu hôm nay/7 ngày/đơn mới/vé bán chạy đều = 0** — do dữ liệu seed vé giờ chơi cho gian hàng Alpha Cyber Center chỉ có 1 đơn, cách đây 8 ngày (ngoài khung "7 ngày") |
+| Chủ Cybergame | `/jgame/chu-cybergame` (ShopDashboardPage) | 🟡 UI đã tốt, nhưng **doanh thu hôm nay/7 ngày/đơn mới/vé bán chạy đều = 0** — do dữ liệu seed vé giờ chơi cho gian hàng Alpha Cyber Center chỉ có 1 đơn, cách đây 8 ngày (ngoài khung "7 ngày") |
 | Quản trị viên | `/jgame/quan-tri` | ❌ **KHÔNG có trang tổng quan** — route `/jgame/quan-tri` hiện trỏ thẳng vào `AdminCardsPage` (danh sách CRUD thẻ game), không phải dashboard |
 
 → Việc "khi login vào sẽ nhìn được dashboard đẹp, tổng quan nhất" áp dụng cho **2/4 nhóm cần làm**: bổ sung dữ liệu cho Chủ Cybergame, **tạo mới** trang Tổng quan cho Quản trị viên.
@@ -131,7 +131,7 @@ Toàn bộ kế thừa đúng ngôn ngữ thiết kế JGame hiện có (Card `b
 
 ## 8. Checklist
 
-- [ ] `Input` sau khi fix: gõ chữ thấy rõ ở MỌI trang có dùng (đăng nhập, hồ sơ, admin, kênh người bán...)
+- [ ] `Input` sau khi fix: gõ chữ thấy rõ ở MỌI trang có dùng (đăng nhập, hồ sơ, admin, Chủ Cybergame...)
 - [ ] `milestoneLog` không làm sai lệch tổng JCoin thật trong ví (chỉ cộng 1 lần lúc `rewarded`, đúng như cũ)
 - [ ] Route `/jgame/quan-tri` mới trỏ đúng `AdminDashboardPage`, `/jgame/quan-tri/danh-muc-the` trỏ đúng `AdminCardsPage`, không trùng `pageId`
 - [ ] `AdminLayout` menu active state đúng cho cả 2 mục Tổng quan/Danh mục thẻ

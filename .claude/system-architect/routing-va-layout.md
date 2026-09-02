@@ -59,12 +59,12 @@ Toàn bộ 47 route khai báo dạng mảng phẳng `routeConfig: JGameRoute[]` 
 
 | Path | Trang |
 |---|---|
-| `kenh-nguoi-ban/dang-ky` | ShopRegisterPage |
-| `kenh-nguoi-ban` | ShopDashboardPage |
-| `kenh-nguoi-ban/zone-ve` | ShopZonesTicketsPage |
-| `kenh-nguoi-ban/dong-bo` | ShopSyncPage |
-| `kenh-nguoi-ban/don-hang` | ShopOrdersPage |
-| `kenh-nguoi-ban/cong-no` | ShopPayoutsPage |
+| `chu-cybergame/dang-ky` | ShopRegisterPage |
+| `chu-cybergame` | ShopDashboardPage |
+| `chu-cybergame/zone-ve` | ShopZonesTicketsPage |
+| `chu-cybergame/dong-bo` | ShopSyncPage |
+| `chu-cybergame/don-hang` | ShopOrdersPage |
+| `chu-cybergame/cong-no` | ShopPayoutsPage |
 
 ### Account/Admin — `requireAuth + requireAdmin`
 
@@ -84,7 +84,7 @@ Toàn bộ 47 route khai báo dạng mảng phẳng `routeConfig: JGameRoute[]` 
 ```
 có returnTo (bị chặn giữa luồng)  → quay lại đúng bước đó
 role === 'admin'                  → /jgame/quan-tri
-có gian hàng (getMyShop())        → /jgame/kenh-nguoi-ban
+có gian hàng (getMyShop())        → /jgame/chu-cybergame
 là đối tác (getMyAffiliateStatus) → /jgame/doi-tac
 mặc định                          → /jgame/tai-khoan
 ```

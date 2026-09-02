@@ -153,7 +153,7 @@ export function ShopDashboardPage() {
             )}
           </div>
 
-          <Link to='/jgame/kenh-nguoi-ban/zone-ve' className='mt-8 inline-block jgame-gradient-text text-sm font-semibold'>Quản lý Zone & Vé →</Link>
+          <Link to='/jgame/chu-cybergame/zone-ve' className='mt-8 inline-block jgame-gradient-text text-sm font-semibold'>Quản lý Zone & Vé →</Link>
         </>
       )}
     </ShopOwnerLayout>

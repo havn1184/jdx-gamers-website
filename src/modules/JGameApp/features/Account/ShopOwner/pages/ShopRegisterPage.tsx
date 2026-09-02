@@ -18,7 +18,7 @@ export function ShopRegisterPage() {
   const { name, setName, city, setCity, address, setAddress, description, setDescription, isValid, submitting, errorMessage, handleSubmit } = useShopRegister()
 
   useEffect(() => {
-    if (!loadingShop && shop) navigate('/jgame/kenh-nguoi-ban', { replace: true })
+    if (!loadingShop && shop) navigate('/jgame/chu-cybergame', { replace: true })
   }, [loadingShop, shop, navigate])
 
   if (loadingShop) return <div className='flex items-center justify-center gap-2 py-24 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang kiểm tra gian hàng...</div>

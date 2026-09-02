@@ -1,6 +1,6 @@
 /**
  * Mock in-memory data cho khu Quản trị JGame (chuyển từ AdminApp về JGameApp).
- * Reset khi reload trang — độc lập với mock của storefront/kênh người bán.
+ * Reset khi reload trang — độc lập với mock của storefront/Chủ Cybergame.
  *
  * `cardProducts` KHÔNG còn export (20260902-nc_admin-crud-that-thay-mock.md — CRUD
  * cards/suppliers/promotions/accessories đã chuyển sang gọi BE thật) — chỉ còn giữ lại DÙNG NỘI BỘ

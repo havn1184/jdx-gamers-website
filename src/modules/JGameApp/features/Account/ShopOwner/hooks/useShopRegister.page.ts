@@ -23,7 +23,7 @@ export function useShopRegister() {
     try {
       const r = await ShopOwnerApiService.registerShop({ name: name.trim(), city: city.trim(), address: address.trim(), description: description.trim() })
       if (r.success) {
-        navigate('/jgame/kenh-nguoi-ban', { replace: true })
+        navigate('/jgame/chu-cybergame', { replace: true })
       } else {
         setErrorMessage(r.message || 'Không đăng ký được gian hàng')
       }

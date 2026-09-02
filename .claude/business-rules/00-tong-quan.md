@@ -11,7 +11,7 @@
 | Phân hệ | Route gốc | Tài liệu chi tiết |
 |---|---|---|
 | Nạp thẻ game (thẻ NCC: Garena/VNG/Zing...) | `/jgame/nap-the` | [nap-the-game.md](nap-the-game.md) |
-| Chợ vé giờ chơi Cybergame (marketplace kiểu Shopee + Kênh Người Bán) | `/jgame/cho-ve`, `/jgame/kenh-nguoi-ban` | [cho-ve-cybergame.md](cho-ve-cybergame.md) |
+| Chợ vé giờ chơi Cybergame (marketplace kiểu Shopee + Chủ Cybergame) | `/jgame/cho-ve`, `/jgame/chu-cybergame` | [cho-ve-cybergame.md](cho-ve-cybergame.md) |
 | Kho phụ kiện Gamer (chuột/bàn phím/PC/màn hình/ghế...) | `/jgame/phu-kien` | [phu-kien-gamer.md](phu-kien-gamer.md) |
 | Kiếm tiền — nhiệm vụ trải nghiệm game + ví JCoin | `/jgame/kiem-tien` | [kiem-tien-jcoin.md](kiem-tien-jcoin.md) |
 
@@ -27,7 +27,7 @@ Cộng thêm 2 phân hệ nền tảng dùng chung:
 
 1 tài khoản (`AuthUser`) có `role: 'customer' | 'admin'` — **chỉ `admin` là vai trò loại trừ** (gate cứng qua `RequireAdmin`, 1 tài khoản chỉ mang 1 role). Hai "hồ sơ" còn lại **không loại trừ** — xác định bằng việc đã có bản ghi đăng ký hay chưa, không phải field role:
 
-- **Chủ Cybergame (Cybergame Owner)** — có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua Kênh Người Bán). 1 khách hàng vừa mua vừa mở gian hàng được (mô hình giống Shopee).
+- **Chủ Cybergame (Cybergame Owner)** — có bản ghi `CybergameShop.ownerId = userId` (đăng ký qua Chủ Cybergame). 1 khách hàng vừa mua vừa mở gian hàng được (mô hình giống Shopee).
 - **Đối tác tiếp thị liên kết (Referrer/CTV)** — có bản ghi `AffiliatePartner.userId = userId` (đăng ký qua "Trở thành đối tác"). 1 khách hàng có thể vừa mua vừa làm đối tác.
 
 Guest (chưa đăng nhập) xem được toàn bộ nội dung public (catalog, chợ vé, phụ kiện, nhiệm vụ, trang tĩnh) — chỉ bị chặn ở bước xác nhận đơn hàng/thanh toán, lúc đó mới bắt đăng nhập (giữ nguyên lựa chọn đã chọn, không mất context).

@@ -59,7 +59,7 @@ const TicketConfirmPage = lazy(() => import('../features/Account/User/playtime/p
 const PlaytimePaymentQrPage = lazy(() => import('../features/Account/User/playtime/pages/PlaytimePaymentQrPage').then(m => ({ default: m.PlaytimePaymentQrPage })))
 const PlaytimeOrderResultPage = lazy(() => import('../features/Account/User/playtime/pages/PlaytimeOrderResultPage').then(m => ({ default: m.PlaytimeOrderResultPage })))
 
-// Kênh Người Bán (Giai đoạn 2)
+// Chủ Cybergame (Giai đoạn 2)
 const ShopRegisterPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopRegisterPage').then(m => ({ default: m.ShopRegisterPage })))
 const ShopDashboardPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopDashboardPage').then(m => ({ default: m.ShopDashboardPage })))
 const ShopZonesTicketsPage = lazy(() => import('../features/Account/ShopOwner/pages/ShopZonesTicketsPage').then(m => ({ default: m.ShopZonesTicketsPage })))
@@ -163,15 +163,15 @@ export const routeConfig: JGameRoute[] = [
   { path: 'cho-ve/thanh-toan/:orderId', element: <PlaytimePaymentQrPage />, pageId: 'jgame-playtime-payment', requireAuth: true },
   { path: 'cho-ve/ket-qua/:orderId', element: <PlaytimeOrderResultPage />, pageId: 'jgame-playtime-result', requireAuth: true },
 
-  // Kênh Người Bán (Giai đoạn 2)
-  { path: 'kenh-nguoi-ban/dang-ky', element: <ShopRegisterPage />, pageId: 'jgame-shop-register', requireAuth: true },
-  { path: 'kenh-nguoi-ban', element: <ShopDashboardPage />, pageId: 'jgame-shop-dashboard', requireAuth: true, requireShopOwner: true },
-  { path: 'kenh-nguoi-ban/zone-ve', element: <ShopZonesTicketsPage />, pageId: 'jgame-shop-zones-tickets', requireAuth: true, requireShopOwner: true },
-  { path: 'kenh-nguoi-ban/dong-bo', element: <ShopSyncPage />, pageId: 'jgame-shop-sync', requireAuth: true, requireShopOwner: true },
-  { path: 'kenh-nguoi-ban/may', element: <ShopTerminalsPage />, pageId: 'jgame-shop-terminals', requireAuth: true, requireShopOwner: true },
-  { path: 'kenh-nguoi-ban/khung-gio', element: <ShopSlotsPage />, pageId: 'jgame-shop-slots', requireAuth: true, requireShopOwner: true },
-  { path: 'kenh-nguoi-ban/don-hang', element: <ShopOrdersPage />, pageId: 'jgame-shop-orders', requireAuth: true, requireShopOwner: true },
-  { path: 'kenh-nguoi-ban/cong-no', element: <ShopPayoutsPage />, pageId: 'jgame-shop-payouts', requireAuth: true, requireShopOwner: true },
+  // Chủ Cybergame (Giai đoạn 2)
+  { path: 'chu-cybergame/dang-ky', element: <ShopRegisterPage />, pageId: 'jgame-shop-register', requireAuth: true },
+  { path: 'chu-cybergame', element: <ShopDashboardPage />, pageId: 'jgame-shop-dashboard', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/zone-ve', element: <ShopZonesTicketsPage />, pageId: 'jgame-shop-zones-tickets', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/dong-bo', element: <ShopSyncPage />, pageId: 'jgame-shop-sync', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/may', element: <ShopTerminalsPage />, pageId: 'jgame-shop-terminals', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/khung-gio', element: <ShopSlotsPage />, pageId: 'jgame-shop-slots', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/don-hang', element: <ShopOrdersPage />, pageId: 'jgame-shop-orders', requireAuth: true, requireShopOwner: true },
+  { path: 'chu-cybergame/cong-no', element: <ShopPayoutsPage />, pageId: 'jgame-shop-payouts', requireAuth: true, requireShopOwner: true },
 
   // Quản trị JGame (chuyển từ AdminApp về JGameApp)
   { path: 'quan-tri', element: <AdminDashboardPage />, pageId: 'jgame-admin-dashboard', requireAuth: true, requireAdmin: true },

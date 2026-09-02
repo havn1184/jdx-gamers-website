@@ -1,5 +1,5 @@
 /**
- * ShopOwnerApiService — Kênh Người Bán (Giai đoạn 2 — URD mục 7): đăng ký gian hàng,
+ * ShopOwnerApiService — Chủ Cybergame (Giai đoạn 2 — URD mục 7): đăng ký gian hàng,
  * quản lý zone/vé, đồng bộ NetBarBox/DoDoNew, đơn hàng đã bán, công nợ & lịch sử thanh toán.
  *
  * Toàn bộ method đã có BE thật (my-shop, register, updateShopProfile, setSyncMode, syncNow,

@@ -6,7 +6,7 @@
 > Tương tự style này làm cho tài khoản là chủ cybergame, đối tác tiếp thị.
 > Chuẩn hóa giao diện cho đẹp, thao tác thuận tiện.
 
-> (Trao đổi bổ sung) Đồng ý phân luồng đăng nhập theo loại tài khoản (khách hàng → `/jgame/tai-khoan`, chủ Cybergame đã đăng ký → thẳng `/jgame/kenh-nguoi-ban`, đối tác tiếp thị đã đăng ký → thẳng `/jgame/doi-tac`, admin → `/jgame/quan-tri`). Và cần tái sắp xếp cấu trúc trong `src\modules\JGameApp\features`, chia làm 2 vùng: **Public** và **Account**, trong **Account** lại chia thành từng nhóm đối tượng người dùng: **User, Admin, Shop-owner, Đối tác tiếp thị liên kết**. Nguyên tắc: file giao diện thiết kế của mỗi đối tượng là **độc lập, không dùng chung** (khó maintain/phát triển nếu dùng chung).
+> (Trao đổi bổ sung) Đồng ý phân luồng đăng nhập theo loại tài khoản (khách hàng → `/jgame/tai-khoan`, chủ Cybergame đã đăng ký → thẳng `/jgame/chu-cybergame`, đối tác tiếp thị đã đăng ký → thẳng `/jgame/doi-tac`, admin → `/jgame/quan-tri`). Và cần tái sắp xếp cấu trúc trong `src\modules\JGameApp\features`, chia làm 2 vùng: **Public** và **Account**, trong **Account** lại chia thành từng nhóm đối tượng người dùng: **User, Admin, Shop-owner, Đối tác tiếp thị liên kết**. Nguyên tắc: file giao diện thiết kế của mỗi đối tượng là **độc lập, không dùng chung** (khó maintain/phát triển nếu dùng chung).
 
 > (Trao đổi bổ sung 2) Với các feature trộn cả trang công khai lẫn trang cần đăng nhập (`playtime`, `accessories`, `order`) → **tách triệt để theo trang (pages) vào đúng vùng**, cho phép dùng chung `types/services/hooks` qua import chéo giữa Public và Account/User của cùng 1 domain (không bắt buộc nhân bản business logic — chỉ **UI layout của 4 nhóm tài khoản** là phải độc lập, không dùng chung).
 
@@ -72,7 +72,7 @@ features/
 
 | File (mới/viết lại) | Nhóm | Menu |
 |---|---|---|
-| `features/Account/User/account/components/CustomerLayout.tsx` | Khách hàng | Tổng quan · Hồ sơ · Bảo mật · Lịch sử hoạt động · Đơn hàng của tôi · Nhiệm vụ của tôi · Ví JCoin · CTA Kênh Người Bán/Đối tác nếu chưa đăng ký |
+| `features/Account/User/account/components/CustomerLayout.tsx` | Khách hàng | Tổng quan · Hồ sơ · Bảo mật · Lịch sử hoạt động · Đơn hàng của tôi · Nhiệm vụ của tôi · Ví JCoin · CTA Chủ Cybergame/Đối tác nếu chưa đăng ký |
 | `features/Account/Admin/components/AdminLayout.tsx` | Admin | Giữ nguyên menu hiện có (di chuyển thư mục, viết lại độc lập — không còn phụ thuộc file dùng chung nào) |
 | `features/Account/ShopOwner/components/ShopOwnerLayout.tsx` | Chủ Cybergame | Giữ nguyên menu hiện có (di chuyển thư mục) |
 | `features/Account/Partner/components/PartnerLayout.tsx` | Đối tác tiếp thị | Tổng quan (nội dung `ReferrerDashboardPage` hiện tại) · Hồ sơ đối tác |
@@ -83,7 +83,7 @@ Mỗi file tự viết phần khung (badge brand, `<nav>` NavLink, responsive) �
 
 | File | Mục đích |
 |---|---|
-| `features/Account/User/account/pages/AccountDashboardPage.tsx` | Trang "Tổng quan" — landing sau đăng nhập cho khách hàng thường. Số dư JCoin, số nhiệm vụ đang làm, 3 đơn hàng gần nhất (rút từ `getMyOrders` 3 service hiện có), 2 CTA đăng ký Kênh Người Bán/Đối tác (ẩn nếu đã có). |
+| `features/Account/User/account/pages/AccountDashboardPage.tsx` | Trang "Tổng quan" — landing sau đăng nhập cho khách hàng thường. Số dư JCoin, số nhiệm vụ đang làm, 3 đơn hàng gần nhất (rút từ `getMyOrders` 3 service hiện có), 2 CTA đăng ký Chủ Cybergame/Đối tác (ẩn nếu đã có). |
 | `features/Account/User/account/hooks/useAccountDashboard.page.fetchData.ts` | Gộp dữ liệu: `useJcoinBalance`, `TaskApiService.getMyTasks`, `OrderApiService/AccessoryApiService/PlaytimeApiService.getMyOrders`, `useMyShop`, `useMyAffiliate`. |
 
 ### 3.3 Điều hướng sau đăng nhập + route mới
@@ -91,7 +91,7 @@ Mỗi file tự viết phần khung (badge brand, `<nav>` NavLink, responsive) �
 | File | Thay đổi |
 |---|---|
 | `routes/routeConfig.tsx` | Cập nhật lại toàn bộ đường dẫn import theo vị trí file mới (path URL giữ nguyên, không đổi). Thêm route `{ path: 'tai-khoan', element: <AccountDashboardPage />, pageId: 'jgame-account-dashboard', requireAuth: true }` |
-| `features/Public/auth/hooks/useLogin.page.ts` | `finishLogin`: sau `refreshUser()`, không có `returnTo` → `role==='admin'` → `/jgame/quan-tri`; else gọi trực tiếp `ShopOwnerApiService.getMyShop()` có shop → `/jgame/kenh-nguoi-ban`; else gọi `ReferrerApiService.getMyAffiliateStatus()` là đối tác → `/jgame/doi-tac`; else → `/jgame/tai-khoan` |
+| `features/Public/auth/hooks/useLogin.page.ts` | `finishLogin`: sau `refreshUser()`, không có `returnTo` → `role==='admin'` → `/jgame/quan-tri`; else gọi trực tiếp `ShopOwnerApiService.getMyShop()` có shop → `/jgame/chu-cybergame`; else gọi `ReferrerApiService.getMyAffiliateStatus()` là đối tác → `/jgame/doi-tac`; else → `/jgame/tai-khoan` |
 | `layout/StorefrontHeader.tsx` | Thêm mục đầu dropdown avatar "Tài khoản của tôi" → `/jgame/tai-khoan`; giữ nguyên các lối tắt còn lại |
 
 ## 4. Ánh xạ fields FE=BE

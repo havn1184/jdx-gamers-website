@@ -203,7 +203,7 @@ export function releaseTicketSlot(ticketId: string): void {
   if (t) t.availableSlots += 1
 }
 
-// ── Kênh Người Bán — CRUD gian hàng/zone/vé ─────────────────────────────────
+// ── Chủ Cybergame — CRUD gian hàng/zone/vé ─────────────────────────────────
 
 export function registerShop(ownerId: string, payload: RegisterShopPayload): CybergameShop {
   const shop: CybergameShop = {

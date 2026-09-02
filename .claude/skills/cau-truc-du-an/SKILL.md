@@ -38,7 +38,7 @@ JGameApp/
     └── Account/
         ├── User/       # hành trình giao dịch/quản lý tài khoản khách hàng
         ├── Admin/      # quản trị JGame (role=admin)
-        ├── ShopOwner/  # Kênh Người Bán
+        ├── ShopOwner/  # Chủ Cybergame
         └── Partner/    # Đối tác tiếp thị liên kết
 ```
 

@@ -16,13 +16,13 @@ type LoginStep = 'credentials' | '2fa'
 const PHONE_RE = /^0\d{9,10}$/
 
 /** Xác định trang đích sau đăng nhập theo loại tài khoản: admin → Quản trị; đã có gian hàng →
- * Kênh Người Bán; đã là đối tác tiếp thị → Dashboard Đối tác; còn lại → Tổng quan tài khoản. */
+ * Chủ Cybergame; đã là đối tác tiếp thị → Dashboard Đối tác; còn lại → Tổng quan tài khoản. */
 async function resolveLandingRoute(): Promise<string> {
   const meRes = await AuthApiService.getCurrentUser()
   if (meRes.success && meRes.data?.role === 'admin') return '/jgame/quan-tri'
 
   const shopRes = await ShopOwnerApiService.getMyShop()
-  if (shopRes.success && shopRes.data) return '/jgame/kenh-nguoi-ban'
+  if (shopRes.success && shopRes.data) return '/jgame/chu-cybergame'
 
   const affiliateRes = await ReferrerApiService.getMyAffiliateStatus()
   if (affiliateRes.success && affiliateRes.data) return '/jgame/doi-tac'

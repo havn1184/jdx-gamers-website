@@ -1,6 +1,6 @@
 /**
  * PartnerLayout — Khung Đối tác tiếp thị liên kết: sidebar NavMenu riêng, tách bạch với
- * trải nghiệm mua hàng/kênh người bán/quản trị. Độc lập hoàn toàn — không dùng chung layout.
+ * trải nghiệm mua hàng/Chủ Cybergame/quản trị. Độc lập hoàn toàn — không dùng chung layout.
  */
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'

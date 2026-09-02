@@ -38,7 +38,7 @@ JGameApp/
     └── Account/
         ├── User/         # hành trình giao dịch/quản lý tài khoản của khách hàng thường
         ├── Admin/         # quản trị JGame (role=admin)
-        ├── ShopOwner/     # Kênh Người Bán (Chủ Cybergame — Chợ vé GĐ2)
+        ├── ShopOwner/     # Chủ Cybergame (Chủ Cybergame — Chợ vé GĐ2)
         └── Partner/       # Đối tác tiếp thị liên kết (Referrer/CTV)
 ```
 

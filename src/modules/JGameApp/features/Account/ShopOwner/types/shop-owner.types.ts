@@ -1,5 +1,5 @@
 /**
- * Re-export types dùng cho Kênh Người Bán — giữ 1 nguồn types duy nhất ở feature `playtime`
+ * Re-export types dùng cho Chủ Cybergame — giữ 1 nguồn types duy nhất ở feature `playtime`
  * (CybergameShop/PlaytimeZone/PlaytimeTicket là entity chung giữa khách hàng và chủ Cybergame).
  */
 export type {

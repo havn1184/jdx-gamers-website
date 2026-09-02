@@ -31,11 +31,11 @@ export function CustomerLayout({ children }: { children: ReactNode }) {
   const { shop } = useMyShop()
   const { isAffiliate } = useMyAffiliate()
 
-  // Chỉ hiển thị mục "Kênh Người Bán" / "Đối tác tiếp thị" khi user THỰC SỰ thuộc nhóm đó
+  // Chỉ hiển thị mục "Chủ Cybergame" / "Đối tác tiếp thị" khi user THỰC SỰ thuộc nhóm đó
   // (đăng ký "Trở thành..." nằm ở AccountDashboardPage, không lộ chức năng nhóm khác ở đây)
   const MENU = [
     ...BASE_MENU,
-    ...(shop ? [{ to: '/jgame/kenh-nguoi-ban', label: 'Kênh Người Bán', icon: Store }] : []),
+    ...(shop ? [{ to: '/jgame/chu-cybergame', label: 'Chủ Cybergame', icon: Store }] : []),
     ...(isAffiliate ? [{ to: '/jgame/doi-tac', label: 'Đối tác tiếp thị', icon: Megaphone }] : []),
   ]
 

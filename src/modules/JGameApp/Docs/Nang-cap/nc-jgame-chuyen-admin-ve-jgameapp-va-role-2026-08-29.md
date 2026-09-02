@@ -16,7 +16,7 @@ Từ khi JGameApp chuyển sang **auth độc lập** (không qua SSO), việc q
 | Vai trò | Cách xác định hiện tại | Tình trạng |
 |---|---|---|
 | Khách hàng | Mặc định mọi tài khoản đăng ký | ✅ Đã có |
-| Chủ Cybergame (GĐ2) | Có `CybergameShop.ownerId` gắn với userId | ✅ Đã có (đăng ký qua Kênh Người Bán) |
+| Chủ Cybergame (GĐ2) | Có `CybergameShop.ownerId` gắn với userId | ✅ Đã có (đăng ký qua Chủ Cybergame) |
 | Đối tác tiếp thị liên kết (Referrer) | — | ⚠️ **CHƯA HOÀN THIỆN** — chỉ có 1 trang dashboard tĩnh, dữ liệu KHÔNG gắn với user đang đăng nhập, KHÔNG có luồng đăng ký |
 | Quản trị (Admin) | — | ❌ **CHƯA CÓ** — chưa có khái niệm role trong `AuthUser`, chưa có khu quản trị trong JGameApp |
 
@@ -25,8 +25,8 @@ Từ khi JGameApp chuyển sang **auth độc lập** (không qua SSO), việc q
 | Quyết định | Lý do |
 |---|---|
 | **Thêm `role: 'customer' \| 'admin'` vào `AuthUser`** (mặc định `customer`) | Admin là role thật sự loại trừ (exclusive) — cần gate cứng. Chủ Cybergame/Đối tác tiếp thị KHÔNG phải role loại trừ (1 khách hàng có thể vừa mua vừa mở gian hàng vừa làm đối tác — giống Shopee) nên xác định bằng "có hồ sơ đăng ký hay chưa" (đã đúng pattern GĐ2), không thêm vào role. |
-| **Hoàn thiện Đối tác Tiếp thị liên kết theo đúng pattern Kênh Người Bán (GĐ2)** | Thêm trang **Đăng ký làm Đối tác** (`doi-tac/dang-ky`), gắn `AffiliatePartner` với `userId` thật (thay vì mock tĩnh `MOCK_REFERRER_SUMMARY` không đổi theo ai đăng nhập), thêm `RequireAffiliate` guard — nhất quán với `RequireShopOwner` đã làm ở GĐ2. |
-| **Khu quản trị mới `features/admin/` trong JGameApp, route `/quan-tri/*`, guard `RequireAdmin`** | Tách bạch hoàn toàn khỏi trải nghiệm mua hàng/kênh người bán, giống cách `ShopOwnerLayout` đã tách khỏi storefront — dùng chung mô hình sidebar layout, không dựng lại từ đầu. |
+| **Hoàn thiện Đối tác Tiếp thị liên kết theo đúng pattern Chủ Cybergame (GĐ2)** | Thêm trang **Đăng ký làm Đối tác** (`doi-tac/dang-ky`), gắn `AffiliatePartner` với `userId` thật (thay vì mock tĩnh `MOCK_REFERRER_SUMMARY` không đổi theo ai đăng nhập), thêm `RequireAffiliate` guard — nhất quán với `RequireShopOwner` đã làm ở GĐ2. |
+| **Khu quản trị mới `features/admin/` trong JGameApp, route `/quan-tri/*`, guard `RequireAdmin`** | Tách bạch hoàn toàn khỏi trải nghiệm mua hàng/Chủ Cybergame, giống cách `ShopOwnerLayout` đã tách khỏi storefront — dùng chung mô hình sidebar layout, không dựng lại từ đầu. |
 | **Giữ nguyên tên file/class đã có (`CardsPageAdmin`, `JGameApiServiceAdmin`...), chỉ đổi vị trí + import path + giao diện** | Đổi tên toàn bộ 23 file sẽ tăng rủi ro sai sót mà không có yêu cầu rõ ràng nào đòi đổi tên (nguyên tắc "không đổi tên file cũ khi không có yêu cầu"). "Admin" ở đây vẫn mang đúng nghĩa "quản trị JGame", chỉ khác portal chứa nó. |
 | **Bỏ Dialog modal, chuyển toàn bộ form CRUD (thẻ/NCC/đối tác/khuyến mãi) sang inline-form-panel** | JGameApp không có component `Dialog` trong `shared/components/ui` (đã xoá vì không dùng — theo dọn dẹp GĐ3). Dựng lại 1 Dialog primitive tốn công không cần thiết khi đã có sẵn pattern inline-form (giống `ShopZonesTicketsPage` GĐ2 vừa được duyệt) — tái dùng pattern đã có, giữ code nhất quán trong cùng portal. |
 | **Bỏ `ConfirmDialog` khi xoá — xoá trực tiếp qua nút xoá** | Đúng pattern đã dùng ở `ShopZonesTicketsPage` (xoá zone/vé không có bước xác nhận) — nhất quán trong JGameApp, không cần dựng lại `ConfirmDialog`. |
