@@ -21,6 +21,7 @@ const NAV_ITEMS: { label: string; to: string; soon?: boolean }[] = [
   { label: 'Chợ vé', to: '/jgame/cho-ve' },
   { label: 'Phụ kiện', to: '/jgame/phu-kien' },
   { label: 'Kiếm tiền', to: '/jgame/kiem-tien' },
+  { label: 'Đối tác', to: '/jgame/hop-tac' },
   { label: 'Giới thiệu', to: '/jgame/gioi-thieu' },
   { label: 'Liên hệ', to: '/jgame/lien-he' },
 ]

@@ -1,13 +1,15 @@
 /**
  * JGameApiServiceAdmin — Khu Quản trị JGame (chuyển từ AdminApp về JGameApp — website độc lập).
  *
- * Dashboard/Orders/RevenueReport đã gọi BE thật. Phần CRUD danh mục (cards/suppliers/
- * referral-partners/promotions/accessories) CHƯA có BE thật — vẫn dùng mock cục bộ
- * (`ADMIN_CRUD_MOCK_ONLY`, không phụ thuộc cờ `JGAME_USE_MOCK` toàn cục nữa).
+ * Dashboard/Orders/RevenueReport/CRUD danh mục (cards/suppliers/promotions/accessories) đều đã gọi
+ * BE thật (20260902-nc_admin-crud-that-thay-mock.md — trước đó CRUD danh mục dùng mock cục bộ qua
+ * cờ `ADMIN_CRUD_MOCK_ONLY`, nay đã gỡ bỏ). Còn lại đúng 2 chỗ vẫn cố ý dùng mock — xem comment tại
+ * từng method: `manualResolveOrder` (BE chưa có endpoint xử lý thủ công đơn hàng, ngoài phạm vi nc_
+ * trên) và CRUD đối tác Referral (BE chỉ có API đọc, chưa có Create/Update/Delete).
  */
 import { apiCall, buildJGameUrl, buildJGameUrlWithParams, mockApiCall, mockApiError, type ApiResponse } from '../../../../shared/services/api'
 import {
-  cardProducts, suppliers, orders, referralPartners, promotions, accessories,
+  orders, referralPartners,
 } from './jgame.mockdata'
 import type {
   CardProductAdmin, CardProductFormPayload, SupplierAdmin, SupplierFormPayload,
@@ -19,14 +21,6 @@ import type {
   ReferralCommissionRateAdmin, ReferralCommissionRateHistoryAdmin, ReferralCommissionCategory,
   ReferralReportSummaryAdmin, ReferralReportFilterParams,
 } from '../types/jgame.types'
-
-// Admin CRUD (cards/suppliers/promotions/accessories) chưa có BE thật -
-// LUÔN dùng mock cho các method này bất kể cờ VITE_JGAME_USE_MOCK toàn cục (cờ đó giờ đã tắt
-// vĩnh viễn vì các phân hệ khác đã gọi API thật).
-// Phần "Đối tác Referral" (đọc danh sách/giao dịch/payout/tỷ lệ hoa hồng/báo cáo) đã có BE thật
-// (20260901-nc_doi-tac-tiep-thi-nang-cap.md) — KHÔNG còn phụ thuộc cờ này, xem các method
-// getReferralPartners/getReferralTransactions/*Payout*/*CommissionRate*/getReferralReportSummary.
-const ADMIN_CRUD_MOCK_ONLY = true
 
 /** Map các enum int BE (Enums/ReferralEnums.cs) sang string union FE dùng. */
 const RECONCILE_STATUS_MAP = ['pending', 'confirmed', 'reversed'] as const
@@ -117,84 +111,53 @@ export class JGameApiServiceAdmin {
   private static readonly BASE_PATH = '/api/admin/jgame'
 
   // ===== Danh mục thẻ & mệnh giá =====
+  // BE (GetCards) hỗ trợ filter `keyword` server-side, KHÔNG hỗ trợ `status` — lọc status còn lại ở
+  // FE sau khi nhận dữ liệu (keyword đã lọc server-side nên KHÔNG lọc lại ở đây, tránh double-filter).
   static async getCards(params?: JGameAdminListParams): Promise<ApiResponse<CardProductAdmin[]>> {
-    if (ADMIN_CRUD_MOCK_ONLY) return mockApiCall(() => filterByKeywordStatus(cardProducts, params, p => [p.name, p.supplierName]))
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/cards`), { method: 'GET' })
-    return response.json()
+    const url = buildJGameUrlWithParams(`${this.BASE_PATH}/cards`, params?.keyword ? { keyword: params.keyword } : undefined)
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<CardProductAdmin[]> = await response.json()
+    if (!result.success || !result.data || !params?.status || params.status === 'all') return result
+    return { ...result, data: result.data.filter(p => p.status === params.status) }
   }
 
   static async createCard(data: CardProductFormPayload): Promise<ApiResponse<CardProductAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const supplier = suppliers.find(s => s.id === data.supplierId)
-      const created: CardProductAdmin = {
-        id: `card-${Date.now()}`, name: data.name, category: data.category,
-        supplierId: data.supplierId, supplierName: supplier?.name || '', status: data.status, denominations: [],
-      }
-      cardProducts.unshift(created)
-      return mockApiCall(() => created)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/cards`), { method: 'POST', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async updateCard(data: CardProductFormPayload): Promise<ApiResponse<CardProductAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const found = cardProducts.find(p => p.id === data.id)
-      if (!found) return mockApiError('Không tìm thấy loại thẻ')
-      const supplier = suppliers.find(s => s.id === data.supplierId)
-      Object.assign(found, { name: data.name, category: data.category, supplierId: data.supplierId, supplierName: supplier?.name || found.supplierName, status: data.status })
-      return mockApiCall(() => found)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/cards`), { method: 'PUT', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async deleteCard(id: string): Promise<ApiResponse<boolean>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const idx = cardProducts.findIndex(p => p.id === id)
-      if (idx === -1) return mockApiError('Không tìm thấy loại thẻ')
-      cardProducts.splice(idx, 1)
-      return mockApiCall(() => true)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/cards/${id}`), { method: 'DELETE' })
     return response.json()
   }
 
   // ===== NCC & routing =====
+  // BE (GetSuppliers) hỗ trợ filter `keyword` server-side, KHÔNG hỗ trợ `status` — cùng cách xử lý
+  // như getCards() ở trên.
   static async getSuppliers(params?: JGameAdminListParams): Promise<ApiResponse<SupplierAdmin[]>> {
-    if (ADMIN_CRUD_MOCK_ONLY) return mockApiCall(() => filterByKeywordStatus(suppliers, params, s => [s.name]))
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/suppliers`), { method: 'GET' })
-    return response.json()
+    const url = buildJGameUrlWithParams(`${this.BASE_PATH}/suppliers`, params?.keyword ? { keyword: params.keyword } : undefined)
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<SupplierAdmin[]> = await response.json()
+    if (!result.success || !result.data || !params?.status || params.status === 'all') return result
+    return { ...result, data: result.data.filter(s => s.status === params.status) }
   }
 
   static async createSupplier(data: SupplierFormPayload): Promise<ApiResponse<SupplierAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const created: SupplierAdmin = { id: `sup-${Date.now()}`, ...data }
-      suppliers.unshift(created)
-      return mockApiCall(() => created)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/suppliers`), { method: 'POST', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async updateSupplier(data: SupplierFormPayload): Promise<ApiResponse<SupplierAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const found = suppliers.find(s => s.id === data.id)
-      if (!found) return mockApiError('Không tìm thấy NCC')
-      Object.assign(found, data)
-      return mockApiCall(() => found)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/suppliers`), { method: 'PUT', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async deleteSupplier(id: string): Promise<ApiResponse<boolean>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const idx = suppliers.findIndex(s => s.id === id)
-      if (idx === -1) return mockApiError('Không tìm thấy NCC')
-      suppliers.splice(idx, 1)
-      return mockApiCall(() => true)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/suppliers/${id}`), { method: 'DELETE' })
     return response.json()
   }
@@ -225,26 +188,27 @@ export class JGameApiServiceAdmin {
     return response.json()
   }
 
-  /** Xử lý thủ công 1 giao dịch (FR liên quan mục 12) — hoàn tiền hoặc cấp lại mã. */
+  /**
+   * Xử lý thủ công 1 giao dịch (FR liên quan mục 12) — hoàn tiền hoặc cấp lại mã.
+   * BE CHƯA có endpoint `${BASE_PATH}/orders/{id}/resolve` (nằm ngoài phạm vi
+   * 20260902-nc_admin-crud-that-thay-mock.md — việc này đụng business logic từng domain đơn hàng
+   * (CardOrderService/PlaytimeOrderService/AccessoryOrderService), không phải CRUD danh mục đơn
+   * thuần) — vẫn giữ mock có chủ đích, giống cách CRUD đối tác Referral đang làm.
+   */
   static async manualResolveOrder(id: string, action: 'refund' | 'reissue'): Promise<ApiResponse<boolean>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const order = orders.find(o => o.id === id)
-      if (!order) return mockApiError('Không tìm thấy đơn hàng')
-      order.status = action === 'refund' ? 'REFUNDED' : 'SUCCESS'
-      return mockApiCall(() => true)
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/orders/${id}/resolve`), { method: 'POST', body: JSON.stringify({ action }) })
-    return response.json()
+    const order = orders.find(o => o.id === id)
+    if (!order) return mockApiError('Không tìm thấy đơn hàng')
+    order.status = action === 'refund' ? 'REFUNDED' : 'SUCCESS'
+    return mockApiCall(() => true)
   }
 
   // ===== Đối tác Referral (quản trị TOÀN BỘ đối tác) =====
   /** GET /api/admin/referral/partners — nối dây `AdminService.GetAllAffiliatePartnersAsync` có sẵn
    * (20260901-nc_doi-tac-tiep-thi-nang-cap.md mục 3.3), path PHẲNG `/api/admin/referral/...`
-   * (khác `${BASE_PATH}` = `/api/admin/jgame` dùng cho các CRUD danh mục chưa có BE ở file này). */
+   * (khác `${BASE_PATH}` = `/api/admin/jgame` dùng cho CRUD danh mục cards/suppliers/promotions/
+   * accessories ở file này). BE không hỗ trợ filter keyword/status server-side (giống pattern
+   * getOrders) → lọc phía FE sau khi nhận dữ liệu. */
   static async getReferralPartners(params?: JGameAdminListParams): Promise<ApiResponse<ReferralPartnerAdmin[]>> {
-    // KHÔNG gate qua ADMIN_CRUD_MOCK_ONLY (cờ đó chỉ dành cho cards/suppliers/promotions/accessories
-    // chưa có BE) — endpoint đối tác Referral đã có BE thật, luôn gọi API. BE không hỗ trợ filter
-    // keyword/status server-side (giống pattern getOrders) → lọc phía FE sau khi nhận dữ liệu.
     const response = await apiCall(buildJGameUrl('/api/admin/referral/partners'), { method: 'GET' })
     const result: ApiResponse<ReferralPartnerAdmin[]> = await response.json()
     if (!result.success || !result.data) return result
@@ -362,40 +326,26 @@ export class JGameApiServiceAdmin {
   }
 
   // ===== Khuyến mãi/voucher =====
+  // BE (GetPromotions) hỗ trợ filter `keyword` (theo mã) server-side, KHÔNG hỗ trợ `status`.
   static async getPromotions(params?: JGameAdminListParams): Promise<ApiResponse<PromotionAdmin[]>> {
-    if (ADMIN_CRUD_MOCK_ONLY) return mockApiCall(() => filterByKeywordStatus(promotions, params, p => [p.code]))
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/promotions`), { method: 'GET' })
-    return response.json()
+    const url = buildJGameUrlWithParams(`${this.BASE_PATH}/promotions`, params?.keyword ? { keyword: params.keyword } : undefined)
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<PromotionAdmin[]> = await response.json()
+    if (!result.success || !result.data || !params?.status || params.status === 'all') return result
+    return { ...result, data: result.data.filter(p => p.status === params.status) }
   }
 
   static async createPromotion(data: PromotionFormPayload): Promise<ApiResponse<PromotionAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const created: PromotionAdmin = { id: `promo-${Date.now()}`, ...data }
-      promotions.unshift(created)
-      return mockApiCall(() => created)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/promotions`), { method: 'POST', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async updatePromotion(data: PromotionFormPayload): Promise<ApiResponse<PromotionAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const found = promotions.find(p => p.id === data.id)
-      if (!found) return mockApiError('Không tìm thấy chương trình khuyến mãi')
-      Object.assign(found, data)
-      return mockApiCall(() => found)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/promotions`), { method: 'PUT', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async deletePromotion(id: string): Promise<ApiResponse<boolean>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const idx = promotions.findIndex(p => p.id === id)
-      if (idx === -1) return mockApiError('Không tìm thấy chương trình khuyến mãi')
-      promotions.splice(idx, 1)
-      return mockApiCall(() => true)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/promotions/${id}`), { method: 'DELETE' })
     return response.json()
   }
@@ -425,58 +375,40 @@ export class JGameApiServiceAdmin {
   }
 
   // ===== Phụ kiện Gamer (hãng sản xuất/nhóm sản phẩm/chi tiết sản phẩm) =====
+  // BE (GetAccessories) hỗ trợ filter keyword/category/brand server-side đầy đủ — không cần lọc lại ở FE.
   static async getAccessories(params?: AccessoryAdminListParams): Promise<ApiResponse<AccessoryAdmin[]>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      return mockApiCall(() => {
-        const filtered = filterByKeywordStatus(accessories, params, p => [p.name, p.brand])
-        return !params?.category || params.category === 'all' ? filtered : filtered.filter(p => p.category === params.category)
-      })
-    }
-    const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'GET' })
-    return response.json()
+    const query: Record<string, unknown> = {}
+    if (params?.keyword) query.keyword = params.keyword
+    if (params?.category && params.category !== 'all') query.category = params.category
+    const url = buildJGameUrlWithParams(`${this.BASE_PATH}/accessories`, Object.keys(query).length > 0 ? query : undefined)
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<AccessoryAdmin[]> = await response.json()
+    if (!result.success || !result.data || !params?.status || params.status === 'all') return result
+    return { ...result, data: result.data.filter(p => p.status === params.status) }
   }
 
   static async getAccessoryById(id: string): Promise<ApiResponse<AccessoryAdmin | null>> {
-    if (ADMIN_CRUD_MOCK_ONLY) return mockApiCall(() => accessories.find(p => p.id === id) || null)
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/${id}`), { method: 'GET' })
     return response.json()
   }
 
   /** Danh sách hãng sản xuất đã khai báo — dùng để gợi ý khi thêm/sửa sản phẩm. */
   static async getAccessoryBrands(): Promise<ApiResponse<string[]>> {
-    if (ADMIN_CRUD_MOCK_ONLY) return mockApiCall(() => Array.from(new Set(accessories.map(p => p.brand))).sort())
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/brands`), { method: 'GET' })
     return response.json()
   }
 
   static async createAccessory(data: AccessoryFormPayload): Promise<ApiResponse<AccessoryAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const created: AccessoryAdmin = { id: `acc-${Date.now()}`, ...data, imageUrl: data.galleryImages[0] || '' }
-      accessories.unshift(created)
-      return mockApiCall(() => created)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'POST', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async updateAccessory(data: AccessoryFormPayload): Promise<ApiResponse<AccessoryAdmin>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const found = accessories.find(p => p.id === data.id)
-      if (!found) return mockApiError('Không tìm thấy sản phẩm')
-      Object.assign(found, data, { imageUrl: data.galleryImages[0] || '' })
-      return mockApiCall(() => found)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories`), { method: 'PUT', body: JSON.stringify(data) })
     return response.json()
   }
 
   static async deleteAccessory(id: string): Promise<ApiResponse<boolean>> {
-    if (ADMIN_CRUD_MOCK_ONLY) {
-      const idx = accessories.findIndex(p => p.id === id)
-      if (idx === -1) return mockApiError('Không tìm thấy sản phẩm')
-      accessories.splice(idx, 1)
-      return mockApiCall(() => true)
-    }
     const response = await apiCall(buildJGameUrl(`${this.BASE_PATH}/accessories/${id}`), { method: 'DELETE' })
     return response.json()
   }

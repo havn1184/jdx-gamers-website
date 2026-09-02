@@ -11,8 +11,10 @@
  * - `requirement` chi tiết (targetLevel/hoursPerDay/totalDays/itemNames) bị bỏ, BE chỉ trả
  *   `requirementType` phẳng ('level'|'playtime'|'collection') — UI chỉ hiển thị được tên loại
  *   yêu cầu chung chung, không hiển thị được số cụ thể/tên vật phẩm nữa.
- * - `art`/`galleryImages`/`description`/`deadline` là phần Website tự thêm để trang trí UI,
- *   BE KHÔNG có — giữ optional, chỉ có giá trị ở nhánh mock (xem TaskApiService.ts).
+ * - `galleryImages`: BE thật CÓ trả (GameTaskResponse.GalleryImages — ảnh gameplay minh hoạ, phục vụ
+ *   tĩnh từ wwwroot/task-images trên JGameApi, xem TaskSeeder.cs) — giữ optional vì vẫn có thể rỗng.
+ * - `art`/`description`/`deadline` là phần Website tự thêm để trang trí UI, BE KHÔNG có — giữ
+ *   optional, chỉ có giá trị ở nhánh mock cũ đã xoá (không còn dùng, xem TaskApiService.ts).
  * - `UserTaskProgress.milestoneLog` (nhật ký từng mốc) không còn — BE chỉ trả
  *   `currentValue`/`targetValue` tổng quát.
  */

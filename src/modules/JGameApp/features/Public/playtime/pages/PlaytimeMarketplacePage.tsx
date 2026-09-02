@@ -2,7 +2,7 @@
  * PlaytimeMarketplacePage — Trang tổng quan Chợ vé giờ chơi Cybergame (SC-P2-01).
  * Nhiều vùng hiển thị kiểu Shopee: Flash Sale, lọc nhanh, gian hàng nổi bật, toàn bộ vé.
  */
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Flame, MapPin, Star, Timer, Users, Loader2, Ticket } from 'lucide-react'
 import { ShopArt } from '../../../../shared/components/ShopArt'
@@ -40,7 +40,17 @@ function useCountdown(target: string | undefined) {
   return `${hh}:${mm}:${ss}`
 }
 
-function TicketCard({ ticket, highlight }: { ticket: PlaytimeTicketView; highlight?: boolean }) {
+/** Tách riêng để tick 1s/lần chỉ re-render đồng hồ đếm ngược, không lan ra toàn bộ trang (grid TicketCard). */
+function FlashSaleCountdown({ target }: { target: string }) {
+  const countdownLabel = useCountdown(target)
+  return (
+    <div className='flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1.5 text-sm font-mono font-bold text-amber-300'>
+      <Timer className='h-4 w-4' /> {countdownLabel}
+    </div>
+  )
+}
+
+const TicketCard = memo(function TicketCard({ ticket, highlight }: { ticket: PlaytimeTicketView; highlight?: boolean }) {
   const soldPercent = ticket.totalSlots > 0 ? Math.round(((ticket.totalSlots - ticket.availableSlots) / ticket.totalSlots) * 100) : 0
   const lowSlot = ticket.availableSlots > 0 && ticket.availableSlots <= 3
 
@@ -80,12 +90,11 @@ function TicketCard({ ticket, highlight }: { ticket: PlaytimeTicketView; highlig
       </div>
     </Link>
   )
-}
+})
 
 export function PlaytimeMarketplacePage() {
   const { sections, filteredTickets, loading, city, setCity, zoneType, setZoneType } = useMarketplaceHomeFetchData()
   const nearestFlashSaleEnd = sections?.flashSale[0]?.flashSaleEndsAt
-  const countdownLabel = useCountdown(nearestFlashSaleEnd)
 
   if (loading || !sections) {
     return <div className='flex items-center justify-center gap-2 py-24 text-white/60'><Loader2 className='h-5 w-5 animate-spin' /> Đang tải chợ vé...</div>
@@ -101,11 +110,7 @@ export function PlaytimeMarketplacePage() {
               <Flame className='h-4 w-4' />
               <span className='text-sm font-extrabold uppercase tracking-wide'>Flash Sale Vé Giờ Chơi</span>
             </div>
-            {nearestFlashSaleEnd && (
-              <div className='flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1.5 text-sm font-mono font-bold text-amber-300'>
-                <Timer className='h-4 w-4' /> {countdownLabel}
-              </div>
-            )}
+            {nearestFlashSaleEnd && <FlashSaleCountdown target={nearestFlashSaleEnd} />}
             <p className='text-sm text-white/70'>Săn vé <span className='font-semibold text-white'>0đ</span> hoặc giảm tới <span className='font-semibold text-white'>90%</span> — nhanh tay kẻo hết chỗ!</p>
           </div>
 

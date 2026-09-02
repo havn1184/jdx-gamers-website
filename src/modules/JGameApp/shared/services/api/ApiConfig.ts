@@ -13,7 +13,7 @@ function getJGameApiUrl(): string {
 }
 
 export const API_CONFIG = {
-  /** BE JGame thật (chỉ dùng khi VITE_JGAME_USE_MOCK=false) */
+  /** BE JGame thật */
   get JGAME_API_URL(): string {
     return getJGameApiUrl()
   },

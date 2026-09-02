@@ -1,9 +1,9 @@
 ---
 name: rate-limit-rules
-description: 'Quy tắc chống rate limit / throttling khi thao tác nhiều tool call liên tiếp trong dự án SASUCO InvoiceEasy — giới hạn số lần đọc file/tìm kiếm/MCP/Playwright mỗi lượt, batching, checkpoint. Dùng khi: thực hiện tác vụ dài nhiều bước, gọi nhiều tool liên tục (đọc file, MCP, browser automation).'
+description: 'Quy tắc chống rate limit / throttling khi thao tác nhiều tool call liên tiếp trong dự án JDX-Gamers Website — giới hạn số lần đọc file/tìm kiếm/MCP/Playwright mỗi lượt, batching, checkpoint. Dùng khi: thực hiện tác vụ dài nhiều bước, gọi nhiều tool liên tục (đọc file, MCP, browser automation).'
 ---
 
-# Quy Tắc Chống Rate Limit — SASUCO InvoiceEasy Agent
+# Quy Tắc Chống Rate Limit — JDX-Gamers Agent
 
 > Nguồn gốc: quy tắc throttling cho AI coding agent (GitHub Copilot Chat) — vẫn áp dụng như nguyên tắc tự giới hạn tốc độ thao tác chung khi làm việc với Claude Code, để tránh spam quá nhiều tool call trong 1 lượt.
 

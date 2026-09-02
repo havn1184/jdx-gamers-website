@@ -64,8 +64,9 @@ function resolveImport(fromFile, specifier) {
   if (specifier.startsWith('.')) {
     base = p.resolve(p.dirname(fromFile), specifier);
   } else if (specifier.startsWith('@/')) {
-    // @/modules/KiemThuApp/... hoặc @/shared/... — chỉ resolve trong portal
-    const m = specifier.match(/^@\/(modules\/(?:KiemThuApp|InvoiceApp|AdminApp|PartnerApp|SsoApp|KetoanApp|CrmApp|TaiSanApp|BaseIndexApp)\/.*)$/);
+    // @/modules/JGameApp/... hoặc @/shared/... — chỉ resolve trong module (JGameApp thực tế dùng relative import,
+    // regex này giữ lại phòng khi có alias @/ được thêm sau này)
+    const m = specifier.match(/^@\/(modules\/(?:JGameApp)\/.*)$/);
     if (!m) return null;
     base = p.resolve(p.dirname(portalPath), '..', '..', m[1]);
   } else {

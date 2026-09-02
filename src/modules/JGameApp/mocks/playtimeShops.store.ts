@@ -121,19 +121,6 @@ const tickets: PlaytimeTicket[] = [
   ticket('tk-spartacus-high-4h', 'shop-spartacus', 'zone-spartacus-high', 4, 160000, 112000, 16, 10, true),
 ]
 
-/** Mô phỏng "đang có người đặt vé" — giảm dần availableSlots của vài vé active mỗi 4-6s. */
-if (typeof window !== 'undefined') {
-  setInterval(() => {
-    const active = tickets.filter(t => t.status === 'active' && t.availableSlots > 0)
-    if (active.length === 0) return
-    const hits = Math.random() < 0.5 ? 1 : 2
-    for (let i = 0; i < hits; i++) {
-      const t = active[Math.floor(Math.random() * active.length)]
-      if (t.availableSlots > 0) t.availableSlots -= 1
-    }
-  }, 4000 + Math.random() * 2000)
-}
-
 function toView(t: PlaytimeTicket): PlaytimeTicketView | undefined {
   const zone = zones.find(z => z.id === t.zoneId)
   const shop = zone ? shops.find(s => s.id === zone.shopId) : undefined

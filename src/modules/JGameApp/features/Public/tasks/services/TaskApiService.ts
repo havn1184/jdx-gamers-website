@@ -27,6 +27,7 @@ function normalizeApiTask(raw: any): GameTask {
     slotLimit: raw.slotLimit,
     slotUsed: raw.slotUsed,
     publisherFundStatus: Boolean(raw.publisherFundStatus),
+    galleryImages: raw.galleryImages,
   }
 }
 

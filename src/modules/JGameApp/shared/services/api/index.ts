@@ -10,7 +10,7 @@
  * - ApiLogger: Structured logging cho API calls
  * - ApiConfig: Centralized API configuration (BASE_URL, timeouts)
  * - types: Shared API types (PagingInfo, ApiResponse)
- * - mockGate: Điểm gate mock duy nhất — chuyển sang BE thật khi tắt
+ * - mockGate: helper mock (mockApiCall/mockApiError) cho vài chỗ có chủ đích chưa gọi API thật
  */
 
 export * from './ApiClient'

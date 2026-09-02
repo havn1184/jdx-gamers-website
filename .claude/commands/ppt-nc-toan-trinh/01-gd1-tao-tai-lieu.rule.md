@@ -9,9 +9,12 @@ description: Quy tắc GĐ1 — Tạo tài liệu giải pháp (nâng cấp/fix/
 > ⚠️ Single-load: file này + checklist + skill chỉ nạp 1 lần/phiên.
 
 ## B1 — Thu Thập Thông Tin
-- **A — Mô tả/endpoint:** load `doc-check` → tra projectCode → tìm/lấy đặc tả endpoint (search/get-by-endpoint → get-endpoint/get-by-id) → `get-changes`
-- **B — Inbox task:** `inbox-check` → inbox-check → inbox-detail → xác định endpoint → `doc-check`
-- **C — Bug report:** `bug-check` → bug-detail → phân tích steps/expected/actual → liên quan API → `doc-check`; thuần FE → ghi rõ file/component lỗi + nguyên nhân
+> ⚠️ JGameApp chưa có backend thật (`doc-check` đã archive vì tra cứu đặc tả API thật, không áp dụng được) — thay
+> vào đó, đọc lớp mock hiện có (`src/modules/JGameApp/mocks/`) và `Website/.claude/system-architect/mock-gate-va-api.md`
+> để biết shape dữ liệu hiện tại trước khi thiết kế thay đổi.
+- **A — Mô tả tính năng:** đọc mock/types liên quan trong JGameApp để nắm dữ liệu hiện có
+- **B — Inbox task:** `inbox-check` → inbox-check → inbox-detail → xác định phạm vi ảnh hưởng
+- **C — Bug report:** `bug-check` → bug-detail → phân tích steps/expected/actual → ghi rõ file/component lỗi + nguyên nhân
 
 **Kết quả:** danh sách endpoint + request/response schema, mô tả vấn đề, thay đổi BE (nếu có), task/bug ID.
 
@@ -32,8 +35,8 @@ Vấn đề: [...] | Chi tiết: [...] | Phương án: A. [...] B. [...] C. [...
 ```
 
 ## B3 — Vị Trí Tài Liệu
-- Portal: InvoiceApp / AdminApp / PartnerApp / SsoApp / KetoanApp / KiemThuApp / BaseIndexApp (dưới `src/modules/`)
-- Tạo file: `{portal}/docs/Nang-cap/nc-{tinh-nang}-{yyyy-mm-dd}.md`
+- Module: chỉ có `JGameApp` dưới `src/modules/` (không còn portal nào khác)
+- Tạo file: `src/modules/JGameApp/Docs/Nang-cap/nc-jgame-{tinh-nang}-{yyyy-mm-dd}.md` (theo đúng pattern các file đã có trong thư mục đó)
 
 ## B4 — Thư Mục Triển Khai
 - `search_graph`/`get_architecture` → **đã có** → ghi path, không hỏi; **chưa có** → hỏi: đường dẫn + shortName + portal.
@@ -42,7 +45,11 @@ Vấn đề: [...] | Chi tiết: [...] | Phương án: A. [...] B. [...] C. [...
 - Tính năng đã có → **[C] Không đổi** (không hỏi) | Mới + rõ yêu cầu → **[A]/[B]** (không hỏi) | Chưa rõ → hỏi: **[A]** TopMenu+NavMenu mới / **[B]** thêm NavMenu có sẵn / **[C]** không đổi
 
 ## B6 — Load Skills & Soạn Tài Liệu
-- Skills (nạp nếu **chưa trong context** — đã nạp thì dùng lại, không đọc lại): `tao-apiservice` | `tich-hop-api-ui` | `tao-ui-master-page`+`tao-ui-giao-dien`+`filter-phan-trang` | `tao-ui-dialog`+`tao-ui-giao-dien` | `tao-ui-sub-page`+`tao-ui-giao-dien` | `validate-input` | `dat-ten` | `cau-truc-du-an` | `sua-file-an-toan` | `tao-layout-navmenu-topmenu`
+- Skills (nạp nếu **chưa trong context** — đã nạp thì dùng lại, không đọc lại): `api-service-conventions` | `hook-conventions` | `quy-tac-code` | `cau-truc-du-an` | `sua-file-an-toan`
+- Các skill cũ từng liệt kê ở đây (`tao-apiservice`, `tich-hop-api-ui`, `tao-ui-master-page`, `tao-ui-giao-dien`,
+  `filter-phan-trang`, `tao-ui-dialog`, `tao-ui-sub-page`, `validate-input`, `dat-ten`, `tao-layout-navmenu-topmenu`)
+  đã được archive — viết theo pattern thực tế trong code JGameApp (component `shared/components/ui/`, `routeConfig.tsx`)
+  thay vì các skill đó.
 - Quan điểm: không tự suy diễn; ưu tiên đơn giản; tránh ảnh hưởng module khác (trừ khi có lý do chính đáng).
 - Khung tài liệu 8 mục: **0.** Prompt gốc (nguyên văn) **1.** Tổng quan (mục tiêu/portal/thư mục/shortName) **2.** Thay đổi BE **3.** File xử lý (tạo mới/sửa) **4.** Ánh xạ fields FE=BE **5.** Routes **6.** Menu **7.** Thiết kế UI (kế thừa style dự án, đẹp, UX dễ dùng) **8.** Checklist — Field FE **GIỐNG HỆT BE** (không đổi tên/viết tắt).
 

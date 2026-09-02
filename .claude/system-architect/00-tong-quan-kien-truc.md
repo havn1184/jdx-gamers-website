@@ -1,12 +1,12 @@
 # JGameApp — Tổng quan kiến trúc
 
-> Portal: `src/modules/JGameApp/`, mount tại `/jgame/*` trong `src/App.tsx` (pattern giống `JpayApp`). Repo riêng `jdx-portal-jgame` trong kiến trúc đa-repo của workspace.
+> Portal: `src/modules/JGameApp/`, mount tại `/jgame/*` trong `src/App.tsx`. Đây là module duy nhất của Website — hiện `src/modules/` không còn portal nào khác, 1 repo duy nhất (không phải kiến trúc đa-repo).
 >
 > **Đây là module frontend thuần tuý.** Chưa có backend thật (`Backend/` chưa có commit nào liên quan JGame). Toàn bộ business logic hiện chạy qua lớp mock — xem [mock-gate-va-api.md](mock-gate-va-api.md).
 
-## Khác biệt lớn nhất so với các portal InvoiceEasy khác trong workspace
+## Đặc điểm kiến trúc
 
-JGameApp **không** dùng SSO chung nền tảng, **không** dùng NavMenu/TopMenu chuẩn 9-portal, và **không** theo cấu trúc thư mục phẳng `pages/dialogs/components/hooks/services` như KetoanApp/AdminApp. Đây là 1 website thương mại điện tử độc lập, có tầng public (không cần đăng nhập) và tầng account riêng cho 4 nhóm người dùng khác nhau.
+JGameApp **không** dùng SSO chung nền tảng, **không** dùng NavMenu/TopMenu kiểu nhiều-portal, và **không** theo cấu trúc thư mục phẳng `pages/dialogs/components/hooks/services`. Đây là 1 website thương mại điện tử độc lập, có tầng public (không cần đăng nhập) và tầng account riêng cho 4 nhóm người dùng khác nhau.
 
 ## Cấu trúc thư mục
 

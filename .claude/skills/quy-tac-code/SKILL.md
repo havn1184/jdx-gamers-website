@@ -1,9 +1,9 @@
 ---
 name: quy-tac-code
-description: 'Quy tắc code TypeScript và React cho dự án SASUCO InvoiceEasy. Dùng khi: viết TypeScript (tránh any, strict typing), tổ chức React hooks, useEffect dependencies, performance memo/callback, import order, barrel exports, comments tiếng Việt, logging với ApiLogger, tránh console.log, không refactor ngoài phạm vi yêu cầu, an toàn khi sửa file.'
+description: 'Quy tắc code TypeScript và React cho dự án JDX-Gamers Website (JGameApp). Dùng khi: viết TypeScript (tránh any, strict typing), tổ chức React hooks, useEffect dependencies, performance memo/callback, import order, barrel exports, comments tiếng Việt, tránh console.log, không refactor ngoài phạm vi yêu cầu, an toàn khi sửa file.'
 ---
 
-# Quy Tắc Code — SASUCO InvoiceEasy
+# Quy Tắc Code — JDX-Gamers Website
 
 ## TypeScript
 
@@ -114,13 +114,15 @@ console.log(...)
 
 ---
 
-## Route URL Convention (KetoanApp)
+## Route URL Convention (JGameApp)
 
-- **Pattern bắt buộc:** `/ketoan/<phan-he>/<ten-menu>`
-- **Ví dụ đúng:** `/ketoan/danh-muc/tai-khoan`, `/ketoan/tien-mat/phieu-thu`, `/ketoan/mua-hang/chung-tu-mua-hang`
-- **Ví dụ sai (pattern cũ):** `/ketoan/tai-khoan`, `/ketoan/phieu-thu`, `/ketoan/mua-hang`
-- **Điều hướng:** Dùng `useKetoanNavigation().navigateToPage(pageId)` — không hardcode URL trong component
-- **Đăng ký route:** Cập nhật cả `pageIdToPath` và `ketoanRouteConfig` trong `routeConfig.tsx`
+- Toàn bộ route khai báo trong **1 file duy nhất** `src/modules/JGameApp/routes/routeConfig.tsx` (mảng `routeConfig`,
+  không rải rác nhiều nơi) — path không có prefix `/jgame` (được mount tại `/jgame/*` ở `App.tsx` root).
+- Mỗi route là 1 object `{ path, element, pageId, requireAuth?, guestOnly?, requireShopOwner?, requireAffiliate?, requireAdmin? }`,
+  `element` luôn là component đã `lazy()` khai báo ở đầu file.
+- **Điều hướng:** dùng `<Link to="/jgame/...">` hoặc `useNavigate()` của `react-router-dom` — không có hook điều hướng riêng theo pageId như dự án cũ.
+- Thêm route mới: khai báo `lazy()` import ở đầu file + thêm 1 object vào mảng `routeConfig`, đặt đúng nhóm comment
+  (Storefront/Account/Admin/...) đã có trong file.
 
 ---
 
@@ -134,7 +136,7 @@ console.log(...)
 - [ ] Comments bằng tiếng Việt
 - [ ] `index.ts` được cập nhật khi thêm file mới
 - [ ] Không refactor ngoài phạm vi yêu cầu
-- [ ] URL Route theo pattern `/ketoan/<phan-he>/<ten-menu>` — không dùng pattern cũ
+- [ ] Route mới đã khai báo `lazy()` + thêm object vào `routeConfig` trong `routes/routeConfig.tsx`
 
 ---
 

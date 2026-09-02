@@ -1,9 +1,9 @@
 ---
 name: hook-conventions
-description: 'Quy tắc viết custom hook (`**/hooks/*.ts`) trong SASUCO InvoiceEasy — page hook, dialog hook, data hook, reset state khi dialog mở lại, useEffect dependencies. Dùng khi: tạo hoặc sửa file `use*.ts` chứa business logic của 1 feature.'
+description: 'Quy tắc viết custom hook (`**/hooks/*.ts`) trong JDX-Gamers Website (JGameApp) — page hook, dialog hook, data hook, reset state khi dialog mở lại, useEffect dependencies. Dùng khi: tạo hoặc sửa file `use*.ts` chứa business logic của 1 feature.'
 ---
 
-# Hook Conventions — SASUCO InvoiceEasy
+# Hook Conventions — JGameApp
 
 ## Nguyên Tắc
 
@@ -81,5 +81,6 @@ export function useXxxDialogForm(initialData: XxxDto | null) {
 - `saving` cho form submit, phân biệt với `loading` cho fetch
 - Truyền `disabled={saving}` cho submit button khi đang gửi
 
-> Xử lý lỗi API trong hook: load skill `tich-hop-api-ui`.
-> Filter + phân trang: load skill `filter-phan-trang`.
+> Skill `tich-hop-api-ui` và `filter-phan-trang` đã được archive vào `_archived-sasuco/` (viết cho quy ước KetoanApp,
+> dùng `PagingUtils`/`ValidationErrorDialog` không tồn tại trong JGameApp) — tham khảo pattern thực tế trong code
+> JGameApp (VD: `features/Public/playtime/hooks/useMarketplaceHome.page.fetchData.ts`) thay vì đọc 2 skill đó.

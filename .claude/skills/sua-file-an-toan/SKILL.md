@@ -1,9 +1,9 @@
 ---
 name: sua-file-an-toan
-description: 'Quy tắc sửa file an toàn trong dự án SASUCO InvoiceEasy. Dùng khi: replace_string_in_file, multi_replace_string_in_file, refactor code, đổi tên biến/class, xóa/thêm đoạn code. Tránh: mất tiếng Việt Unicode, replace sai vị trí, lặp nội dung, mất dòng code, lỗi encoding PowerShell.'
+description: 'Quy tắc sửa file an toàn trong dự án JDX-Gamers Website. Dùng khi: replace_string_in_file, multi_replace_string_in_file, refactor code, đổi tên biến/class, xóa/thêm đoạn code. Tránh: mất tiếng Việt Unicode, replace sai vị trí, lặp nội dung, mất dòng code, lỗi encoding PowerShell.'
 ---
 
-# Quy Tắc Sửa File An Toàn — SASUCO InvoiceEasy
+# Quy Tắc Sửa File An Toàn — JDX-Gamers Website
 
 ---
 

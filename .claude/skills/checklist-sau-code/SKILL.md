@@ -1,10 +1,18 @@
 ---
 name: checklist-sau-code
-description: 'Checklist kiểm tra sau khi code trong SASUCO InvoiceEasy. 2 giai đoạn: check-for-skill (tĩnh — 37 scripts) kiểm tra tuân thủ skill → check-for-runtime (Playwright) mở browser login duyệt page tìm lỗi runtime. Dùng khi: review code trước commit, kiểm tra không có logic trong component, kiểm tra shared utils được tái sử dụng, kiểm tra quy tắc UI giao diện, kiểm tra gọi API đúng chuẩn, kiểm tra validate input, kiểm tra phân trang và filter, kiểm tra dialog kích thước (maxWidth), kiểm tra dialog đóng không báo lỗi BE (thiếu check res.success), kiểm tra hiệu năng React & bundle & render speed, kiểm tra bảo mật (XSS, secrets, injection), kiểm tra circular deps, unused npm packages, accessibility, TypeScript strictness.'
-argument-hint: 'Tên portal hoặc feature cần check. VD: ketoanapp, invoiceapp/features/invoices'
+description: 'Checklist kiểm tra sau khi code trong JDX-Gamers Website (module JGameApp). 2 giai đoạn: check-for-skill (tĩnh) kiểm tra tuân thủ quy tắc code chung → check-for-runtime (Playwright) mở browser duyệt page tìm lỗi runtime. Dùng khi: review code trước commit, kiểm tra không có logic trong component, kiểm tra shared utils được tái sử dụng, kiểm tra hiệu năng React & bundle & render speed, kiểm tra bảo mật (XSS, secrets, injection), kiểm tra circular deps, unused npm packages, accessibility, TypeScript strictness.'
+argument-hint: 'Đường dẫn feature cần check trong JGameApp. VD: src/modules/JGameApp, src/modules/JGameApp/features/Public/playtime'
 ---
 
-# Checklist Sau Khi Code — SASUCO InvoiceEasy
+# Checklist Sau Khi Code — JDX-Gamers Website
+
+> ⚠️ Nhiều check trong bảng bên dưới (naming/dialog/validate-input/tao-ui-dialog...) trỏ tới các skill quy ước UI đã được archive vào
+> `Website/.claude/skills/_archived-sasuco/` vì thuộc dự án cũ (KetoanApp, kiến trúc 9-portal) — không áp dụng cho JGameApp.
+> Các script check tĩnh vẫn chạy được (logic generic), nhưng khi FAIL trỏ tới 1 skill đã archive thì **bỏ qua gợi ý đó**,
+> chỉ coi là tín hiệu chung (VD: `check-any.cjs` báo `any` thì vẫn nên sửa theo quy tắc TypeScript strict thông thường,
+> không cần đọc skill `quy-tac-code` gốc nếu skill đó đã archive). Giai đoạn 2 (`check-for-runtime`) hiện được viết cho
+> luồng login SSO 9-portal — **không áp dụng được cho JGameApp** (JGameApp có hệ auth độc lập, không qua SSO, xem
+> `business-rules/auth-tai-khoan.md`) cho tới khi có người viết lại phần login cho đúng JGameApp.
 
 > **Quy trình:**
 > 0. **Giai đoạn 0 — Cập nhật tài liệu nghiệp vụ/kiến trúc** (chỉ áp dụng khi sửa `src/modules/JGameApp/`): nếu thay đổi vừa code làm lỗi thời nội dung trong `Website/.claude/business-rules/` hoặc `Website/.claude/system-architect/` → PHẢI cập nhật tài liệu + bump version + ghi changelog trước khi coi là hoàn thành
@@ -41,14 +49,12 @@ argument-hint: 'Tên portal hoặc feature cần check. VD: ketoanapp, invoiceap
 
 ```bash
 # === GIAI ĐOẠN 1: Check tĩnh (code quality) ===
-node .claude/skills/checklist-sau-code/scripts/check-for-skill/check-all.cjs src/modules/KetoanApp
+node .claude/skills/checklist-sau-code/scripts/check-for-skill/check-all.cjs src/modules/JGameApp
 
 # Chạy 1 check đơn lẻ
-node .claude/skills/checklist-sau-code/scripts/check-for-skill/check-any.cjs src/modules/KetoanApp
+node .claude/skills/checklist-sau-code/scripts/check-for-skill/check-any.cjs src/modules/JGameApp
 
-# === GIAI ĐOẠN 2: Check runtime (Playwright browser) ===
-node .claude/skills/checklist-sau-code/scripts/check-for-runtime/runtime-check.cjs ketoan
-node .claude/skills/checklist-sau-code/scripts/check-for-runtime/runtime-check.cjs ketoan features/danh-muc/khach-hang
+# === GIAI ĐOẠN 2: Check runtime (Playwright browser) — CHƯA áp dụng được cho JGameApp, xem cảnh báo đầu file ===
 ```
 
 ---
@@ -131,9 +137,14 @@ node .claude/skills/checklist-sau-code/scripts/check-for-skill/check-all.cjs <Po
 
 ---
 
-## Giai Đoạn 2 — `check-for-runtime/` (Playwright browser)
+## Giai Đoạn 2 — `check-for-runtime/` (Playwright browser) — ⚠️ CHƯA áp dụng cho JGameApp
 
-### `runtime-check.cjs` — Flow hoạt động
+Toàn bộ flow bên dưới (login qua SSO `sso.vtax.id.vn`, bảng tài khoản 9-portal trong `accounts/account.json`) được viết cho
+kiến trúc SSO đa-portal cũ, không khớp với JGameApp (auth độc lập, không qua SSO). Giữ lại nội dung để tham khảo cách dựng
+1 flow runtime-check tương tự cho JGameApp sau này (cần viết lại bước login cho đúng `AuthContext` của JGameApp), nhưng
+**không chạy trực tiếp** `runtime-check.cjs` với các portal key cũ (`ketoan`, `invoice`, ...) vì không có ý nghĩa ở đây.
+
+### `runtime-check.cjs` — Flow hoạt động (thiết kế gốc, tham khảo)
 
 ```
 ┌───────────────────────────────────────────────┐
@@ -220,6 +231,9 @@ Script có 5 cơ chế giới hạn để tránh token overflow khi lỗi lặp 
 ---
 
 ## Tham Chiếu Nhanh
+
+> Cột "Skill gốc" dưới đây phần lớn trỏ tới skill đã archive vào `_archived-sasuco/` (quy ước KetoanApp) — chỉ còn `cau-truc-du-an`,
+> `sua-file-an-toan` và các mục nghiệp vụ/kiến trúc JGameApp là còn hoạt động thật sự.
 
 | Chủ đề | Skill gốc | Script check |
 |--------|-----------|-------------|

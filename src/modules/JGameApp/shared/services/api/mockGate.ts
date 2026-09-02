@@ -1,17 +1,13 @@
 /**
- * mockGate — Điểm gate mock DUY NHẤT cho toàn bộ JGameApp (BE thật chưa có).
+ * mockGate — helper mock cho các phần CÓ CHỦ ĐÍCH chưa gọi API thật trong JGameApp.
  *
- * Mọi ApiService method PHẢI rẽ nhánh qua `JGAME_USE_MOCK` ở đây:
- *   if (JGAME_USE_MOCK) return mockApiCall(() => ...)
- *   const url = buildJGameUrl(...); const res = await apiCall(url, ...); return res.json()
- *
- * Khi có BE thật: đặt VITE_JGAME_USE_MOCK=false trong .env — không cần sửa code gọi
- * ở page/hook, vì cả 2 nhánh đã có sẵn cùng 1 chữ ký `Promise<ApiResponse<T>>`.
+ * Cờ toàn cục `JGAME_USE_MOCK` đã bị xoá (20260902-nc_admin-crud-that-thay-mock.md) — mọi phân hệ
+ * đều đã gọi BE thật, không còn nơi nào rẽ nhánh theo cờ này nữa. `mockApiCall`/`mockApiError` vẫn
+ * còn dùng ở 2 chỗ có lý do cụ thể (xem comment tại từng nơi gọi):
+ * `JGameApiServiceAdmin.manualResolveOrder` (BE chưa có endpoint) và CRUD đối tác Referral
+ * (BE chỉ có API đọc, chưa có Create/Update/Delete).
  */
 import type { ApiResponse } from './types'
-
-export const JGAME_USE_MOCK: boolean =
-  (import.meta.env?.VITE_JGAME_USE_MOCK as string | undefined) !== 'false'
 
 /** Giả lập độ trễ mạng rồi trả kết quả từ factory (tính toán tại thời điểm gọi, không cache). */
 function mockDelay<T>(factory: () => T, ms: number): Promise<T> {
