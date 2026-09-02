@@ -7,7 +7,8 @@
 //              validate | date-input | grid-span | md-tailwind | performance-react |
 //              performance-bundle | performance-render | file-size | app-isolation |
 //              menu-routes | security | dead-files | circular-deps | unused-deps |
-//              a11y | dialog-maxwidth | ts-strict | undef-symbols | dialog-success-check
+//              a11y | dialog-maxwidth | ts-strict | undef-symbols | dialog-success-check |
+//              be-dto-fields (đối chiếu field "*Dto" trong service với property Backend C#)
 // 🎯 Phục vụ skill: checklist-sau-code (Giai đoạn 1 — static check)
 // 📤 Output:   CHỈ in các check FAIL (kèm file:line + skill gợi ý đọc).
 //              KHÔNG in các check PASS — tránh agent đọc thông tin thừa, tốn token.
@@ -73,6 +74,7 @@ const SCRIPT_TO_SKILL = {
   'check-undef-symbols.cjs': 'quy-tac-code § Import',
   'check-pagination.cjs': 'filter-phan-trang',
   'check-hook-props.cjs': 'tich-hop-api-ui + tao-ui-giao-dien',
+  'check-be-dto-fields.cjs': 'tao-apiservice + tich-hop-api-ui',
 };
 
 // ===== Checks chạy =====
@@ -114,6 +116,7 @@ const checks = [ // in-folder scripts
   'check-ts-strict.cjs',
   'check-undef-symbols.cjs',
   'check-hook-props.cjs',
+  'check-be-dto-fields.cjs',
 ];
 
 // Add cross-skill script: pagination check

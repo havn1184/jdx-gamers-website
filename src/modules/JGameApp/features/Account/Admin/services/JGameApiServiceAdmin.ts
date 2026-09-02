@@ -52,6 +52,59 @@ function normalizeCommissionRateHistory(h: ReferralCommissionRateHistoryAdmin): 
   return { ...h, category: typeof h.category === 'number' ? (REFERRAL_COMMISSION_CATEGORY_MAP[h.category as unknown as number] ?? 'cardtopup') : h.category }
 }
 
+/** Response thô GET /api/admin/referral/partners (`AffiliatePartnerResponse.cs`) — KHÔNG có `name`/`status`/
+ * `refundRatePercent` như `ReferralPartnerAdmin` (type đó bám theo mock cũ). GetAllAffiliatePartnersAsync
+ * không lọc/trả cờ xoá riêng (record đã isDeleted thì không xuất hiện) nên map cứng `status: 'active'`;
+ * BE chưa track tỷ lệ hoàn tiền theo đối tác → `refundRatePercent: 0` (không suy diễn dữ liệu không có thật). */
+interface AffiliatePartnerResponseDto {
+  id: string
+  referralCode: string
+  displayName: string
+  commissionRateDefault: number
+  totalOrders: number
+}
+
+function mapAffiliatePartnerToAdmin(dto: AffiliatePartnerResponseDto): ReferralPartnerAdmin {
+  return {
+    id: dto.id,
+    referralCode: dto.referralCode,
+    name: dto.displayName,
+    commissionRateDefault: dto.commissionRateDefault,
+    totalOrders: dto.totalOrders,
+    refundRatePercent: 0,
+    status: 'active',
+  }
+}
+
+/** Response thô GET /api/admin/referral/reports/summary (`ReferralAdminReportResponse.cs`) — field
+ * tách theo trạng thái đối soát (`TotalCommissionPending/Confirmed/Reversed`, `TotalOutstanding`) khác
+ * hẳn shape gộp `totalCommission`/`totalCommissionByStatus`/`totalOwed` mà `ReferralReportSummaryAdmin`
+ * (FE, theo mock cũ) khai báo. */
+interface ReferralAdminReportResponseDto {
+  totalClicks: number
+  totalOrders: number
+  totalCommissionPending: number
+  totalCommissionConfirmed: number
+  totalCommissionReversed: number
+  totalPaid: number
+  totalOutstanding: number
+}
+
+function mapReferralReportSummary(dto: ReferralAdminReportResponseDto): ReferralReportSummaryAdmin {
+  return {
+    totalClicks: dto.totalClicks,
+    totalOrders: dto.totalOrders,
+    totalCommission: dto.totalCommissionPending + dto.totalCommissionConfirmed,
+    totalCommissionByStatus: {
+      pending: dto.totalCommissionPending,
+      confirmed: dto.totalCommissionConfirmed,
+      reversed: dto.totalCommissionReversed,
+    },
+    totalPaid: dto.totalPaid,
+    totalOwed: dto.totalOutstanding,
+  }
+}
+
 /** Response thô GET /api/admin/orders (BE gộp cả 3 domain — quyet-dinh-hop-nhat-api.md #15). */
 interface AdminOrderSummaryResponseDto {
   id: string
@@ -210,9 +263,10 @@ export class JGameApiServiceAdmin {
    * getOrders) → lọc phía FE sau khi nhận dữ liệu. */
   static async getReferralPartners(params?: JGameAdminListParams): Promise<ApiResponse<ReferralPartnerAdmin[]>> {
     const response = await apiCall(buildJGameUrl('/api/admin/referral/partners'), { method: 'GET' })
-    const result: ApiResponse<ReferralPartnerAdmin[]> = await response.json()
-    if (!result.success || !result.data) return result
-    return { ...result, data: filterByKeywordStatus(result.data, params, p => [p.name, p.referralCode]) }
+    const result: ApiResponse<AffiliatePartnerResponseDto[]> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<ReferralPartnerAdmin[]>
+    const mapped = result.data.map(mapAffiliatePartnerToAdmin)
+    return { ...result, data: filterByKeywordStatus(mapped, params, p => [p.name, p.referralCode]) }
   }
 
   /**
@@ -322,7 +376,9 @@ export class JGameApiServiceAdmin {
     if (params?.category && params.category !== 'all') realParams.category = toCommissionCategoryInt(params.category)
     const url = buildJGameUrlWithParams('/api/admin/referral/reports/summary', realParams)
     const response = await apiCall(url, { method: 'GET' })
-    return response.json()
+    const result: ApiResponse<ReferralAdminReportResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<ReferralReportSummaryAdmin>
+    return { ...result, data: mapReferralReportSummary(result.data) }
   }
 
   // ===== Khuyến mãi/voucher =====
