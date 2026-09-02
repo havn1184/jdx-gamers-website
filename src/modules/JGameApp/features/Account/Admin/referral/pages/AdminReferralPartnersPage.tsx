@@ -129,7 +129,7 @@ export function AdminReferralPartnersPage() {
                   {tx.items.map(item => (
                     <tr key={item.id} className='border-t border-white/10 text-white/80'>
                       <td className='px-3 py-2'>{item.orderId}</td>
-                      <td className='px-3 py-2 font-medium text-white'>{item.partnerName}</td>
+                      <td className='px-3 py-2 font-medium text-white'>{item.partnerName ?? 'Không rõ'}</td>
                       <td className='px-3 py-2'>{REFERRAL_COMMISSION_CATEGORY_LABELS[item.category]}</td>
                       <td className='px-3 py-2 text-right'>{formatCurrency(item.amount)}</td>
                       <td className='px-3 py-2 text-right'>{formatCurrency(item.commissionAmount)}</td>

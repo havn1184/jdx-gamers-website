@@ -17,7 +17,7 @@ import type {
   PromotionAdmin, PromotionFormPayload, RevenueReportRow, JGameAdminListParams,
   AccessoryAdmin, AccessoryFormPayload, AccessoryAdminListParams,
   AdminOrderStatus, AdminOrderType, AdminDashboardSummary,
-  ReferralTransactionAdmin, ReferralTransactionAdminListParams, ReferralPayoutAdmin,
+  ReferralTransactionAdmin, ReferralTransactionAdminListParams, ReferralPayoutAdmin, ReferralReconcileStatusAdmin,
   ReferralCommissionRateAdmin, ReferralCommissionRateHistoryAdmin, ReferralCommissionCategory,
   ReferralReportSummaryAdmin, ReferralReportFilterParams,
   AdminUserItem, AdminUserListParams, AdminUserKind, PagedResult,
@@ -35,6 +35,35 @@ const ADMIN_USER_KIND_MAP: AdminUserKind[] = ['customer', 'shopOwner', 'affiliat
 function toCommissionCategoryInt(category: ReferralCommissionCategory): number {
   const idx = REFERRAL_COMMISSION_CATEGORY_MAP.indexOf(category)
   return idx === -1 ? 0 : idx
+}
+
+/** Response thô GET /api/admin/referral/transactions (`ReferralTransactionResponse.cs`) - `status`/`category`
+ * là int thô (chưa map sang string union), `orderIdMasked` mới là field hiển thị được (orderId thật
+ * không nên lộ ra UI Admin danh sách). */
+interface ReferralTransactionResponseDto {
+  id: string
+  orderIdMasked: string
+  partnerId: string | null
+  partnerName: string | null
+  amount: number
+  commissionAmount: number
+  status: number
+  category: number
+  createdAt: string
+}
+
+function mapReferralTransaction(dto: ReferralTransactionResponseDto): ReferralTransactionAdmin {
+  return {
+    id: dto.id,
+    orderId: dto.orderIdMasked,
+    partnerId: dto.partnerId,
+    partnerName: dto.partnerName,
+    amount: dto.amount,
+    commissionAmount: dto.commissionAmount,
+    category: dto.category as unknown as ReferralCommissionCategory,
+    status: dto.status as unknown as ReferralReconcileStatusAdmin,
+    createdAt: dto.createdAt,
+  }
 }
 
 function normalizeReferralTransaction(tx: ReferralTransactionAdmin): ReferralTransactionAdmin {
@@ -301,9 +330,13 @@ export class JGameApiServiceAdmin {
   }
 
   /** GET /api/admin/referral/transactions — mở rộng `AdminService.GetAllReferralTransactionsAsync`
-   * nhận filter (khoảng thời gian/đối tác/loại/trạng thái). */
+   * nhận filter (khoảng thời gian/đối tác/loại/trạng thái). BE trả `PagedResult<ReferralTransactionResponse>`
+   * (`ReferralTransactionResponse.cs`) - trước đây bị ép kiểu thẳng thành mảng (thiếu `.items`), gây
+   * crash `result.data.map is not a function` khi mở tab "Giao dịch" - đã sửa cùng lúc với bug tương tự
+   * ở doi-tac-referral (2026-09-02). Giữ nguyên contract trả về mảng phẳng (không phân trang) cho
+   * hook/page hiện có, không đổi UI. */
   static async getReferralTransactions(params?: ReferralTransactionAdminListParams): Promise<ApiResponse<ReferralTransactionAdmin[]>> {
-    const realParams: Record<string, unknown> = {}
+    const realParams: Record<string, unknown> = { page: 1, limit: 200 }
     if (params?.from) realParams.from = params.from
     if (params?.to) realParams.to = params.to
     if (params?.partnerId) realParams.partnerId = params.partnerId
@@ -311,9 +344,10 @@ export class JGameApiServiceAdmin {
     if (params?.status && params.status !== 'all') realParams.status = RECONCILE_STATUS_MAP.indexOf(params.status)
     const url = buildJGameUrlWithParams('/api/admin/referral/transactions', realParams)
     const response = await apiCall(url, { method: 'GET' })
-    const result: ApiResponse<ReferralTransactionAdmin[]> = await response.json()
-    if (result.success && result.data) result.data = result.data.map(normalizeReferralTransaction)
-    return result
+    const result: ApiResponse<PagedResult<ReferralTransactionResponseDto>> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<ReferralTransactionAdmin[]>
+    const mapped = result.data.items.map(mapReferralTransaction).map(normalizeReferralTransaction)
+    return { ...result, data: mapped }
   }
 
   // ===== Thanh toán hoa hồng (duyệt/từ chối/đánh dấu đã trả) =====

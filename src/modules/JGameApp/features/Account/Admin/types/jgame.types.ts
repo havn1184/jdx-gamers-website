@@ -203,8 +203,9 @@ export const REFERRAL_PAYOUT_STATUS_ADMIN_LABELS: Record<ReferralPayoutStatusAdm
 export interface ReferralTransactionAdmin {
   id: string
   orderId: string
-  partnerId: string
-  partnerName: string
+  /** null nếu giao dịch cũ trước khi gắn ReferralLink, hoặc đối tác đã bị xoá. */
+  partnerId: string | null
+  partnerName: string | null
   amount: number
   commissionAmount: number
   category: ReferralCommissionCategory
