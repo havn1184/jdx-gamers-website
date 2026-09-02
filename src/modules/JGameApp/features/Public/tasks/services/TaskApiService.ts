@@ -13,7 +13,7 @@
 import { apiCall, buildJGameUrl, buildJGameUrlWithParams, type ApiResponse } from '../../../../shared/services/api'
 import type {
   GameTask, GameTaskStatus, MyTaskItem, TaskListParams, TaskMilestone, TaskProgressEvent, TaskProgressEventSource,
-  TaskRequirementType, TaskStep, UserTaskProgress, UserTaskStatus,
+  TaskRequirementType, TaskRanking, TaskRankingPeriod, TaskStep, UserTaskProgress, UserTaskStatus,
 } from '../types/task.types'
 
 /* ============ Adapter BE (enum int -> string, default an toàn cho BE cũ) ============ */
@@ -204,5 +204,12 @@ export class TaskApiService {
       items.push({ task: normalizeApiTask(r.task), progress: normalizeApiProgress(r.progress) })
     }
     return { ...result, data: items }
+  }
+
+  /** Top 50 JCoin kiếm được trong kỳ hiện tại - công khai (20260902-nc_xep-hang-jcoin.md). BE trả nguyên
+   * field camelCase khớp `TaskRanking` (period đã là chuỗi "week"|"month"|"year") - không cần adapter. */
+  static async getRanking(period: TaskRankingPeriod): Promise<ApiResponse<TaskRanking>> {
+    const response = await apiCall(buildJGameUrlWithParams(`${this.BASE_PATH}/ranking`, { period }), { method: 'GET' })
+    return response.json()
   }
 }

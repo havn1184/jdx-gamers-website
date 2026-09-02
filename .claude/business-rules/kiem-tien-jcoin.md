@@ -61,7 +61,12 @@ Yêu cầu đăng nhập — **không** cần hồ sơ riêng như Chủ Cyberga
 
 Ưu tiên `galleryImages` từ BE (phục vụ tĩnh từ JGameApi); fallback gradient + icon (`TaskArt`) khi rỗng/lỗi ảnh.
 
+## Bảng xếp hạng JCoin (20260902-nc_xep-hang-jcoin.md)
+
+Route `/jgame/kiem-tien/xep-hang` (public, lối vào từ nút "Bảng xếp hạng" ở `TasksMarketplacePage.tsx`) — Top 50 người kiếm được nhiều JCoin nhất trong **kỳ hiện tại** (tuần/tháng/năm, không xem lại kỳ trước). Tên hiển thị **đầy đủ + avatar, không che** (quyết định có chủ đích). Top 3 hiển thị dạng bục vinh danh nổi bật, hạng 4-50 dạng danh sách; thanh "Vị trí của tôi" cố định ở đáy khi đã đăng nhập (kể cả khi ngoài Top 50 — BE tính hạng thật, không phải "chưa xếp hạng"). Dữ liệu tổng hợp trực tiếp từ Backend (`GET /api/tasks/ranking`), không có logic tính riêng ở FE.
+
 ## Chưa triển khai
 
 - Chưa có tích hợp thật với nhà phát hành game (webhook nhận tiến độ) — Production hiện tắt worker mô phỏng nên tiến độ chỉ đổi khi có nguồn thật.
 - Chưa có trang Admin quản lý nhiệm vụ (tạo/duyệt nhiệm vụ do NPH đăng) — dữ liệu seed từ `TaskSeeder` phía Backend.
+- Bảng xếp hạng chưa hỗ trợ xem lại kỳ trước (chỉ kỳ hiện tại) và chưa có chỉ số xếp hạng nào khác ngoài JCoin (VD số nhiệm vụ hoàn thành) — phạm vi có chủ đích của lần nâng cấp này.

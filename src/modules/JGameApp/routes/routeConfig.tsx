@@ -88,6 +88,7 @@ const AdminAccessoryFormPage = lazy(() => import('../features/Account/Admin/acce
 
 // Kiếm tiền — nhiệm vụ trải nghiệm/test game, thưởng JCoin
 const TasksMarketplacePage = lazy(() => import('../features/Public/tasks/pages/TasksMarketplacePage').then(m => ({ default: m.TasksMarketplacePage })))
+const TaskRankingPage = lazy(() => import('../features/Public/tasks/pages/TaskRankingPage').then(m => ({ default: m.TaskRankingPage })))
 const TaskDetailPage = lazy(() => import('../features/Public/tasks/pages/TaskDetailPage').then(m => ({ default: m.TaskDetailPage })))
 const MyTasksPage = lazy(() => import('../features/Account/User/tasks/pages/MyTasksPage').then(m => ({ default: m.MyTasksPage })))
 
@@ -197,6 +198,7 @@ export const routeConfig: JGameRoute[] = [
   // Kiếm tiền — nhiệm vụ trải nghiệm/test game, thưởng JCoin
   { path: 'kiem-tien', element: <TasksMarketplacePage />, pageId: 'jgame-tasks-marketplace' },
   { path: 'kiem-tien/nhiem-vu-cua-toi', element: <MyTasksPage />, pageId: 'jgame-my-tasks', requireAuth: true },
+  { path: 'kiem-tien/xep-hang', element: <TaskRankingPage />, pageId: 'jgame-task-ranking' },
   { path: 'kiem-tien/:taskId', element: <TaskDetailPage />, pageId: 'jgame-task-detail' },
 
   // Ví (VND + JCoin) — nc_vi-2-loai-tien-thanh-toan.md

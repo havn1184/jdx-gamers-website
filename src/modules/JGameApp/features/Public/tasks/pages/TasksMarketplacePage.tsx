@@ -3,7 +3,7 @@
  * Lọc server-side (loại yêu cầu + từ khoá), card hiển thị câu yêu cầu từ BE, badge "Đã đăng ký"/"Đã đóng".
  */
 import { Link } from 'react-router-dom'
-import { Search, Loader2, PackageOpen, Coins, Trophy, Timer, Gem, Users, CheckCircle2, Clock3, Flag, BadgeCheck, Lock, AlertCircle } from 'lucide-react'
+import { Search, Loader2, PackageOpen, Coins, Trophy, Timer, Gem, Users, CheckCircle2, Clock3, Flag, BadgeCheck, Lock, AlertCircle, Crown } from 'lucide-react'
 import { Input } from '../../../../shared/components/ui/input'
 import { Badge } from '../../../../shared/components/ui/badge'
 import { formatNumber } from '../../../../shared/utils/FormatUtils'
@@ -46,6 +46,9 @@ export function TasksMarketplacePage() {
           </p>
           <div className='mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-3 text-sm'>
             <Link to='/jgame/kiem-tien/nhiem-vu-cua-toi' className='rounded-full border border-white/20 px-4 py-2 text-white/80 hover:bg-white/10' data-qa='btn_nhiem_vu_cua_toi'>Nhiệm vụ của tôi</Link>
+            <Link to='/jgame/kiem-tien/xep-hang' className='flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 font-semibold text-amber-300 hover:bg-amber-400/20' data-qa='btn_bang_xep_hang'>
+              <Crown className='h-4 w-4' /> Bảng xếp hạng
+            </Link>
             <Link to='/jgame/vi' className='jgame-btn-primary rounded-full px-4 py-2 font-semibold text-white' data-qa='btn_vi_jcoin'>Ví của tôi</Link>
           </div>
 

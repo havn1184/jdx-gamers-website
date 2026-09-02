@@ -36,6 +36,7 @@ Toàn bộ 47 route khai báo dạng mảng phẳng `routeConfig: JGameRoute[]` 
 | `phu-kien`, `phu-kien/:productId`, `gio-hang` | Accessories catalog/cart | |
 | `cho-ve`, `cho-ve/gian-hang/:shopId` | Playtime marketplace | |
 | `kiem-tien`, `kiem-tien/:taskId` | Tasks marketplace | |
+| `kiem-tien/xep-hang` | Bảng xếp hạng JCoin (Top 50 kỳ hiện tại, public) | |
 
 ### Account/User — cần đăng nhập (`requireAuth: true`)
 

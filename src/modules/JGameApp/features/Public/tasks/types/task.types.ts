@@ -110,3 +110,28 @@ export interface TaskListParams {
   requirementType?: TaskRequirementType | 'all'
   keyword?: string
 }
+
+/** Xếp hạng JCoin kiếm được (20260902-nc_xep-hang-jcoin.md) - chỉ xem kỳ HIỆN TẠI. */
+export type TaskRankingPeriod = 'week' | 'month' | 'year'
+
+/** 1 dòng bảng xếp hạng (BE `TaskRankingEntryResponse`) - dùng chung cho `items` và `myEntry`. */
+export interface TaskRankingEntry {
+  /** null nếu chưa xếp hạng (0 JCoin trong kỳ) - không phải lỗi. */
+  rank: number | null
+  userId: string
+  name: string
+  avatarUrl: string | null
+  jcoinEarned: number
+  isCurrentUser: boolean
+}
+
+/** BE `TaskRankingResponse` - GET /api/tasks/ranking?period=. */
+export interface TaskRanking {
+  period: TaskRankingPeriod
+  periodStart: string
+  periodEnd: string
+  /** Top 50, giảm dần theo jcoinEarned. */
+  items: TaskRankingEntry[]
+  /** null nếu khách chưa đăng nhập. */
+  myEntry: TaskRankingEntry | null
+}
