@@ -3,6 +3,7 @@
 > Route: `/jgame/quan-tri/*`, guard `RequireAuth` + `RequireAdmin` (`user.role === 'admin'`).
 > Code: `features/Account/Admin/`, `services/JGameApiServiceAdmin.ts` (~23 method).
 > Nguồn thiết kế: `Docs/Nang-cap/nc-jgame-chuyen-admin-ve-jgameapp-va-role-2026-08-29.md` (✅ APPROVED).
+> Xem thêm: [00-tong-quan.md](00-tong-quan.md), `Website/.claude/system-architect/routing-va-layout.md`.
 
 ## Vị trí — đã chuyển hẳn từ AdminApp về JGameApp
 

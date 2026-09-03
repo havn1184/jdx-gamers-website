@@ -3,6 +3,7 @@
 > Route khách hàng: `/jgame/cho-ve`. Route Chủ Cybergame: `/jgame/chu-cybergame`.
 > Code: `features/Public/playtime/` (marketplace, public), `features/Account/User/playtime/` (đặt vé — cần đăng nhập), `features/Account/ShopOwner/` (Chủ Cybergame), `mocks/playtimeShops.store.ts`, `mocks/playtimeOrders.store.ts`, `mocks/shopPayouts.mock.ts`, `mocks/freeTicketClaims.store.ts`.
 > Nguồn thiết kế: `Docs/Nang-cap/nc-jgame-cho-ve-cybergame-gd2-2026-08-29.md` (✅ APPROVED). URD gốc mục 7 chỉ đặc tả mức khung — mục này đã vượt xa mức khung đó, đọc tài liệu này thay vì URD mục 7 khi có mâu thuẫn.
+> Xem thêm: [00-tong-quan.md](00-tong-quan.md), `Website/.claude/system-architect/routing-va-layout.md`.
 
 ## Mô hình nghiệp vụ: marketplace nhiều gian hàng kiểu Shopee
 

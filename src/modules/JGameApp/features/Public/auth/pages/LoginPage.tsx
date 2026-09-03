@@ -84,6 +84,10 @@ export function LoginPage() {
         <p className='mt-6 text-center text-sm text-white/60'>
           Chưa có tài khoản? <Link to='/jgame/dang-ky' className='jgame-gradient-text font-semibold'>Đăng ký ngay</Link>
         </p>
+        <p className='mt-2 text-center text-sm text-white/60'>
+          Bạn là nhà phát hành game?{' '}
+          <Link to='/jgame/nph/dang-nhap' className='jgame-gradient-text font-semibold'>Đăng nhập cổng đối tác</Link>
+        </p>
       </div>
 
       {step === 'credentials' && (

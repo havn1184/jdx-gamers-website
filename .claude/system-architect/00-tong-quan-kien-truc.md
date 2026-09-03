@@ -2,7 +2,7 @@
 
 > Portal: `src/modules/JGameApp/`, mount tại `/jgame/*` trong `src/App.tsx`. Đây là module duy nhất của Website — hiện `src/modules/` không còn portal nào khác, 1 repo duy nhất (không phải kiến trúc đa-repo).
 >
-> **Đây là module frontend thuần tuý.** Chưa có backend thật (`Backend/` chưa có commit nào liên quan JGame). Toàn bộ business logic hiện chạy qua lớp mock — xem [mock-gate-va-api.md](mock-gate-va-api.md).
+> **Đã có backend thật** — `Backend/JGameApi` — và hầu hết các phân hệ đã gọi BE thật (cờ toàn cục `JGAME_USE_MOCK` đã bị xoá khỏi `mockGate.ts` từ `20260902-nc_admin-crud-that-thay-mock.md`). Chỉ còn 2 điểm dùng `mockApiCall`/`mockApiError` cục bộ do BE chưa có endpoint tương ứng (`JGameApiServiceAdmin.manualResolveOrder`, CRUD tạo/sửa/xoá đối tác Referral) — xem [mock-gate-va-api.md](mock-gate-va-api.md).
 
 ## Đặc điểm kiến trúc
 
@@ -25,11 +25,11 @@ JGameApp/
 │   ├── StorefrontHeader.tsx / StorefrontFooter.tsx
 │   ├── RequireAuth.tsx / GuestOnly.tsx
 │   ├── RequireAdmin.tsx / RequireShopOwner.tsx / RequireAffiliate.tsx
-├── mocks/                          # 13 file *.store.ts / *.mock.ts — toàn bộ dữ liệu giả của app, xem mock-gate-va-api.md
+├── mocks/                          # chỉ còn 1 file (playtimeShops.store.ts) — phần lớn mock cũ đã bị thay bằng gọi BE thật, xem mock-gate-va-api.md
 ├── routes/routeConfig.tsx          # TOÀN BỘ route khai báo trong 1 file duy nhất (không rải rác)
 ├── shared/
 │   ├── services/api/               # ApiClient/ApiHelpers/ApiConfig/TokenManager/mockGate/types
-│   ├── components/ui/              # tối thiểu: button, card, badge, input, tabs, select, separator (copy rút gọn từ JpayApp — KHÔNG có Dialog)
+│   ├── components/ui/              # tối thiểu: button, badge, input (copy rút gọn từ JpayApp — KHÔNG có Dialog)
 │   ├── hooks/, utils/
 └── features/
     ├── Public/          # xem được KHÔNG cần đăng nhập

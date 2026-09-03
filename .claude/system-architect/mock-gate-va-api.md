@@ -1,62 +1,55 @@
 # Cơ chế Mock Gate & API Service
 
 > File lõi: `shared/services/api/mockGate.ts`, `shared/services/api/ApiConfig.ts`, `shared/services/api/ApiClient.ts`.
-> **Đây là điểm quan trọng nhất cần hiểu trước khi sửa bất kỳ ApiService nào trong JGameApp** — toàn bộ 11 `*ApiService.ts` trong module đều tuân theo đúng 1 pattern dưới đây.
+> **Đây là điểm quan trọng nhất cần hiểu trước khi sửa bất kỳ ApiService nào trong JGameApp** — toàn bộ 14 `*ApiService.ts` trong module từng tuân theo pattern gate mock dưới đây; hiện phần lớn đã chuyển sang gọi BE thật, chỉ còn 2 điểm lẻ vẫn dùng mock.
 
-## Vì sao có mock gate
+## Vì sao có mock gate (bối cảnh trước đây — không còn đúng toàn bộ)
 
-Backend thật cho JGame **chưa tồn tại** (repo `Backend/` chưa có commit nào liên quan). Để vẫn dựng được toàn bộ luồng UI/UX chạy được ngay, mọi ApiService rẽ nhánh qua **1 điểm gate mock duy nhất** — không nơi nào trong code được phép mock trực tiếp bỏ qua gate này.
+Backend thật cho JGame (`Backend/JGameApi`) **đã tồn tại và đã tích hợp thật với hầu hết các phân hệ**. Cờ toàn cục `JGAME_USE_MOCK` từng dùng để mọi ApiService rẽ nhánh qua **1 điểm gate mock duy nhất** đã **bị xoá khỏi `mockGate.ts`** (`20260902-nc_admin-crud-that-thay-mock.md`) — không còn nơi nào rẽ nhánh theo cờ này. `mockApiCall`/`mockApiError` hiện chỉ còn dùng cục bộ (không qua cờ toàn cục) tại 2 chỗ cụ thể (xem mục "Trạng thái hiện tại" bên dưới), vì BE chưa có endpoint tương ứng.
 
-## Bật/tắt mock
+## Bật/tắt mock (đã lỗi thời — chỉ còn giá trị lịch sử)
 
 ```
-VITE_JGAME_USE_MOCK=true|false     # mặc định true (kể cả .env.production hiện tại)
-VITE_JGAME_API_URL=http://...      # chỉ dùng khi USE_MOCK=false
+VITE_JGAME_USE_MOCK=true|false     # KHÔNG còn được code đọc — biến này chỉ còn sót lại trong .env.development.local, không có tác dụng
+VITE_JGAME_API_URL=https://jgameapi.vipgame.vn   # .env.production hiện trỏ thẳng BE thật
 ```
 
-`JGAME_USE_MOCK` (`mockGate.ts`) đọc trực tiếp biến này — đổi 1 biến env, không sửa code gọi ở page/hook, vì cả 2 nhánh đã cùng 1 chữ ký `Promise<ApiResponse<T>>`.
+`mockGate.ts` không còn đọc biến `JGAME_USE_MOCK` nữa — mọi ApiService gọi thẳng `apiCall`/`buildJGameUrl` tới BE thật, trừ 2 method lẻ vẫn gọi trực tiếp `mockApiCall`/`mockApiError` không qua cờ nào.
 
-## Pattern bắt buộc cho mọi method trong `*ApiService.ts`
+## Trạng thái hiện tại theo phân hệ
 
-```ts
-static async getCardProducts(params: CardProductParams): Promise<ApiResponse<CardProduct[]>> {
-  if (JGAME_USE_MOCK) {
-    return mockApiCall(() => /* factory sinh dữ liệu giả từ mocks/*.store.ts, tính lại mỗi lần gọi */)
-  }
-  const url = buildJGameUrlWithParams('/api/card-products', params)
-  const res = await apiCall<CardProduct[]>(url, { method: 'GET' })
-  return res
-}
-```
+- **Đã gọi BE thật hoàn toàn** (không còn `JGAME_USE_MOCK`/`mockApiCall` trong service): `CardApiService`, `OrderApiService`, `AuthApiService`, `AccountApiService`, `ReferrerApiService`, `PlaytimeApiService`, `AccessoryApiService`, `TaskApiService`, `WalletApiService`, `ContactApiService`, `PlaytimeTerminalApiService`, `NetbarboxConnectionApiService`. `ShopOwnerApiService` cũng đã BE thật toàn bộ (my-shop, register, updateShopProfile, setSyncMode, syncNow, dashboard, orders, confirm-used, payouts, CRUD Zone/Vé).
+- **Vẫn còn dùng mock cục bộ** (2 chỗ, có lý do cụ thể ghi trong code):
+  - `JGameApiServiceAdmin.manualResolveOrder` — BE chưa có endpoint xử lý thủ công đơn hàng.
+  - `JGameApiServiceAdmin` — CRUD tạo/sửa/xoá đối tác Referral (`createReferralPartner`/`updateReferralPartner`/`deleteReferralPartner`) — BE hiện chỉ có API đọc, chưa có Create/Update/Delete.
+- **`mocks/` chỉ còn 1 file**: `playtimeShops.store.ts` (trước đây có 13 file `*.store.ts`/`*.mock.ts`) — các file mock khác đã bị xoá khi phân hệ tương ứng chuyển sang BE thật.
 
-- `mockApiCall<T>(factory, delayMs=450)` — bọc factory thành `ApiResponse<T>` chuẩn `{ success: true, data, message: null }`, có độ trễ giả lập mạng (450ms mặc định), **factory chạy tại thời điểm gọi, không cache** (để phản ánh đúng state mock hiện tại).
-- `mockApiError<T>(message, delayMs)` — mock 1 nhánh lỗi nghiệp vụ (VD: hết mã thẻ, hết chỗ vé).
-- Khi tắt mock: `buildJGameUrl`/`buildJGameUrlWithParams` (`ApiConfig.ts`) build URL tới `VITE_JGAME_API_URL`, gọi qua `apiCall` (`ApiClient.ts` — có sẵn JWT refresh, retry 401, normalize lỗi, dùng chung hạ tầng với các portal khác trong workspace).
-
-## Danh sách 11 ApiService thực tế (tất cả static method)
+## Danh sách 14 ApiService thực tế (tất cả static method)
 
 | Service | Vị trí | Domain |
 |---|---|---|
 | `CardApiService` | `features/Public/catalog/services/` | Danh mục thẻ, mệnh giá |
 | `OrderApiService` | `features/Account/User/order/services/` | createOrder, getPayment, getOrderStatus (polling), getCardCode, revealCardCode, getRefund, getMyOrders |
-| `AuthApiService` | `features/Public/auth/services/` | register/login/OTP SĐT/2FA mock |
+| `AuthApiService` | `features/Public/auth/services/` | register/login/OTP SĐT/2FA |
 | `AccountApiService` | `features/Account/User/account/services/` | Hồ sơ, bảo mật |
 | `ReferrerApiService` | `features/Account/Partner/services/` | getMyAffiliateStatus, register, summary, transactions |
 | `ShopOwnerApiService` | `features/Account/ShopOwner/services/` | Chủ Cybergame (Chợ vé GĐ2) |
 | `PlaytimeApiService` | `features/Public/playtime/services/` | Marketplace chợ vé |
+| `PlaytimeTerminalApiService` | `features/Account/ShopOwner/services/` | Thiết bị/terminal Chủ Cybergame |
+| `NetbarboxConnectionApiService` | `features/Account/ShopOwner/services/` | Kết nối nền tảng NetBarBox |
 | `AccessoryApiService` | `features/Public/accessories/services/` | Phụ kiện (GĐ3) |
-| `TaskApiService` | `features/Public/tasks/services/` | Nhiệm vụ + ví JCoin |
+| `TaskApiService` | `features/Public/tasks/services/` | Nhiệm vụ |
+| `WalletApiService` | `features/Public/wallet/services/` | Ví VND + JCoin |
 | `ContactApiService` | `features/Public/static-pages/services/` | Form liên hệ |
 | `JGameApiServiceAdmin` | `features/Account/Admin/services/` | ~23 method CRUD toàn bộ nghiệp vụ Admin |
 
-## Khi có backend thật — checklist chuyển đổi
+## Checklist còn lại cần chuyển hẳn sang BE thật
 
-1. Set `VITE_JGAME_USE_MOCK=false` + `VITE_JGAME_API_URL` trỏ BE thật.
-2. Backend implement đúng contract field đã định nghĩa trong từng `types/*.types.ts` — **các field này do FE tự đặt tên làm chuẩn** khi chưa có BE thật (camelCase, không viết tắt, bám theo ý nghĩa nghiệp vụ URD mục 19) — không đổi tên khi có BE thật, BE nên map theo đúng field FE đã dùng để tránh sửa toàn bộ UI.
-3. Rà lại từng `mockApiError` đã dùng — đây là danh sách đầy đủ các nhánh lỗi nghiệp vụ mà BE thật cần trả về đúng tương tự (mã lỗi, message).
-4. 2 nghiệp vụ **hoàn toàn chưa có mock UI** (không phải chỉ chưa nối BE thật): đối soát JGame–NCC–jPay (UC-13) và xuất hoá đơn J-Invoice (UC-14) — cần thiết kế từ đầu, không có gì để tham chiếu từ FE hiện tại.
-5. OTP hiện chỉ `console.info` giả lập trong `AuthApiService.sendPhoneOtp()` — cần thay bằng gateway Zalo ZNS/SMS thật khi có BE.
+1. `JGameApiServiceAdmin.manualResolveOrder` + CRUD đối tác Referral (create/update/delete) — chờ BE bổ sung endpoint tương ứng rồi bỏ `mockApiCall`/`mockApiError` tại 2 chỗ này.
+2. Rà lại từng `mockApiError` còn sót — đảm bảo BE trả đúng mã lỗi/message tương tự khi có endpoint thật.
+3. 2 nghiệp vụ **hoàn toàn chưa có mock UI** (không phải chỉ chưa nối BE thật): đối soát JGame–NCC–jPay (UC-13) và xuất hoá đơn J-Invoice (UC-14) — cần thiết kế từ đầu, không có gì để tham chiếu từ FE hiện tại.
+4. OTP hiện chỉ `console.info` giả lập trong `AuthApiService.sendPhoneOtp()` — cần thay bằng gateway Zalo ZNS/SMS thật khi có BE.
 
 ## ⚠️ Lưu ý khi thêm ApiService mới
 
-Mọi ApiService mới **PHẢI** đi qua `mockGate.ts` theo đúng pattern trên — không tạo cơ chế mock riêng lẻ, không gọi `fetch`/`apiCall` trực tiếp bỏ qua gate khi `JGAME_USE_MOCK=true`.
+ApiService mới nên gọi thẳng BE thật qua `apiCall`/`buildJGameUrl` (`ApiConfig.ts`/`ApiClient.ts`). Chỉ dùng `mockApiCall`/`mockApiError` (`mockGate.ts`) khi BE thật sự chưa có endpoint — và phải ghi rõ lý do bằng comment tại chỗ gọi, giống 2 trường hợp hiện tại trong `JGameApiServiceAdmin`.

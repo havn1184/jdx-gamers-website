@@ -25,7 +25,8 @@ Danh sách toàn bộ skill hiện có trong `Website/.claude/skills/`. Agent đ
 
 | Trigger keywords | Skill | Mô tả |
 |-----------------|-------|-------|
-| review code trước commit, check-for-skill tĩnh, bảo mật/circular deps/a11y/performance | [checklist-sau-code](./checklist-sau-code/SKILL.md) | Checklist sau code (giai đoạn 2 Playwright hiện chưa áp dụng cho JGameApp — xem cảnh báo đầu file) |
+| review sau code, kiểm tra tuân thủ skill, kiểm tra lỗi đã gặp, hoàn thiện theo nc_ | [review-sau-code](./review-sau-code/SKILL.md) | **Điểm vào chuẩn sau khi code:** `scripts/check-all.cjs` chạy các script còn hiệu lực của `checklist-sau-code` + 5 script lỗi đã gặp (`LESSONS.md`: PagedResult .items, enum int 2 chiều, hook try/finally, class theme không tồn tại, fallback _MAP); tsc, kiểm thử, governance + CHANGELOG |
+| kho script check tĩnh gốc, bảo mật/circular deps/a11y/performance | [checklist-sau-code](./checklist-sau-code/SKILL.md) | Kho script `check-for-skill` (được `review-sau-code` gọi lại; `check-all.cjs` cũ liệt kê 16 script đã mất). Giai đoạn 2 Playwright chưa áp dụng cho JGameApp |
 | bug khó tìm nguyên nhân, console/network logs, Playwright headless | [find-bug-by-logs](./find-bug-by-logs/SKILL.md) | Tìm nguyên nhân lỗi bằng logs runtime |
 | đồng bộ thiết kế lại trang khi API JGame trả field mới chưa hiển thị | [dong-bo-thiet-ke-mockdata](./dong-bo-thiet-ke-mockdata/SKILL.md) | Đồng bộ thiết kế/mockdata theo response API JGame |
 

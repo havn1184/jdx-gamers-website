@@ -41,7 +41,7 @@ argument-hint: 'Đường dẫn feature cần check trong JGameApp. VD: src/modu
 2. Bump version theo semver trong `CHANGELOG.md` của đúng thư mục đó (`MAJOR` = đổi mô hình/kiến trúc nền tảng hoặc breaking change, `MINOR` = thêm nghiệp vụ/thành phần kiến trúc mới, `PATCH` = sửa/làm rõ nội dung đã có) — cập nhật cả dòng "Phiên bản hiện tại" ở đầu `CHANGELOG.md`.
 3. Thêm 1 dòng mới vào bảng trong `CHANGELOG.md`: **thời gian (yyyy-MM-dd) · version mới · tóm tắt thay đổi · danh sách file bị sửa**.
 
-> Không tự ý bump version khi thay đổi chưa được duyệt (approved) — chỉ cập nhật tài liệu sau khi user đã xác nhận/approve thay đổi nghiệp vụ hoặc kiến trúc đó, đúng quy trình `dev-workflow`/`ppt-nc-toan-trinh` đã dùng cho các đợt nâng cấp trước (`Docs/Nang-cap/`).
+> Không tự ý bump version khi thay đổi chưa được duyệt (approved) — chỉ cập nhật tài liệu sau khi user đã xác nhận/approve thay đổi nghiệp vụ hoặc kiến trúc đó, đúng quy trình `ppt-nc-toan-trinh` (skill hợp nhất 3 phân hệ tại `k:\JDX-Gamers\.claude\skills\ppt-nc-toan-trinh\`, phần Website ở `rules/phan-he/website.rule.md`) đã dùng cho các đợt nâng cấp trước (`Docs/Nang-cap/`).
 
 ---
 

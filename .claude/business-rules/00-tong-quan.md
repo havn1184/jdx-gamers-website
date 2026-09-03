@@ -4,7 +4,7 @@
 >
 > **Nguồn tham chiếu:** URD gốc `src/modules/JGameApp/Docs/Tai-lieu-goc/URD-xGame-tai-lieu-yeu-cau-nguoi-dung.md` (đọc mục 0.2 trước — ghi đè phần lỗi thời) + các tài liệu giải pháp đã APPROVED trong `Docs/Nang-cap/`.
 >
-> **Trạng thái triển khai:** toàn bộ nghiệp vụ dưới đây hiện chạy trên **frontend + mock 100%** — chưa có backend thật, chưa có tích hợp thật với bất kỳ đối tác nào (jPay, J-Invoice, Zalo ZNS, NCC thẻ game, NetBarBox/DoDoNew). Xem `Website/.claude/system-architect/mock-gate-va-api.md` để hiểu cơ chế mock và cách chuyển sang BE thật.
+> **Trạng thái triển khai:** đã có backend thật (`Backend/JGameApi`) và hầu hết nghiệp vụ dưới đây đã gọi BE thật (chỉ còn 2 điểm lẻ dùng mock — xem `Website/.claude/system-architect/mock-gate-va-api.md`); riêng tích hợp thật với các đối tác bên ngoài vẫn **chưa có** (jPay, J-Invoice, Zalo ZNS, NCC thẻ game, NetBarBox/DoDoNew).
 
 ## 4 phân hệ nghiệp vụ chính
 
@@ -22,6 +22,15 @@ Cộng thêm 2 phân hệ nền tảng dùng chung:
 | Tài khoản & xác thực (độc lập, không SSO) | [auth-tai-khoan.md](auth-tai-khoan.md) |
 | Đối tác tiếp thị liên kết (Referrer/CTV) | [doi-tac-tiep-thi.md](doi-tac-tiep-thi.md) |
 | Quản trị hệ thống (Admin, trong chính JGameApp) | [quan-tri-admin.md](quan-tri-admin.md) |
+
+## Ánh xạ Giai đoạn (GĐ) ↔ phân hệ
+
+| Giai đoạn | Phân hệ | Ghi chú |
+|---|---|---|
+| GĐ1 | Nạp thẻ game | [nap-the-game.md](nap-the-game.md) |
+| GĐ2 | Chợ vé giờ chơi Cybergame | [cho-ve-cybergame.md](cho-ve-cybergame.md) |
+| GĐ3 | Kho phụ kiện Gamer | [phu-kien-gamer.md](phu-kien-gamer.md) |
+| (không có nhãn GĐ) | Kiếm tiền — nhiệm vụ + ví JCoin | [kiem-tien-jcoin.md](kiem-tien-jcoin.md) — không có trong URD gốc, phát sinh sau |
 
 ## Mô hình vai trò (actor)
 

@@ -3,6 +3,7 @@
 > Route: `/jgame/phu-kien` (catalog), `/jgame/gio-hang` (giỏ hàng, public), `/jgame/thanh-toan-phu-kien` (checkout, cần đăng nhập), `/jgame/don-hang-phu-kien/:orderId` (theo dõi đơn).
 > Code: `features/Public/accessories/` (catalog, chi tiết, giỏ hàng), `features/Account/User/accessories/` (checkout, tracking — cần đăng nhập), `contexts/CartContext.tsx`, `mocks/accessories.mock.ts`, `mocks/accessoryOrders.store.ts`.
 > Nguồn thiết kế: `Docs/Nang-cap/nc-jgame-doc-lap-auth-gd3-2026-08-28.md` mục 4 (✅ APPROVED). URD gốc mục 8 chỉ đặc tả mức khung — tài liệu này là bản chi tiết hoá thật đã code.
+> Xem thêm: [00-tong-quan.md](00-tong-quan.md), `Website/.claude/system-architect/routing-va-layout.md`.
 
 ## Khác biệt cốt lõi so với Nạp thẻ/Chợ vé: hàng vật lý, giỏ hàng đa sản phẩm
 
