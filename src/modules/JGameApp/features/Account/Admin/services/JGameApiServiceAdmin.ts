@@ -22,6 +22,8 @@ import type {
   ReferralReportSummaryAdmin, ReferralReportFilterParams,
   AdminUserItem, AdminUserListParams, AdminUserKind, PagedResult,
   AdminReviewShopSummary,
+  TaskPublisherAdmin, TaskPublisherAdminStatus, TaskPublisherFormPayload,
+  WalletHoldAdmin, WalletHoldAdminStatus, WalletHoldAdminFilterParams,
 } from '../types/jgame.types'
 import type { PlaytimeReview } from '../../../Public/playtime/types/playtime.types'
 
@@ -31,6 +33,82 @@ const REFERRAL_COMMISSION_CATEGORY_MAP: ReferralCommissionCategory[] = ['cardtop
 const REFERRAL_PAYOUT_STATUS_MAP = ['pending', 'approved', 'rejected', 'paid'] as const
 /** Khớp thứ tự enum int `AdminUserKind` (Backend Enums/AdminEnums.cs: Customer=0, ShopOwner=1, Affiliate=2, Admin=3). */
 const ADMIN_USER_KIND_MAP: AdminUserKind[] = ['customer', 'shopOwner', 'affiliate', 'admin']
+/** Khớp thứ tự enum int `TaskPublisherStatus` (Backend Enums/TaskEnums.cs: Active=0, Suspended=1). */
+const TASK_PUBLISHER_STATUS_MAP: TaskPublisherAdminStatus[] = ['active', 'suspended']
+/** Khớp thứ tự enum int `WalletTransactionHoldStatus` (Backend Enums/WalletEnums.cs). */
+const WALLET_HOLD_STATUS_MAP: WalletHoldAdminStatus[] = ['confirmed', 'pending', 'flagged', 'reversed']
+
+/** Response thô GET/POST /api/admin/task-publishers (`TaskPublisherResponse.cs`) — status vẫn là int thô.
+ * KHÔNG có field số dư quỹ (`TaskPublisherWalletDocument` không được enrich vào response này) — Backend
+ * chưa có endpoint admin đọc quỹ theo từng NPH, nên cột "Quỹ JCoin hiện tại" trong doc KHÔNG hiển thị
+ * được ở bước này (deviation có ghi chú, không suy diễn thêm endpoint ngoài tài liệu Backend đã code). */
+interface TaskPublisherResponseDto {
+  id: string
+  name: string
+  email: string
+  status: number
+  webhookSecret: string | null
+  webhookSecretMasked: string
+  password: string | null
+  lastWebhookAt: string | null
+  webhookAcceptedCount: number
+  webhookRejectedCount: number
+  secretRotatedAt: string | null
+  taskCount: number
+  createdAt: string
+}
+
+function mapTaskPublisher(dto: TaskPublisherResponseDto): TaskPublisherAdmin {
+  return {
+    id: dto.id,
+    name: dto.name,
+    email: dto.email,
+    status: TASK_PUBLISHER_STATUS_MAP[dto.status] ?? 'active',
+    webhookSecret: dto.webhookSecret,
+    webhookSecretMasked: dto.webhookSecretMasked,
+    password: dto.password,
+    lastWebhookAt: dto.lastWebhookAt,
+    webhookAcceptedCount: dto.webhookAcceptedCount,
+    webhookRejectedCount: dto.webhookRejectedCount,
+    secretRotatedAt: dto.secretRotatedAt,
+    taskCount: dto.taskCount,
+    jcoinBalance: 0,
+    createdAt: dto.createdAt,
+  }
+}
+
+/** Response thô GET /api/admin/wallet-holds (`WalletHoldResponse.cs`) — holdStatus vẫn là int thô. */
+interface WalletHoldResponseDto {
+  id: string
+  userId: string
+  userName: string | null
+  userPhone: string | null
+  publisherId: string | null
+  publisherName: string | null
+  amount: number
+  reason: string
+  referenceId: string | null
+  holdStatus: number
+  availableAt: string | null
+  createdAt: string
+}
+
+function mapWalletHold(dto: WalletHoldResponseDto): WalletHoldAdmin {
+  return {
+    id: dto.id,
+    userId: dto.userId,
+    userName: dto.userName,
+    userPhone: dto.userPhone,
+    publisherId: dto.publisherId,
+    publisherName: dto.publisherName,
+    amount: dto.amount,
+    reason: dto.reason,
+    referenceId: dto.referenceId,
+    holdStatus: WALLET_HOLD_STATUS_MAP[dto.holdStatus] ?? 'confirmed',
+    availableAt: dto.availableAt,
+    createdAt: dto.createdAt,
+  }
+}
 
 function toCommissionCategoryInt(category: ReferralCommissionCategory): number {
   const idx = REFERRAL_COMMISSION_CATEGORY_MAP.indexOf(category)
@@ -552,5 +630,86 @@ export class JGameApiServiceAdmin {
   static async getReviewShopSummary(): Promise<ApiResponse<AdminReviewShopSummary[]>> {
     const response = await apiCall(buildJGameUrl('/api/admin/reviews/summary'), { method: 'GET' })
     return response.json()
+  }
+
+  // ===== Nhà phát hành game (NPH) — 20260903-nc_quan-tri-nha-phat-hanh-game.md mục 3.1 =====
+  static async getTaskPublishers(): Promise<ApiResponse<TaskPublisherAdmin[]>> {
+    const response = await apiCall(buildJGameUrl('/api/admin/task-publishers'), { method: 'GET' })
+    const result: ApiResponse<TaskPublisherResponseDto[]> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<TaskPublisherAdmin[]>
+    return { ...result, data: result.data.map(mapTaskPublisher) }
+  }
+
+  /** Response chứa CẢ `password` khởi tạo LẪN `webhookSecret` plaintext (1 lần duy nhất). */
+  static async createTaskPublisher(data: TaskPublisherFormPayload): Promise<ApiResponse<TaskPublisherAdmin>> {
+    const response = await apiCall(buildJGameUrl('/api/admin/task-publishers'), { method: 'POST', body: JSON.stringify(data) })
+    const result: ApiResponse<TaskPublisherResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<TaskPublisherAdmin>
+    return { ...result, data: mapTaskPublisher(result.data) }
+  }
+
+  /** `webhookSecret` plaintext CHỈ có giá trị trong response của lần gọi này. */
+  static async rotateTaskPublisherSecret(id: string): Promise<ApiResponse<TaskPublisherAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/task-publishers/${id}/rotate-secret`), { method: 'POST' })
+    const result: ApiResponse<TaskPublisherResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<TaskPublisherAdmin>
+    return { ...result, data: mapTaskPublisher(result.data) }
+  }
+
+  /** `password` mới plaintext CHỈ có giá trị trong response của lần gọi này (mirror rotate-secret). */
+  static async resetTaskPublisherPassword(id: string): Promise<ApiResponse<TaskPublisherAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/task-publishers/${id}/reset-password`), { method: 'POST' })
+    const result: ApiResponse<TaskPublisherResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<TaskPublisherAdmin>
+    return { ...result, data: mapTaskPublisher(result.data) }
+  }
+
+  static async suspendTaskPublisher(id: string): Promise<ApiResponse<TaskPublisherAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/task-publishers/${id}/suspend`), { method: 'POST' })
+    const result: ApiResponse<TaskPublisherResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<TaskPublisherAdmin>
+    return { ...result, data: mapTaskPublisher(result.data) }
+  }
+
+  static async activateTaskPublisher(id: string): Promise<ApiResponse<TaskPublisherAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/task-publishers/${id}/activate`), { method: 'POST' })
+    const result: ApiResponse<TaskPublisherResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<TaskPublisherAdmin>
+    return { ...result, data: mapTaskPublisher(result.data) }
+  }
+
+  // ===== Giám sát giữ tiền JCoin (NPH tài trợ) — 20260903-nc_quan-tri-nha-phat-hanh-game.md mục 3.2 =====
+  static async getWalletHolds(params?: WalletHoldAdminFilterParams): Promise<ApiResponse<WalletHoldAdmin[]>> {
+    const query: Record<string, unknown> = {}
+    if (params?.publisherId) query.publisherId = params.publisherId
+    if (params?.userId) query.userId = params.userId
+    if (params?.fromDate) query.fromDate = params.fromDate
+    if (params?.toDate) query.toDate = params.toDate
+    const url = buildJGameUrlWithParams('/api/admin/wallet-holds', Object.keys(query).length > 0 ? query : undefined)
+    const response = await apiCall(url, { method: 'GET' })
+    const result: ApiResponse<WalletHoldResponseDto[]> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<WalletHoldAdmin[]>
+    return { ...result, data: result.data.map(mapWalletHold) }
+  }
+
+  static async flagWalletHold(id: string): Promise<ApiResponse<WalletHoldAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/wallet-holds/${id}/flag`), { method: 'POST' })
+    const result: ApiResponse<WalletHoldResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<WalletHoldAdmin>
+    return { ...result, data: mapWalletHold(result.data) }
+  }
+
+  static async confirmWalletHold(id: string): Promise<ApiResponse<WalletHoldAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/wallet-holds/${id}/confirm`), { method: 'POST' })
+    const result: ApiResponse<WalletHoldResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<WalletHoldAdmin>
+    return { ...result, data: mapWalletHold(result.data) }
+  }
+
+  static async reverseWalletHold(id: string): Promise<ApiResponse<WalletHoldAdmin>> {
+    const response = await apiCall(buildJGameUrl(`/api/admin/wallet-holds/${id}/reverse`), { method: 'POST' })
+    const result: ApiResponse<WalletHoldResponseDto> = await response.json()
+    if (!result.success || !result.data) return result as unknown as ApiResponse<WalletHoldAdmin>
+    return { ...result, data: mapWalletHold(result.data) }
   }
 }

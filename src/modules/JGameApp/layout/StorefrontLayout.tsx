@@ -11,6 +11,7 @@ import { GuestOnly } from './GuestOnly'
 import { RequireShopOwner } from './RequireShopOwner'
 import { RequireAffiliate } from './RequireAffiliate'
 import { RequireAdmin } from './RequireAdmin'
+import { RequireNphAuth } from './RequireNphAuth'
 import { PageLoader } from '../shared/components/common/PageLoader'
 import { useReferrerAttribution } from '../shared/hooks/useReferrerAttribution'
 import { routeConfig } from '../routes/routeConfig'
@@ -21,6 +22,7 @@ function wrapRoute(route: (typeof routeConfig)[number]) {
   if (route.requireShopOwner) element = <RequireShopOwner>{element}</RequireShopOwner>
   if (route.requireAffiliate) element = <RequireAffiliate>{element}</RequireAffiliate>
   if (route.requireAdmin) element = <RequireAdmin>{element}</RequireAdmin>
+  if (route.requireNphAuth) element = <RequireNphAuth>{element}</RequireNphAuth>
   if (route.requireAuth) element = <RequireAuth>{element}</RequireAuth>
   if (route.guestOnly) element = <GuestOnly>{element}</GuestOnly>
   return element

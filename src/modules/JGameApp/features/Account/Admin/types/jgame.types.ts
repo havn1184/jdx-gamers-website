@@ -304,6 +304,77 @@ export interface PagedResult<T> {
   totalPages: number
 }
 
+// ===== Nhà phát hành game (NPH) — 20260903-nc_quan-tri-nha-phat-hanh-game.md mục 3.1 =====
+
+/** Khớp thứ tự int enum `TaskPublisherStatus` (Backend Enums/TaskEnums.cs: Active=0, Suspended=1). */
+export type TaskPublisherAdminStatus = 'active' | 'suspended'
+export const TASK_PUBLISHER_ADMIN_STATUS_MAP: TaskPublisherAdminStatus[] = ['active', 'suspended']
+export const TASK_PUBLISHER_ADMIN_STATUS_LABELS: Record<TaskPublisherAdminStatus, string> = {
+  active: 'Đang hoạt động',
+  suspended: 'Tạm ngưng',
+}
+
+/** GET /api/admin/task-publishers — mirror TaskPublisherResponse.cs. `webhookSecret`/`password` chỉ có
+ * giá trị plaintext ĐÚNG 1 LẦN trong response tạo mới/xoay khoá/đặt lại mật khẩu. */
+export interface TaskPublisherAdmin {
+  id: string
+  name: string
+  email: string
+  status: TaskPublisherAdminStatus
+  webhookSecret: string | null
+  webhookSecretMasked: string
+  password: string | null
+  lastWebhookAt: string | null
+  webhookAcceptedCount: number
+  webhookRejectedCount: number
+  secretRotatedAt: string | null
+  taskCount: number
+  /** Quỹ JCoin hiện tại — đọc riêng từ GET /api/publisher/wallet tương ứng, gộp vào khi hiển thị danh sách. */
+  jcoinBalance: number
+  createdAt: string
+}
+
+export interface TaskPublisherFormPayload {
+  name: string
+  email: string
+}
+
+// ===== Giám sát giữ tiền JCoin (NPH tài trợ) — 20260903-nc_quan-tri-nha-phat-hanh-game.md mục 3.2 =====
+
+/** Khớp thứ tự int enum `WalletTransactionHoldStatus` (Backend Enums/WalletEnums.cs:
+ * Confirmed=0, Pending=1, Flagged=2, Reversed=3). */
+export type WalletHoldAdminStatus = 'confirmed' | 'pending' | 'flagged' | 'reversed'
+export const WALLET_HOLD_ADMIN_STATUS_MAP: WalletHoldAdminStatus[] = ['confirmed', 'pending', 'flagged', 'reversed']
+export const WALLET_HOLD_ADMIN_STATUS_LABELS: Record<WalletHoldAdminStatus, string> = {
+  confirmed: 'Khả dụng',
+  pending: 'Chờ xác nhận',
+  flagged: 'Bị gắn cờ',
+  reversed: 'Đã từ chối',
+}
+
+/** GET /api/admin/wallet-holds — mirror WalletHoldResponse.cs. */
+export interface WalletHoldAdmin {
+  id: string
+  userId: string
+  userName: string | null
+  userPhone: string | null
+  publisherId: string | null
+  publisherName: string | null
+  amount: number
+  reason: string
+  referenceId: string | null
+  holdStatus: WalletHoldAdminStatus
+  availableAt: string | null
+  createdAt: string
+}
+
+export interface WalletHoldAdminFilterParams {
+  publisherId?: string
+  userId?: string
+  fromDate?: string
+  toDate?: string
+}
+
 // ===== Đánh giá phòng game (20260902-nc_danh-gia-phong-game-da-tieu-chi.md) =====
 
 /** GET /api/admin/reviews/summary — 1 dòng/shop, sắp xếp tăng dần theo Averages.overall (BE trả sẵn thứ tự). */

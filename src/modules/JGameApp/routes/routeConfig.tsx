@@ -96,6 +96,18 @@ const MyTasksPage = lazy(() => import('../features/Account/User/tasks/pages/MyTa
 const WalletPage = lazy(() => import('../features/Account/User/wallet/pages/WalletPage').then(m => ({ default: m.WalletPage })))
 const WalletTopupPage = lazy(() => import('../features/Account/User/wallet/pages/WalletTopupPage').then(m => ({ default: m.WalletTopupPage })))
 
+// Cổng tự phục vụ NPH (20260903-nc_quan-tri-nha-phat-hanh-game.md) — hệ phiên độc lập, guard requireNphAuth
+const NphLoginPage = lazy(() => import('../features/Account/Nph/pages/NphLoginPage').then(m => ({ default: m.NphLoginPage })))
+const NphDashboardPage = lazy(() => import('../features/Account/Nph/dashboard/pages/NphDashboardPage').then(m => ({ default: m.NphDashboardPage })))
+const NphTasksPage = lazy(() => import('../features/Account/Nph/tasks/pages/NphTasksPage').then(m => ({ default: m.NphTasksPage })))
+const NphTransactionsPage = lazy(() => import('../features/Account/Nph/transactions/pages/NphTransactionsPage').then(m => ({ default: m.NphTransactionsPage })))
+const NphWalletPage = lazy(() => import('../features/Account/Nph/wallet/pages/NphWalletPage').then(m => ({ default: m.NphWalletPage })))
+const NphSettingsPage = lazy(() => import('../features/Account/Nph/settings/pages/NphSettingsPage').then(m => ({ default: m.NphSettingsPage })))
+
+// Admin — Nhà phát hành game + Giám sát giữ tiền (20260903-nc_quan-tri-nha-phat-hanh-game.md mục 3)
+const AdminTaskPublishersPage = lazy(() => import('../features/Account/Admin/task-publishers/pages/AdminTaskPublishersPage').then(m => ({ default: m.AdminTaskPublishersPage })))
+const AdminWalletHoldsPage = lazy(() => import('../features/Account/Admin/wallet-holds/pages/AdminWalletHoldsPage').then(m => ({ default: m.AdminWalletHoldsPage })))
+
 export interface JGameRoute {
   path: string
   element: ReactElement
@@ -110,6 +122,9 @@ export interface JGameRoute {
   requireAffiliate?: boolean
   /** true → bọc RequireAdmin (không phải role='admin' → điều hướng về trang chủ) */
   requireAdmin?: boolean
+  /** true → bọc RequireNphAuth (phiên NPH riêng, token khác Customer/Admin — không hợp lệ → điều hướng
+   * `/jgame/nph/dang-nhap`) */
+  requireNphAuth?: boolean
 }
 
 export const routeConfig: JGameRoute[] = [
@@ -204,4 +219,16 @@ export const routeConfig: JGameRoute[] = [
   // Ví (VND + JCoin) — nc_vi-2-loai-tien-thanh-toan.md
   { path: 'vi', element: <WalletPage />, pageId: 'jgame-wallet', requireAuth: true },
   { path: 'vi/nap-tien', element: <WalletTopupPage />, pageId: 'jgame-wallet-topup', requireAuth: true },
+
+  // Cổng tự phục vụ NPH (20260903-nc_quan-tri-nha-phat-hanh-game.md)
+  { path: 'nph/dang-nhap', element: <NphLoginPage />, pageId: 'jgame-nph-login' },
+  { path: 'nph', element: <NphDashboardPage />, pageId: 'jgame-nph-dashboard', requireNphAuth: true },
+  { path: 'nph/nhiem-vu', element: <NphTasksPage />, pageId: 'jgame-nph-tasks', requireNphAuth: true },
+  { path: 'nph/giao-dich', element: <NphTransactionsPage />, pageId: 'jgame-nph-transactions', requireNphAuth: true },
+  { path: 'nph/vi', element: <NphWalletPage />, pageId: 'jgame-nph-wallet', requireNphAuth: true },
+  { path: 'nph/cai-dat', element: <NphSettingsPage />, pageId: 'jgame-nph-settings', requireNphAuth: true },
+
+  // Admin — Nhà phát hành game + Giám sát giữ tiền (20260903-nc_quan-tri-nha-phat-hanh-game.md mục 3)
+  { path: 'quan-tri/nha-phat-hanh', element: <AdminTaskPublishersPage />, pageId: 'jgame-admin-task-publishers', requireAuth: true, requireAdmin: true },
+  { path: 'quan-tri/giao-dich-cho-xac-nhan', element: <AdminWalletHoldsPage />, pageId: 'jgame-admin-wallet-holds', requireAuth: true, requireAdmin: true },
 ]
